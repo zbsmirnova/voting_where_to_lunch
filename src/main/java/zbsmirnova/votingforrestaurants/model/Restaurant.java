@@ -24,6 +24,7 @@ public class Restaurant extends AbstractNamedEntity{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private Set<Vote> votes;
 
+    public Restaurant(){}
 
     public Restaurant(String name){
         super(null, name);

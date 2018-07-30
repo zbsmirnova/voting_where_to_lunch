@@ -24,8 +24,8 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     Vote save(Vote vote);
 
-    @SuppressWarnings("JpaQlInspection")
-    @Query("SELECT v from Vote v WHERE v.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
-    List<Vote> getBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+//    @SuppressWarnings("JpaQlInspection")
+//    @Query("SELECT v from Vote v WHERE v.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
+//    List<Vote> getBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
 }

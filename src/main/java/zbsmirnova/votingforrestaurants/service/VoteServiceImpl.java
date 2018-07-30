@@ -24,8 +24,8 @@ public class VoteServiceImpl implements VoteService {
         return repository.save(vote);
     }
 
-    @Override
-    public List<Vote> getBetween(LocalDateTime startDate, LocalDateTime endDate) {
-        return repository.getBetween(startDate, endDate);
-    }
+//    @Override
+//    public List<Vote> getBetween(LocalDateTime startDate, LocalDateTime endDate) {
+//        return repository.getBetween(startDate, endDate);
+//    }
 }

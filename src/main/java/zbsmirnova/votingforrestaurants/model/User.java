@@ -24,9 +24,9 @@ public class User extends AbstractNamedEntity{
     @Size(min = 5, max = 100)
     private String password;
 
-    @Column(name = "vote")  //set голосов или один голос и смотреть его дату, если необходимо перезаписывать???
-    // например вчерашний  или сегодняшний до 11 утра - перезаписываем, сегодняшний после 11 - игнор
-    private Set<Vote> votes;
+//    @Column(name = "vote")  //set голосов или один голос и смотреть его дату, если необходимо перезаписывать???
+//    // например вчерашний  или сегодняшний до 11 утра - перезаписываем, сегодняшний после 11 - игнор
+//    private Set<Vote> votes;
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -34,18 +34,12 @@ public class User extends AbstractNamedEntity{
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    public User(){}
 
 //    public User(User u) {
 //        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.isVoted(), u.getRestaurant(), u.getRoles());
 //    }
 
-    public User(Integer id, String name, String email, String password, Set<Vote> votes, Collection<Role> roles) {
-        super(id, name);
-        this.email = email;
-        this.password = password;
-        this.votes = votes;
-        setRoles(roles);
-    }
 
     public User(Integer id, String name, String email, String password, Collection<Role> roles) {
         super(id, name);
@@ -81,14 +75,6 @@ public class User extends AbstractNamedEntity{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<Vote> getVote() {
-        return votes;
-    }
-
-    public void setVote(Set<Vote> vote) {
-        this.votes = vote;
     }
 
     public Set<Role> getRoles() {

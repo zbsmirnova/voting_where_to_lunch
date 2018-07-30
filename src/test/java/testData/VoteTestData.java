@@ -15,9 +15,9 @@ import static testData.UserTestData.USER2;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
 
 public class VoteTestData {
-    public static final int VOTE_1_ID = START_SEQ + 20;
-    public static final int VOTE_2_ID = START_SEQ + 21;
-    public static final int VOTE_3_ID = START_SEQ + 22;
+    public static final int VOTE_1_ID = START_SEQ + 31;
+    public static final int VOTE_2_ID = START_SEQ + 32;
+    public static final int VOTE_3_ID = START_SEQ + 33;
 
 
     public static final Vote VOTE_1 = new Vote(VOTE_1_ID, Date.valueOf("2018-07-25"), USER1, KFC);

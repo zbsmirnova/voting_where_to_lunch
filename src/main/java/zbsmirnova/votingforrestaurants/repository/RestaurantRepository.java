@@ -28,7 +28,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @Override
     Restaurant save(Restaurant restaurant);
 
-    @Override
+
     Optional<Restaurant> findById(Integer id);
 
 

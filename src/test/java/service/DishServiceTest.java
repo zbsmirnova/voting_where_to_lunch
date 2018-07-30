@@ -1,28 +1,73 @@
 package service;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import zbsmirnova.votingforrestaurants.model.Dish;
 import zbsmirnova.votingforrestaurants.service.DishService;
+import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
-import static testData.DishTestData.CHICKEN;
+import static testData.DishTestData.*;
+import static testData.MenuTestData.*;
 
-@ContextConfiguration("classpath:spring/spring-app.xml")
-@RunWith(SpringJUnit4ClassRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class DishServiceTest {
+
+public class DishServiceTest extends AbstractServiceTest{
 
     @Autowired
-    private DishService service;
+    protected DishService service;
 
     @Test
     public void delete() throws Exception {
-        service.delete(CHICKEN.getId());
-        assertMatch(service.getAll(), BOTTLE_OF_WATER);
+        service.delete(CHICKEN_ID);
+        assertMatch(service.getAll(), CHEESBURGER, KETCHUPBURGER, CAKE,
+                CHICKEN_SPECIAL, CHEESBURGER_SPECIAL, KETCHUPBURGER_SPECIAL, CAKE_SPECIAL);
     }
 
+    @Test(expected = NotFoundException.class)
+    public void deleteNotFound() throws Exception {
+        service.delete(KFC_EXPIRED_MENU_ID);
+    }
+
+    @Test
+    public void saveNewDish(){
+        Dish created = getCreated();
+        service.save(created, KFC_EXPIRED_MENU_ID);
+        assertMatch(service.getAll(), CHICKEN, CHEESBURGER, KETCHUPBURGER, CAKE,
+                CHICKEN_SPECIAL, CHEESBURGER_SPECIAL, KETCHUPBURGER_SPECIAL, CAKE_SPECIAL, created);
+    }
+
+    @Test
+    public void update(){
+        Dish updated = getUpdated();
+        service.save(updated, KFC_EXPIRED_MENU_ID);
+        assertMatch(service.get(updated.getId()), updated);
+
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void updateWithUnvalidId(){
+        Dish created = getCreated();
+        created.setId(50);
+        service.save(created, KFC_EXPIRED_MENU_ID);
+    }
+
+    @Test
+    public void get(){
+        Dish actual = service.get(CHICKEN_ID);
+        assertMatch(actual, CHICKEN);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getNotFound(){
+        Dish actual = service.get(KFC_EXPIRED_MENU_ID);
+    }
+
+    @Test
+    public void getAll(){
+        assertMatch(service.getAll(), ALL_DISHES);
+    }
+
+    @Test
+    public void getAllByMenuId(){
+        assertMatch(service.getAll(BUSHE_EXPIRED_MENU_ID), BREAD, CAKE, COFFEE);
+    }
 }

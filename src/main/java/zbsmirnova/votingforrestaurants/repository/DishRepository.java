@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.votingforrestaurants.model.Dish;
 
-@Repository
+import java.util.List;
+
 @Transactional(readOnly = true)
 public interface DishRepository extends JpaRepository<Dish, Integer> {
     @Modifying
@@ -19,5 +20,9 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
     @Transactional
     @Override
     Dish save(Dish dish);
+
+    List<Dish> findAll();
+
+    List<Dish> findAllByMenuIdOrderByName(int menuId);
 
 }

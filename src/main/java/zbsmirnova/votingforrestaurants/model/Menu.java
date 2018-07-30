@@ -20,7 +20,7 @@ public class Menu extends AbstractBaseEntity{
 
     @Column(name = "menu_date", columnDefinition = "date default current_date",  nullable = false)
     @NotNull
-    private Date menuDate;
+    private Date menu_date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -28,16 +28,18 @@ public class Menu extends AbstractBaseEntity{
     @NotNull
     private Restaurant restaurant;
 
+    public Menu(){}
+
     public Menu(Restaurant restaurant, Date menuDate) {
         super(null);
         this.restaurant = restaurant;
-        this.menuDate = menuDate;
+        this.menu_date = menuDate;
     }
 
     public Menu(int id, Restaurant restaurant, Date menuDate) {
         super(id);
         this.restaurant = restaurant;
-        this.menuDate = menuDate;
+        this.menu_date = menuDate;
     }
 
     public Set<Dish> getDishes() {
@@ -49,11 +51,11 @@ public class Menu extends AbstractBaseEntity{
     }
 
     public Date getMenuDate() {
-        return menuDate;
+        return menu_date;
     }
 
     public void setMenuDate(Date menuDate) {
-        this.menuDate = menuDate;
+        this.menu_date = menuDate;
     }
 
     public Restaurant getRestaurant() {

@@ -27,6 +27,7 @@ public class Vote extends AbstractBaseEntity{
     @NotNull
     private Date voting_date = new Date();
 
+    public Vote(){}
 
     public Vote(int id, Date date, User user, Restaurant restaurant){
         super(id);

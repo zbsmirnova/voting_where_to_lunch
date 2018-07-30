@@ -23,6 +23,8 @@ public class Dish extends AbstractNamedEntity{
     @JsonIgnoreProperties("meals") //??????
     private Menu menu;
 
+    public Dish(){}
+
     public Dish(int price, String name){
         super(null, name);
         this.price = price;
@@ -33,6 +35,22 @@ public class Dish extends AbstractNamedEntity{
         this.price = price;
     }
 
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
 
     @Override
     public String toString() {

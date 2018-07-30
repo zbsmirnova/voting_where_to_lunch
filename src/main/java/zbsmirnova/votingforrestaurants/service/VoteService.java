@@ -12,5 +12,5 @@ public interface VoteService {
 
     Vote save(Vote vote);
 
-    List<Vote> getBetween(LocalDateTime startDate, LocalDateTime endDate);
+//    List<Vote> getBetween(LocalDateTime startDate, LocalDateTime endDate);
 }
