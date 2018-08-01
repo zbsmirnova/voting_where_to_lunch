@@ -15,10 +15,5 @@ public interface UserService {
 
     List<User> getAll();
 
-    //User getByEmail(String email) throws NotFoundException;
-
-//    @Query("SELECT u FROM User u LEFT JOIN FETCH u.meals WHERE u.id = ?1")
-//    @EntityGraph(value = User.GRAPH_WITH_MEALS)
-
     User getWithVotes(int id);
 }

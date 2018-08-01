@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.votingforrestaurants.model.Menu;
 
+import java.time.LocalDate;
+import java.util.List;
+
 
 @Repository
 @Transactional(readOnly = true)
@@ -25,4 +28,14 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m WHERE m.id=?1")
     Menu getWithDishes(int id);
+
+    List<Menu> findAllByRestaurantId(int restaurantId);
+
+    List<Menu> findAllByDate(LocalDate date);
+
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT DISTINCT m FROM Menu m WHERE m.restaurant.id=?1 AND m.date=?2")
+    Menu findByRestaurantIdAndAddDate(int restaurantId, LocalDate date);
+
+
 }

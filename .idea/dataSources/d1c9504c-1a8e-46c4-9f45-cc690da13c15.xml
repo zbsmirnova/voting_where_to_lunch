@@ -39,17 +39,17 @@
       <DataType>INTEGER(32)|4</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="16" parent="6" name="SYS_PK_10113">
+    <key id="16" parent="6" name="SYS_PK_10132">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="17" parent="6" name="SYS_FK_10117">
+    <foreign-key id="17" parent="6" name="SYS_FK_10136">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>MENU_ID</ColNames>
       <RefSchemaName>PUBLIC</RefSchemaName>
       <RefTableName>MENUS</RefTableName>
-      <RefKeyName>SYS_PK_10103</RefKeyName>
+      <RefKeyName>SYS_PK_10122</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
@@ -59,7 +59,7 @@
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="19" parent="7" name="MENU_DATE">
+    <column id="19" parent="7" name="DATE">
       <Position>2</Position>
       <DataType>DATE(10)|91</DataType>
       <NotNull>1</NotNull>
@@ -70,23 +70,23 @@
       <DataType>INTEGER(32)|4</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="21" parent="7" name="SYS_IDX_MENUS_UNIQUE_RESTID_DATE_IDX_10112">
+    <index id="21" parent="7" name="SYS_IDX_MENUS_UNIQUE_RESTID_DATE_IDX_10131">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>RESTAURANT_ID
-MENU_DATE</ColNames>
+DATE</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="22" parent="7" name="SYS_PK_10103">
+    <key id="22" parent="7" name="SYS_PK_10122">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="23" parent="7" name="SYS_FK_10106">
+    <foreign-key id="23" parent="7" name="SYS_FK_10125">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>RESTAURANT_ID</ColNames>
       <RefSchemaName>PUBLIC</RefSchemaName>
       <RefTableName>RESTAURANTS</RefTableName>
-      <RefKeyName>SYS_PK_10098</RefKeyName>
+      <RefKeyName>SYS_PK_10117</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
@@ -101,12 +101,12 @@ MENU_DATE</ColNames>
       <DataType>VARCHAR(255)|12</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="26" parent="8" name="SYS_IDX_RESTAURANT_NAME_IDX_10102">
+    <index id="26" parent="8" name="SYS_IDX_RESTAURANT_NAME_IDX_10121">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>NAME</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="27" parent="8" name="SYS_PK_10098">
+    <key id="27" parent="8" name="SYS_PK_10117">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
@@ -136,7 +136,7 @@ MENU_DATE</ColNames>
       <ColNames>EMAIL</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="33" parent="9" name="SYS_PK_10124">
+    <key id="33" parent="9" name="SYS_PK_10143">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
@@ -150,18 +150,18 @@ MENU_DATE</ColNames>
       <Position>2</Position>
       <DataType>VARCHAR(255)|12</DataType>
     </column>
-    <index id="36" parent="10" name="SYS_IDX_USER_ROLES_IDX_10136">
+    <index id="36" parent="10" name="SYS_IDX_USER_ROLES_IDX_10155">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>USER_ID
 ROLE</ColNames>
       <Unique>1</Unique>
     </index>
-    <foreign-key id="37" parent="10" name="SYS_FK_10133">
+    <foreign-key id="37" parent="10" name="SYS_FK_10152">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>USER_ID</ColNames>
       <RefSchemaName>PUBLIC</RefSchemaName>
       <RefTableName>USERS</RefTableName>
-      <RefKeyName>SYS_PK_10124</RefKeyName>
+      <RefKeyName>SYS_PK_10143</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
@@ -171,7 +171,7 @@ ROLE</ColNames>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="39" parent="11" name="VOTING_DATE">
+    <column id="39" parent="11" name="VOTEDATE">
       <Position>2</Position>
       <DataType>DATE(10)|91</DataType>
       <NotNull>1</NotNull>
@@ -187,26 +187,26 @@ ROLE</ColNames>
       <DataType>INTEGER(32)|4</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="42" parent="11" name="SYS_PK_10139">
+    <key id="42" parent="11" name="SYS_PK_10158">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="43" parent="11" name="SYS_FK_10143">
+    <foreign-key id="43" parent="11" name="SYS_FK_10162">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>USER_ID</ColNames>
       <RefSchemaName>PUBLIC</RefSchemaName>
       <RefTableName>USERS</RefTableName>
-      <RefKeyName>SYS_PK_10124</RefKeyName>
+      <RefKeyName>SYS_PK_10143</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="44" parent="11" name="SYS_FK_10144">
+    <foreign-key id="44" parent="11" name="SYS_FK_10163">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>RESTAURANT_ID</ColNames>
       <RefSchemaName>PUBLIC</RefSchemaName>
       <RefTableName>RESTAURANTS</RefTableName>
-      <RefKeyName>SYS_PK_10098</RefKeyName>
+      <RefKeyName>SYS_PK_10117</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>

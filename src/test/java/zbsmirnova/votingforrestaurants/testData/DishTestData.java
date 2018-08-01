@@ -1,9 +1,12 @@
-package testData;
+package zbsmirnova.votingforrestaurants.testData;
 
 import zbsmirnova.votingforrestaurants.model.Dish;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
 
@@ -48,13 +51,15 @@ public class DishTestData {
                                                 KETCHUPBURGER, SALAD, WATER, CAKE, BREAD, COFFEE,
                                                 CHICKEN_SPECIAL, CHEESBURGER_SPECIAL, KETCHUPBURGER_SPECIAL, CAKE_SPECIAL);
 
-    public static Dish getCreated() {
+
+    public static Dish getCreatedDish() {
         return new Dish(10000, "created dish");
     }
 
-    public static Dish getUpdated() {
+    public static Dish getUpdatedDish() {
         return new Dish(CHICKEN_ID, 20000, "updated chicken");
     }
+
     public static void assertMatch(Dish actual, Dish expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "menu");
     }

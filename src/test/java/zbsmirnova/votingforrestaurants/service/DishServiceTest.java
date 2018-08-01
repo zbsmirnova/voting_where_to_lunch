@@ -1,13 +1,12 @@
-package service;
+package zbsmirnova.votingforrestaurants.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import zbsmirnova.votingforrestaurants.model.Dish;
-import zbsmirnova.votingforrestaurants.service.DishService;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
-import static testData.DishTestData.*;
-import static testData.MenuTestData.*;
+import static zbsmirnova.votingforrestaurants.testData.DishTestData.*;
+import static zbsmirnova.votingforrestaurants.testData.MenuTestData.*;
 
 
 public class DishServiceTest extends AbstractServiceTest{
@@ -18,7 +17,8 @@ public class DishServiceTest extends AbstractServiceTest{
     @Test
     public void delete() throws Exception {
         service.delete(CHICKEN_ID);
-        assertMatch(service.getAll(), CHEESBURGER, KETCHUPBURGER, CAKE,
+        assertMatch(service.getAll(), FRIES, COLA, CHEESBURGER, HAMBURGER, FISHBURGER,
+                KETCHUPBURGER, SALAD, WATER, CAKE, BREAD, COFFEE,
                 CHICKEN_SPECIAL, CHEESBURGER_SPECIAL, KETCHUPBURGER_SPECIAL, CAKE_SPECIAL);
     }
 
@@ -28,16 +28,17 @@ public class DishServiceTest extends AbstractServiceTest{
     }
 
     @Test
-    public void saveNewDish(){
-        Dish created = getCreated();
+    public void create(){
+        Dish created = getCreatedDish();
         service.save(created, KFC_EXPIRED_MENU_ID);
-        assertMatch(service.getAll(), CHICKEN, CHEESBURGER, KETCHUPBURGER, CAKE,
+        assertMatch(service.getAll(), CHICKEN, FRIES, COLA, CHEESBURGER, HAMBURGER, FISHBURGER,
+                KETCHUPBURGER, SALAD, WATER, CAKE, BREAD, COFFEE,
                 CHICKEN_SPECIAL, CHEESBURGER_SPECIAL, KETCHUPBURGER_SPECIAL, CAKE_SPECIAL, created);
     }
 
     @Test
     public void update(){
-        Dish updated = getUpdated();
+        Dish updated = getUpdatedDish();
         service.save(updated, KFC_EXPIRED_MENU_ID);
         assertMatch(service.get(updated.getId()), updated);
 
@@ -45,7 +46,7 @@ public class DishServiceTest extends AbstractServiceTest{
 
     @Test(expected = NotFoundException.class)
     public void updateWithUnvalidId(){
-        Dish created = getCreated();
+        Dish created = getCreatedDish();
         created.setId(50);
         service.save(created, KFC_EXPIRED_MENU_ID);
     }

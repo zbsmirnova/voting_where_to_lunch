@@ -1,4 +1,4 @@
-package service;
+package zbsmirnova.votingforrestaurants.service;
 
 import org.junit.AfterClass;
 import org.junit.Rule;

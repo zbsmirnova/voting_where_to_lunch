@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.votingforrestaurants.model.Vote;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,8 +25,15 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     Vote save(Vote vote);
 
-//    @SuppressWarnings("JpaQlInspection")
-//    @Query("SELECT v from Vote v WHERE v.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
-//    List<Vote> getBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    List<Vote> getAllByRestaurantId(int restaurantId);
+
+    List<Vote> getAllByUserId(int userId);
+
+    List<Vote> getAllByVoteDate(LocalDate date);
+
+    @EntityGraph(attributePaths = {"restaurants"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT v FROM Vote v WHERE v.id=?1")
+    Vote getWithRestaurant(int id);
+
 
 }

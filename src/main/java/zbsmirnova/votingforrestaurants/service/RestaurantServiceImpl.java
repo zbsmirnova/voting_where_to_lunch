@@ -2,6 +2,7 @@ package zbsmirnova.votingforrestaurants.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.repository.RestaurantRepository;
@@ -10,6 +11,7 @@ import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 import java.util.List;
 
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundWithId;
+
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -23,31 +25,24 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public void delete(int id) throws NotFoundException {
-        //checkNotFoundWithId
-        repository.delete(id);
+        checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
-    @Override
-    public Restaurant update(Restaurant restaurant) {
-        //checkNotFoundWithId(repository.save(restaurant))
-        return repository.save(restaurant);
-    }
 
     @Override
-    public Restaurant create(Restaurant restaurant) {
+    public Restaurant save(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
+        if(!restaurant.isNew() && get(restaurant.getId()) == null) return null;
         return repository.save(restaurant);
     }
 
     @Override
     public Restaurant get(int id) {
-        //checkNotFoundWithId
-        return repository.getOne(id);
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
     @Override
     public Restaurant getWithMenus(int id) {
-        //checkNotFoundWithId
-        return repository.getWithMenus(id);
+        return checkNotFoundWithId(repository.getWithMenus(id), id);
     }
 }

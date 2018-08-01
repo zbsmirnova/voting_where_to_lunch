@@ -2,27 +2,22 @@ package zbsmirnova.votingforrestaurants.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
-//@NamedQueries({
-//        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant m WHERE m.id=:id AND m.user.id=:userId"),
-//        @NamedQuery(name = Restaurant.GET, query = "SELECT m FROM Restaurant m WHERE m.id=:id AND m.user.id=:userId"),
-//        @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT m FROM Restaurant m WHERE m.user.id=:userId ORDER BY m.dateTime"),
-//})
 
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name")})
 public class Restaurant extends AbstractNamedEntity{
-//    public static final String DELETE = "Dish.delete";
-//    public static final String GET = "Dish.get";
-//    public static final String ALL_SORTED = "Dish.getAllSorted";
-//    public static final String GET_BETWEEN = "Dish.getBetween";
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private Set<Menu> menus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    private Set<Vote> votes;
+    @OrderBy("voteDate DESC")
+
+    protected List<Vote> votes;
 
     public Restaurant(){}
 
@@ -42,11 +37,12 @@ public class Restaurant extends AbstractNamedEntity{
         this.menus = menus;
     }
 
-    public Set<Vote> getVotes() {
+    public List<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(Set<Vote> votes) {
+    public void setVotes(List<Vote> votes) {
         this.votes = votes;
     }
+
 }

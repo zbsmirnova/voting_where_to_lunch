@@ -173,6 +173,13 @@
             <version>2.3.4</version>
         </dependency>
 
+        <!--Tomcat connection pool-->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

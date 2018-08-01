@@ -1,8 +1,7 @@
-package service;
+package zbsmirnova.votingforrestaurants.service;
 
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
-import service.AbstractServiceTest;
 
 import java.util.concurrent.TimeUnit;
 

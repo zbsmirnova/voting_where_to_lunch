@@ -12,7 +12,7 @@ INSERT INTO RESTAURANTS (NAME) VALUES
   ('ketchup'),
   ('bushe');
 
-INSERT INTO menus (menu_date, restaurant_id) VALUES
+INSERT INTO menus (date, restaurant_id) VALUES
   ('2018-07-25', 100000),
   ('2018-07-25', 100001),
   ('2018-07-25', 100002),
@@ -46,7 +46,7 @@ INSERT INTO users (name, email, password) VALUES
   ('User2', 'user2@mail.ru', 'password'),
   ('Admin', 'admin@gmail.com', 'admin');
 
-INSERT INTO votes (voting_date, user_id, restaurant_id) VALUES
+INSERT INTO votes (voteDate, user_id, restaurant_id) VALUES
   ('2018-07-25', 100028, 100000),
   ('2018-07-25', 100029, 100003),
   (CURRENT_DATE, 100029, 100002);

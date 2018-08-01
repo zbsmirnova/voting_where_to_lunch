@@ -24,9 +24,11 @@ public class User extends AbstractNamedEntity{
     @Size(min = 5, max = 100)
     private String password;
 
-//    @Column(name = "vote")  //set голосов или один голос и смотреть его дату, если необходимо перезаписывать???
-//    // например вчерашний  или сегодняшний до 11 утра - перезаписываем, сегодняшний после 11 - игнор
-//    private Set<Vote> votes;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OrderBy("voteDate DESC")
+//    @JsonIgnore
+    protected List<Vote> votes;
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -48,18 +50,25 @@ public class User extends AbstractNamedEntity{
         setRoles(roles);
     }
 
-//    public User(Integer id, String name, String email, String password, Vote vote, Collection<Role> roles) {
-//        super(id, name);
-//        this.email = email;
-//        this.password = password;
-//        this.vote = vote;
-//        setRoles(roles);
-//    }
+    public User(String name, String email, String password, Collection<Role> roles) {
+        super(null, name);
+        this.email = email;
+        this.password = password;
+        setRoles(roles);
+    }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
         this(id, name, email, password, EnumSet.of(role, roles));
     }
 
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
 
     public String getEmail() {
         return email;

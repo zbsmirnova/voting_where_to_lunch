@@ -1,5 +1,6 @@
 package zbsmirnova.votingforrestaurants.model;
 
+import org.hibernate.Hibernate;
 import zbsmirnova.votingforrestaurants.HasId;
 
 import javax.persistence.*;
@@ -29,9 +30,6 @@ public abstract class AbstractBaseEntity implements HasId{
         return id;
     }
 
-//    public boolean isNew() {
-//        return this.id == null;
-//    }
 
     @Override
     public String toString() {
@@ -44,7 +42,7 @@ public abstract class AbstractBaseEntity implements HasId{
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
             return false;
         }
         AbstractBaseEntity that = (AbstractBaseEntity) o;

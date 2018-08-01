@@ -16,7 +16,7 @@ public class Dish extends AbstractNamedEntity{
     private int price; //in cents
 
 
-    @ManyToOne(fetch = FetchType.LAZY) //or many to many??? подразумеваем, что блюда уникальны, те не может быть у 2х рест одинаковых блюд
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id", nullable = false)
     @NotNull
     @OnDelete(action = OnDeleteAction.CASCADE)

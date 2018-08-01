@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -18,9 +18,9 @@ public class Menu extends AbstractBaseEntity{
     @JsonIgnoreProperties("menu")//???
     private Set<Dish> dishes;
 
-    @Column(name = "menu_date", columnDefinition = "date default current_date",  nullable = false)
+    @Column(name = "date", columnDefinition = "date default current_date",  nullable = false)
     @NotNull
-    private Date menu_date;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -30,16 +30,16 @@ public class Menu extends AbstractBaseEntity{
 
     public Menu(){}
 
-    public Menu(Restaurant restaurant, Date menuDate) {
+    public Menu(Restaurant restaurant, LocalDate menuDate) {
         super(null);
         this.restaurant = restaurant;
-        this.menu_date = menuDate;
+        this.date = menuDate;
     }
 
-    public Menu(int id, Restaurant restaurant, Date menuDate) {
+    public Menu(int id, Restaurant restaurant, LocalDate menuDate) {
         super(id);
         this.restaurant = restaurant;
-        this.menu_date = menuDate;
+        this.date = menuDate;
     }
 
     public Set<Dish> getDishes() {
@@ -50,12 +50,20 @@ public class Menu extends AbstractBaseEntity{
         this.dishes = dishes;
     }
 
-    public Date getMenuDate() {
-        return menu_date;
+    public LocalDate getMenuDate() {
+        return date;
     }
 
-    public void setMenuDate(Date menuDate) {
-        this.menu_date = menuDate;
+    public void setMenuDate(LocalDate menuDate) {
+        this.date = menuDate;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Restaurant getRestaurant() {

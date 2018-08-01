@@ -36,7 +36,7 @@ public class DishServiceImpl implements DishService{
     }
 
     @Override
-    public Dish get(int id) {
+    public Dish get(int id) throws NotFoundException  {
         return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 

@@ -40,9 +40,10 @@
 
     <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
 
-        <!--no pooling-->
+        <!--no pooling--><!--"org.springframework.jdbc.datasource.DriverManagerDataSource"-->
+    <!--Tomcat pooling-->
     <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          class="org.apache.tomcat.jdbc.pool.DataSource"
           p:driverClassName="org.hsqldb.jdbcDriver"
           p:url="${database.url}"
           p:username="${database.username}"

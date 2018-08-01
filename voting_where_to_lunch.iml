@@ -3,9 +3,8 @@
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration>
-        <fileset id="fileset2" name="Spring Application Context" removed="false" profiles="datajpa,hsqldb">
-          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-app.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/topjava-spring.xml</file>
+        <fileset id="fileset" name="Spring Application Context " removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -74,5 +73,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.8" level="project" />
     <orderEntry type="library" name="Maven: org.hsqldb:hsqldb:2.3.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-jdbc:8.5.29" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-juli:8.5.29" level="project" />
   </component>
 </module>
