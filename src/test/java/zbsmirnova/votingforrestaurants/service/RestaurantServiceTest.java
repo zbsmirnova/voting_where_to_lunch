@@ -1,7 +1,9 @@
 package zbsmirnova.votingforrestaurants.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.testData.MenuTestData;
@@ -16,6 +18,14 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Autowired
     RestaurantService service;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Before
+    public void setUp() throws Exception {
+        cacheManager.getCache("restaurants").clear();
+    }
 
     @Test
     public void getAll() {

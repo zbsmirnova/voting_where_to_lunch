@@ -10,6 +10,7 @@ import zbsmirnova.votingforrestaurants.model.Dish;
 
 import java.util.List;
 
+@Repository
 @Transactional(readOnly = true)
 public interface DishRepository extends JpaRepository<Dish, Integer> {
     @Modifying

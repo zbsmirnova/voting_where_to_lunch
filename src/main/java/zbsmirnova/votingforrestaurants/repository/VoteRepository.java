@@ -31,7 +31,7 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
     List<Vote> getAllByVoteDate(LocalDate date);
 
-    @EntityGraph(attributePaths = {"restaurants"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT v FROM Vote v WHERE v.id=?1")
     Vote getWithRestaurant(int id);
 
