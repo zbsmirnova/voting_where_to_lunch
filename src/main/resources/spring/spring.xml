@@ -14,6 +14,7 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
 
+    <import resource="spring-security.xml"/>
     <import resource="spring-tools.xml"/>
 
     <context:component-scan base-package="zbsmirnova.votingforrestaurants.model"/>

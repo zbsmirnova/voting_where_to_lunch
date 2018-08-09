@@ -43,6 +43,9 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-web:5.0.4.RELEASE" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.8" />
           <element id="library" level="project" name="Maven: org.hsqldb:hsqldb:2.3.4" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.0.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.0.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.0.4.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">

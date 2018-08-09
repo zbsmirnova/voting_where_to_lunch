@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     @Query("SELECT u FROM User u  ORDER BY u.name")
     List<User> getAll();
 
-//    User getByEmail(String email);
+    User getByEmail(String email);
 
 
     //    https://stackoverflow.com/a/46013654/548473

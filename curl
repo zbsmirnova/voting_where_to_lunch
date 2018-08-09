@@ -1,0 +1,12 @@
+1я стр - /login
+eсли логин user:
+        /profileRestaurants
+
+
+login admin:
+        /@GetMapping("/restaurants") - rootController
+
+        показать все голоса - @PreAuthorize("hasRole('ROLE_ADMIN')") - root controller  -> http://localhost:8080/votes
+                                  @GetMapping("/votes")
+
+
