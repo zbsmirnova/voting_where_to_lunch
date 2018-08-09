@@ -1,5 +1,4 @@
 DELETE FROM votes;
-DELETE FROM user_roles;
 DELETE FROM dishes;
 DELETE FROM MENUS;
 DELETE FROM users;
@@ -41,10 +40,10 @@ INSERT INTO dishes (name, price, menu_id) VALUES
   ('cake_special', 18080, 100011);
 
 
-INSERT INTO users (name, email, password) VALUES
-  ('User1', 'user1@yandex.ru', 'password'),
-  ('User2', 'user2@mail.ru', 'password'),
-  ('Admin', 'admin@gmail.com', 'admin');
+INSERT INTO users (name, email, password, role) VALUES
+  ('User1', 'user1@yandex.ru', 'password', 'ROLE_USER'),
+  ('User2', 'user2@mail.ru', 'password', 'ROLE_USER'),
+  ('Admin', 'admin@gmail.com', 'admin', 'ROLE_ADMIN');
 
 INSERT INTO votes (voteDate, user_id, restaurant_id) VALUES
   ('2018-07-25', 100028, 100000),
@@ -52,10 +51,6 @@ INSERT INTO votes (voteDate, user_id, restaurant_id) VALUES
   (CURRENT_DATE, 100029, 100002);
 
 
-INSERT INTO user_roles (role, user_id) VALUES
-  ('ROLE_USER', 100028),
-  ('ROLE_USER', 100029),
-  ('ROLE_ADMIN', 100030);
 
 
 

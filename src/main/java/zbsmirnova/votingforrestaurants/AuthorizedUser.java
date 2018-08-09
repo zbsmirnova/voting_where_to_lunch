@@ -7,6 +7,8 @@ import zbsmirnova.votingforrestaurants.to.UserTo;
 import zbsmirnova.votingforrestaurants.util.UserUtil;
 
 
+import java.util.Collections;
+
 import static java.util.Objects.requireNonNull;
 
 public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
@@ -15,7 +17,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     private final UserTo userTo;
 
     public AuthorizedUser(User user) {
-        super(user.getEmail(), user.getPassword(), true, true, true, true, user.getRoles());
+        super(user.getEmail(), user.getPassword(), true, true, true, true, Collections.singleton(user.getRole()));
         this.userTo = UserUtil.asTo(user);
     }
 

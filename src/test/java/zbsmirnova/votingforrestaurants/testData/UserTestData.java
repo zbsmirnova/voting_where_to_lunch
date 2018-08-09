@@ -22,14 +22,14 @@ public class UserTestData {
 
     public static List<User> ALL_USERS = Arrays.asList(ADMIN, USER1, USER2);
 
-    public static User getCreatedUser(){return new User("new user", "newuser@mail.ru", "password", Collections.singleton(Role.ROLE_USER));}
+    public static User getCreatedUser(){return new User("new user", "newuser@mail.ru", "password", Role.ROLE_USER);}
 
     public static User getUpdatedUser(){
         USER1.setName("updated user");
         return USER1;
     }
 
-    public static User getDuplicatedEmailUser(){return new User("UserDuplicated", "user1@yandex.ru", "password", Collections.singleton(Role.ROLE_USER));}
+    public static User getDuplicatedEmailUser(){return new User("UserDuplicated", "user1@yandex.ru", "password", Role.ROLE_USER);}
 
     public static void assertMatch(User actual, User expected) {
         assertThat(actual).isEqualTo(expected);

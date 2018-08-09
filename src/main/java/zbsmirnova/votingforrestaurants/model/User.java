@@ -1,8 +1,5 @@
 package zbsmirnova.votingforrestaurants.model;
 
-import org.hibernate.annotations.BatchSize;
-import org.springframework.util.CollectionUtils;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -31,36 +28,26 @@ public class User extends AbstractNamedEntity{
 //    @JsonIgnore
     protected List<Vote> votes;
 
+    @Column(name="role", nullable = false)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @BatchSize(size = 200)
-    private Set<Role> roles;
+    private Role role;
 
     public User(){}
 
-//    public User(User u) {
-//        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.isVoted(), u.getRestaurant(), u.getRoles());
-//    }
 
 
-    public User(Integer id, String name, String email, String password, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, Role role) {
         super(id, name);
         this.email = email;
         this.password = password;
-        setRoles(roles);
+        this.role = role;
     }
 
-    public User(String name, String email, String password, Collection<Role> roles) {
+    public User(String name, String email, String password, Role role) {
         super(null, name);
         this.email = email;
         this.password = password;
-        setRoles(roles);
-    }
-
-    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, EnumSet.of(role, roles));
+        this.role = role;
     }
 
 
@@ -88,23 +75,19 @@ public class User extends AbstractNamedEntity{
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", roles=" + roles +
+                ", role=" + role +
                 ", email=" + email +
                 ", name=" + name +
                 '}';
