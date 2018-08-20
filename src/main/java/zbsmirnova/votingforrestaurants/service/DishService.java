@@ -13,8 +13,6 @@ public interface DishService {
 
     Dish get (int id) throws NotFoundException;
 
-    List<Dish> getAll();
-
     List<Dish> getAll(int menuId);
 
 }

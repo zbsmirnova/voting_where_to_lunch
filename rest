@@ -1,0 +1,25 @@
+GET/admin/users - список всех юзеров
+GET/admin/users/100001 - юзер №100001
+DELETE/admin/users/100001 - удалить юзера №100001
+POST/admin/users (@RequestBody User user) - создать юзера (данные в теле запроса)
+PUT/admin/users/100001 (@RequestBody User user) - обновить юзера №100001 (данные в теле запроса)
+
+GET/profile - залогиненный юзер
+DELETE/profile - удалить залогиненного юзера
+PUT/profile - обновить залогиненного юзера
+
+GET/admin/restaurants
+GET/admin/restaurants/100001
+DELETE/admin/restaurants/100001
+POST/admin/restaurants/100001
+PUT/admin/restaurants/100001
+
+Правильно:
+GET/admin/restaurants/100001/menus - все меню ресторана 100001
+GET/admin/restaurants/100001/menus/100010 - меню № 100010 ресторана 100001
+GET/admin/restaurants/100001/menus/100010/dishes/100020
+
+Неправильно:
+GET/admin/menus/100010 - меню № 100010
+
+

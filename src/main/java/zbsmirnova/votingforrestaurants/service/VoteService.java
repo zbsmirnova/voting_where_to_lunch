@@ -4,7 +4,6 @@ import zbsmirnova.votingforrestaurants.model.Vote;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface VoteService {

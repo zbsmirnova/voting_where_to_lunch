@@ -1,7 +1,9 @@
 package zbsmirnova.votingforrestaurants.testData;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import zbsmirnova.votingforrestaurants.model.Role;
 import zbsmirnova.votingforrestaurants.model.User;
+import zbsmirnova.votingforrestaurants.web.json.JsonUtil;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,7 +11,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
+import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeIgnoreProps;
 
 public class UserTestData {
     public static final int USER1_ID = START_SEQ + 28;
@@ -32,7 +36,7 @@ public class UserTestData {
     public static User getDuplicatedEmailUser(){return new User("UserDuplicated", "user1@yandex.ru", "password", Role.ROLE_USER);}
 
     public static void assertMatch(User actual, User expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(expected).isEqualToIgnoringGivenFields(expected,"password", "votes");
     }
 
     public static void assertMatch(Iterable<User> actual, User... expected) {
@@ -40,8 +44,18 @@ public class UserTestData {
     }
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(expected).usingElementComparatorIgnoringFields("password", "votes");
     }
 
+    public static String jsonWithPassword(User user, String passw) {
+        return JsonUtil.writeAdditionProps(user, "password", passw);
+    }
 
+    public static ResultMatcher contentJson(User... expected) {
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "password"));
+    }
+
+    public static ResultMatcher contentJson(User expected) {
+        return content().json(writeIgnoreProps(expected, "password"));
+    }
 }

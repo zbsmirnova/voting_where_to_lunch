@@ -1,0 +1,20 @@
+1. add Cache:  -users ???
+               -restaurants realized
+               -dishes??
+               -menus??
+               -votes??
+      ehcache.xml
+
+2. SpringSecurity
+
+3. create TO`s
+
+4. web
+    5.1 User controller
+    5.2 AdminController
+    5.3 RestaurantController
+    5.4 DishController
+    5.5 MenuController
+    5.6 VoteController
+
+5. should methods MenuService, DishService (restaurantId, menuId ...)

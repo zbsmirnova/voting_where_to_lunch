@@ -40,10 +40,6 @@ public class DishServiceImpl implements DishService{
         return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
-    @Override
-    public List<Dish> getAll() {
-        return repository.findAll();
-    }
 
     @Override
     public List<Dish> getAll(int menuId) {

@@ -11,9 +11,10 @@ import javax.validation.constraints.NotNull;
 @Table(name = "dishes")
 public class Dish extends AbstractNamedEntity{
 
+    //price in cents
     @Column(name = "price", nullable = false)
     @NotNull
-    private int price; //in cents
+    private int price;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,7 +55,9 @@ public class Dish extends AbstractNamedEntity{
 
     @Override
     public String toString() {
-        return "Dish: " + name +
-                "price = " + price;
+        return "Dish{"  +
+                " name" + name +
+                ", price = " + price + " cents" +
+                '}';
     }
 }

@@ -1,10 +1,52 @@
 1я стр - /login
-eсли логин user:
-        /profileRestaurants
+login user:
+        http://localhost:8080/profileRestaurants                                    restaurants list
+        http://localhost:8080/getProfileTodaysMenuWithMeals?restId=100003           today menu of a restaurant
+        http://localhost:8080/profile                                               name/password/email change form
+
+        login as user - root controller - @GetMapping("/profileRestaurants")
+        view today menu of a restaurant - root controller - @GetMapping("/getProfileTodaysMenuWithMeals")
+        to vote - ProfileVoteAjaxController - createOrUpdate(@RequestParam("restId")
 
 
 login admin:
-        /@GetMapping("/restaurants") - rootController
+
+        http://localhost:8080/restaurants                                           restaurants list
+        http://localhost:8080/menus?restId=100029                                   all menus of a restaurant
+        http://localhost:8080/meals?menuId=100033&restId=100003                     all meals of a menu
+        http://localhost:8080/getTodaysMenuWithMeals?restId=100029                  today menu of a restaurant
+        http://localhost:8080/users                                                 users list
+        http://localhost:8080/profile                                               name/password/email change form
+
+        login as admin - root controller - @GetMapping("/restaurants") - AdminRestaurantAjaxController - List<RestaurantWithVotes> getAll() - abstractRestaurantController -
+        add a restaurant - AdminRestaurantAjaxController - createOrUpdate - abstractRestaurantController - ... - AdminRestaurantAjaxController get all
+        edit a restaurant - AdminRestaurantAjaxController - get(id) -  меняешь назв в форме, нажимаешь ок - AdminRestaurantAjaxController - createOrUpdate - get all
+        get all menus of a restaurant - root controller -  @GetMapping("/menus") - AdminMenuAjaxController - List<Menu> getAll - abstract menu controller - get all
+        add a menu to a restaurant - AdminMenuAjaxController - create - abstr menu contr - create - get all menus
+        get all meals of a menu - rootController - @GetMapping("/meals") - AdminMealsAjaxController - getAll
+        add meal to a menu - AdminMealsAjaxController - createOrUpdate - abstractMealController - create - getAll //from TO
+        edit meal  - AdminMealsAjaxController - get(id) - меняешь назв в форме, нажимаешь ок -AdminMealsAjaxController - createOrUpdate
+        get today menu of a restaurant  - root controller - @GetMapping("/getTodaysMenuWithMeals") -
+        get users - root controller - @GetMapping("/users") - AdminAjaxController - getAll -
+        add user - AdminAjaxController - createOrUpdate(UserTo) - abstractUserController -... - getAll
+        delete user - AdminAjaxController - delete(id)
+        edit user - AdminAjaxController - get(id) - AdminAjaxController - createOrUpdate
+
+        get all votes - root controller - @GetMapping("/votes") - AdminVoteAjaxController - getAll
+        delete vote - AdminVoteAjaxController - delete
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         показать все голоса - @PreAuthorize("hasRole('ROLE_ADMIN')") - root controller  -> http://localhost:8080/votes
                                   @GetMapping("/votes")

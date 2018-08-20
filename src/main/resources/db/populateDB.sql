@@ -41,9 +41,9 @@ INSERT INTO dishes (name, price, menu_id) VALUES
 
 
 INSERT INTO users (name, email, password, role) VALUES
-  ('User1', 'user1@yandex.ru', 'password', 'ROLE_USER'),
-  ('User2', 'user2@mail.ru', 'password', 'ROLE_USER'),
-  ('Admin', 'admin@gmail.com', 'admin', 'ROLE_ADMIN');
+  ('User1', 'user1@yandex.ru', '{noop}password', 'ROLE_USER'),
+  ('User2', 'user2@mail.ru', '{noop}password', 'ROLE_USER'),
+  ('Admin', 'admin@gmail.com', '{noop}admin', 'ROLE_ADMIN');
 
 INSERT INTO votes (voteDate, user_id, restaurant_id) VALUES
   ('2018-07-25', 100028, 100000),
