@@ -12,16 +12,13 @@ public interface VoteService {
 
     Vote get(int id) throws NotFoundException;
 
+    Vote getTodayByUserId(int userId) throws NotFoundException;
+
     Vote save(Vote vote, int userId, int restaurantId);
 
     List<Vote> getAll();
 
-    List<Vote> getAll(int restaurantId);
+    List<Vote> getAll(int restaurantId, LocalDate date);
 
-    List<Vote> getAll(LocalDate date);
-
-    List<Vote> getAllByUser(int userId);
-
-    Vote getWithRestaurant(int id) throws NotFoundException;
-
+    List<Vote> getTodayVotes();
 }

@@ -25,13 +25,11 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @Override
     Menu save(Menu menu);
 
-    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT m FROM Menu m WHERE m.id=?1")
-    Menu getWithDishes(int id);
+//    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+////    @Query("SELECT m FROM Menu m WHERE m.id=?1")
+////    Menu getWithDishes(int id);
 
     List<Menu> findAllByRestaurantId(int restaurantId);
-
-    List<Menu> findAllByDate(LocalDate date);
 
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT DISTINCT m FROM Menu m WHERE m.restaurant.id=?1 AND m.date=?2")

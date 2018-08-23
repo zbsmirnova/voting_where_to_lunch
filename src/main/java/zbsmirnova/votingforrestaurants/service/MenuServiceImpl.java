@@ -14,11 +14,16 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundW
 
 @Service
 public class MenuServiceImpl implements MenuService{
-    @Autowired
-    MenuRepository repository;
+
+    private final MenuRepository repository;
+
+    private final RestaurantService restaurantService;
 
     @Autowired
-    RestaurantService restaurantService;
+    public MenuServiceImpl(MenuRepository repository, RestaurantService restaurantService) {
+        this.repository = repository;
+        this.restaurantService = restaurantService;
+    }
 
     @Override
     public void delete(int id) throws NotFoundException{
@@ -33,15 +38,6 @@ public class MenuServiceImpl implements MenuService{
         return repository.save(menu);
     }
 
-    @Override
-    public Menu getWithDishes(int id) throws NotFoundException{
-        return checkNotFoundWithId(repository.getWithDishes(id), id);
-    }
-
-    @Override
-    public List<Menu> getAll() {
-        return repository.findAll();
-    }
 
     @Override
     public Menu get(int id) throws NotFoundException{
@@ -54,17 +50,8 @@ public class MenuServiceImpl implements MenuService{
     }
 
     @Override
-    public Menu getByDateWithDishes(int restaurantId, LocalDate date) {
-        return checkNotFoundWithId(repository.findByRestaurantIdAndAddDate(restaurantId, date), restaurantId);
-    }
-
-    @Override
-    public Menu getTodayWithDishes(int restaurantId) {
+    public Menu getToday(int restaurantId) {
         return checkNotFoundWithId(repository.findByRestaurantIdAndAddDate(restaurantId, LocalDate.now()), restaurantId);
     }
 
-    @Override
-    public List<Menu> getAllByDate(LocalDate date) {
-        return repository.findAllByDate(date);
-    }
 }

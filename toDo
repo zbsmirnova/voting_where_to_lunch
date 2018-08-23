@@ -7,14 +7,16 @@
 
 2. SpringSecurity
 
-3. create TO`s
-
-4. web
-    5.1 User controller
-    5.2 AdminController
-    5.3 RestaurantController
-    5.4 DishController
-    5.5 MenuController
-    5.6 VoteController
-
 5. should methods MenuService, DishService (restaurantId, menuId ...)
+
+6. VoteTo правильно ли использовать поля restaurantName и userName, или надо restaurant и user
+
+7. Vote должно ли быть menuId в соответствии с rest иерархией
+
+8. AdminController create создает только юзера Role.USER, те либо подавать не UserTo, a User, либо разные методы
+    надо ли делать метод createAdmin
+    update не может изменить роль юзера
+
+9. AdminMenuController надо ли принимать в теле запроса MenuTо, было бы достаточно просто даты
+    MenuTo поле restaurantId или restaurantName
+    сделать метод getTodayMenu(int restaurantId)

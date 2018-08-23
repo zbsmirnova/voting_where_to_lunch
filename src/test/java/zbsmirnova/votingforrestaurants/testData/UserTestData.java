@@ -3,10 +3,10 @@ package zbsmirnova.votingforrestaurants.testData;
 import org.springframework.test.web.servlet.ResultMatcher;
 import zbsmirnova.votingforrestaurants.model.Role;
 import zbsmirnova.votingforrestaurants.model.User;
+import zbsmirnova.votingforrestaurants.to.UserTo;
 import zbsmirnova.votingforrestaurants.web.json.JsonUtil;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,8 +29,7 @@ public class UserTestData {
     public static User getCreatedUser(){return new User("new user", "newuser@mail.ru", "password", Role.ROLE_USER);}
 
     public static User getUpdatedUser(){
-        USER1.setName("updated user");
-        return USER1;
+        return new User(USER1_ID, "updated user", "user1@yandex.ru", "password", Role.ROLE_USER);
     }
 
     public static User getDuplicatedEmailUser(){return new User("UserDuplicated", "user1@yandex.ru", "password", Role.ROLE_USER);}
@@ -51,11 +50,23 @@ public class UserTestData {
         return JsonUtil.writeAdditionProps(user, "password", passw);
     }
 
+    public static String jsonWithPassword(UserTo user, String passw) {
+        return JsonUtil.writeAdditionProps(user, "password", passw);
+    }
+
     public static ResultMatcher contentJson(User... expected) {
         return content().json(writeIgnoreProps(Arrays.asList(expected), "password"));
     }
 
+    public static ResultMatcher contentJson(UserTo... expected) {
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "password"));
+    }
+
     public static ResultMatcher contentJson(User expected) {
+        return content().json(writeIgnoreProps(expected, "password"));
+    }
+
+    public static ResultMatcher contentJson(UserTo expected) {
         return content().json(writeIgnoreProps(expected, "password"));
     }
 }

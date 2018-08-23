@@ -1,19 +1,13 @@
 package zbsmirnova.votingforrestaurants.service;
 
-import org.hibernate.boot.model.relational.NamedAuxiliaryDatabaseObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.votingforrestaurants.model.Role;
 import zbsmirnova.votingforrestaurants.model.User;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static zbsmirnova.votingforrestaurants.testData.UserTestData.*;
 
 public class UserServiceTest extends AbstractServiceTest {
@@ -43,11 +37,24 @@ public class UserServiceTest extends AbstractServiceTest {
         service.save(getDuplicatedEmailUser());
     }
 
+    @Test(expected = TransactionSystemException.class)
+    public void createInvalid() {
+        User created = new User(null, "email@test.ru", "123", Role.ROLE_USER);
+        service.save(created);
+    }
+
     @Test
     public void update() {
         User updated = getUpdatedUser();
         service.save(updated);
         assertMatch(service.get(updated.getId()), updated);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void updateInvalidId() {
+        User updated = getUpdatedUser();
+        updated.setId(50);
+        service.save(updated);
     }
 
     @Test
@@ -62,13 +69,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Test
     public void getAll() {
-        List<User> users = service.getAll();
         assertMatch(service.getAll(), ALL_USERS);
     }
 
-    @Test
-    public void getWithVotes() {
-        User user = service.getWithVotes(USER2_ID);
-
-    }
 }

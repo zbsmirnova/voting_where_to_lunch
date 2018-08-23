@@ -17,8 +17,12 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundW
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
+    private final RestaurantRepository repository;
+
     @Autowired
-    RestaurantRepository repository;
+    public RestaurantServiceImpl(RestaurantRepository repository) {
+        this.repository = repository;
+    }
 
     @Cacheable("restaurants")
     @Override
@@ -33,6 +37,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)
+    @Transactional
     @Override
     public Restaurant save(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -45,8 +50,4 @@ public class RestaurantServiceImpl implements RestaurantService {
         return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
-    @Override
-    public Restaurant getWithMenus(int id) {
-        return checkNotFoundWithId(repository.getWithMenus(id), id);
-    }
 }

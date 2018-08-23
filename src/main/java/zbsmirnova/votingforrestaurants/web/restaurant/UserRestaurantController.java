@@ -10,27 +10,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.service.RestaurantService;
+import zbsmirnova.votingforrestaurants.to.RestaurantTo;
 
 import java.util.List;
+
+import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.asTo;
 
 @RestController
 @RequestMapping(UserRestaurantController.URL)
 public class UserRestaurantController {
     private static final Logger log = LoggerFactory.getLogger(AdminRestaurantController.class);
 
-    @Autowired
-    RestaurantService service;
-
     static final String URL = "/profile/restaurants";
 
+    private final RestaurantService service;
+
+    @Autowired
+    public UserRestaurantController(RestaurantService service) {
+        this.service = service;
+    }
+
     @GetMapping
-    public List<Restaurant> getAll(){
+    public List<RestaurantTo> getAll(){
         log.info("get all restaurants");
-        return service.getAll();
+        return asTo(service.getAll());
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Restaurant get(@PathVariable("id") int id){
+    public RestaurantTo get(@PathVariable("id") int id){
         log.info("get restaurant {} ", id);
-        return service.get(id);}
+        return asTo(service.get(id));}
 }

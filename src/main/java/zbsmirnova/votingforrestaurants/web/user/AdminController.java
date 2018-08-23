@@ -19,8 +19,9 @@ import javax.validation.groups.Default;
 import java.net.URI;
 import java.util.List;
 
+import static zbsmirnova.votingforrestaurants.util.UserUtil.asTo;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.assureIdConsistent;
-import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
+
 
 
 @RestController
@@ -29,26 +30,29 @@ public class AdminController {
 
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
-    @Autowired
-    UserService service;
-
     static final String URL = "/admin/users";
+
+    private final UserService service;
+
+    @Autowired
+    public AdminController(UserService service) {
+        this.service = service;
+    }
 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable("id") int id) {
+    public UserTo get(@PathVariable("id") int id) {
         log.info("get user {} ", id);
-        return service.get(id);}
+        return asTo(service.get(id));}
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getAll() {
+    public List<UserTo> getAll() {
         log.info("get all users");
-        return service.getAll();}
+        return asTo(service.getAll());}
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@Validated(View.Web.class)
-    public ResponseEntity<User> create(@Validated(Default.class) @RequestBody UserTo userTo) {
+    public ResponseEntity<User> createUser(@Validated(Default.class) @RequestBody UserTo userTo) {
         User user = UserUtil.createNewFromTo(userTo);
 
         User created = service.save(user);

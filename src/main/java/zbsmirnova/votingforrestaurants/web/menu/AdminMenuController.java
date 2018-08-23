@@ -12,12 +12,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.votingforrestaurants.model.Menu;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.service.MenuService;
+import zbsmirnova.votingforrestaurants.to.MenuTo;
 import zbsmirnova.votingforrestaurants.web.user.AdminController;
 
 import javax.validation.groups.Default;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
+import static zbsmirnova.votingforrestaurants.util.MenuUtil.asTo;
+import static zbsmirnova.votingforrestaurants.util.MenuUtil.createNewFromTo;
+import static zbsmirnova.votingforrestaurants.util.MenuUtil.updateFromTo;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.assureIdConsistent;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 
@@ -26,55 +31,77 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 public class AdminMenuController {
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
-    @Autowired
-    MenuService service;
-
     static final String URL = "/admin/restaurants/{restaurantId}/menus";
+
+    private final MenuService menuService;
+
+    @Autowired
+    public AdminMenuController(MenuService service) {
+        this.menuService = service;
+    }
 
     @DeleteMapping(value = "/{menuId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId) {
         log.info("delete menu {} for restaurant {}", menuId, restaurantId);
-        service.delete(menuId);
+        menuService.delete(menuId);
     }
 
     @GetMapping
-    public List<Menu> getAll(@PathVariable("restaurantId") int restaurantId){
+    public List<MenuTo> getAll(@PathVariable("restaurantId") int restaurantId){
         log.info("get all menus for restaurant {}", restaurantId);
-        return service.getAll(restaurantId);
+        return asTo(menuService.getAll(restaurantId));
     }
 
-//    @GetMapping
-//    public List<Menu> getAll(){
-//        log.info("get all menus ");
-//        return service.getAll();
-//    }
-
     @GetMapping(value = "/{menuId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Menu get(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId){
+    public MenuTo get(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId){
         log.info("get menu {} for restaurant {} ", menuId, restaurantId);
-        return service.get(menuId);}
+        return asTo(menuService.get(menuId));}
+
+    @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MenuTo getToday(@PathVariable("restaurantId") int restaurantId){
+        log.info("get today menu for restaurant {} ", restaurantId);
+        return asTo(menuService.getToday(restaurantId));}
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Menu> create(@PathVariable("restaurantId") int restaurantId, @Validated(Default.class) @RequestBody Menu menu) {
-        checkNew(menu);
+    public ResponseEntity<Menu> createToday(@PathVariable("restaurantId") int restaurantId) {
 
-        Menu created = service.save(menu, restaurantId);
+        Menu newMenu = new Menu();
+        newMenu.setDate(LocalDate.now());
 
-        log.info("create menu {} for restaurant {}", menu, restaurantId);
+        Menu created = menuService.save(newMenu, restaurantId);
 
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(URL + "/{menuId}")
+        log.info("create menu {} for restaurant {}", newMenu, restaurantId);
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{menuId}")
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Menu> create(@Validated(Default.class) @RequestBody MenuTo menuTo, @PathVariable("restaurantId") int restaurantId) {
+//
+//        menuTo.setRestaurantId(restaurantId);
+//        Menu created = service.save(createNewFromTo(menuTo), restaurantId);
+//
+//        log.info("create menu {} for restaurant {}", created, restaurantId);
+//
+//        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{menuId}")
+//                .buildAndExpand(created.getId()).toUri();
+//
+//        return ResponseEntity.created(uriOfNewResource).body(created);
+//    }
+
     @PutMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Validated(Default.class) @RequestBody Menu menu, @PathVariable("menuId") int menuId, @PathVariable("restaurantId") int restaurantId) {
+    public void update(@Validated(Default.class) @RequestBody MenuTo menuTo, @PathVariable("menuId") int menuId,
+                       @PathVariable("restaurantId") int restaurantId) {
+        Menu menu = menuService.get(menuId);
+        updateFromTo(menu, menuTo);
         log.info("update menu {} with id={} for restaurant {}", menu, menuId, restaurantId);
-        assureIdConsistent(menu, menuId);
-        service.save(menu, restaurantId);
+        menuService.save(menu, restaurantId);
     }
 
 }

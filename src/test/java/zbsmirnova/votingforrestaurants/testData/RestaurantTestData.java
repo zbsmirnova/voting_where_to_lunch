@@ -2,7 +2,7 @@ package zbsmirnova.votingforrestaurants.testData;
 
 import org.springframework.test.web.servlet.ResultMatcher;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
-import zbsmirnova.votingforrestaurants.model.User;
+import zbsmirnova.votingforrestaurants.to.RestaurantTo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeIgnoreProps;
+import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
 public class RestaurantTestData {
     public static final int KFC_ID = START_SEQ;
@@ -50,11 +51,19 @@ public class RestaurantTestData {
         return content().json(writeIgnoreProps(Arrays.asList(expected), "menus", "votes"));
     }
 
-    public static ResultMatcher contentJson(List<Restaurant> expected) {
-        return content().json(writeIgnoreProps(expected, "menus", "votes"));
+//    public static ResultMatcher contentJson(List<Restaurant> expected) {
+//        return content().json(writeIgnoreProps(expected, "menus", "votes"));
+//    }
+
+    public static ResultMatcher contentJson(List<RestaurantTo> expected) {
+        return content().json(writeValue(expected));
     }
 
     public static ResultMatcher contentJson(Restaurant expected) {
         return content().json(writeIgnoreProps(expected, "menus", "votes"));
+    }
+
+    public static ResultMatcher contentJson(RestaurantTo expected) {
+        return content().json(writeValue(expected));
     }
 }

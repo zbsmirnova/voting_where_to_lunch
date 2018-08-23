@@ -1,7 +1,6 @@
 package zbsmirnova.votingforrestaurants.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import zbsmirnova.votingforrestaurants.AuthorizedUser;
 import zbsmirnova.votingforrestaurants.model.User;
 import zbsmirnova.votingforrestaurants.repository.UserRepository;
@@ -25,11 +23,15 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundW
 
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
-    @Autowired
-    UserRepository repository;
+    private final UserRepository repository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void delete(int id) throws NotFoundException {
@@ -39,11 +41,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        if(!user.isNew()) checkNotFoundWithId(user, user.getId());
-        //return repository.save(user);
+        if(!user.isNew() && get(user.getId()) == null) return null;
         return repository.save(prepareToSave(user, passwordEncoder));
     }
 
+    @Transactional
     @Override
     public void update(UserTo userTo, int id) {
         User user = get(id);
@@ -66,10 +68,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return repository.getAll();
     }
 
-    @Override
-    public User getWithVotes(int id) {
-        return repository.getWithVotes(id);
-    }
+
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

@@ -13,15 +13,8 @@ public interface MenuService {
 
     Menu get(int id) throws NotFoundException;
 
-    Menu getWithDishes(int id) throws NotFoundException;
-
-    List<Menu> getAll();
-
-    List<Menu> getAllByDate(LocalDate date);
+    Menu getToday(int restaurantId) throws NotFoundException;
 
     List<Menu> getAll(int restaurantId);
 
-    Menu getByDateWithDishes(int restaurantId, LocalDate date) throws NotFoundException ;
-
-    Menu getTodayWithDishes(int restaurantId) throws NotFoundException ;
 }

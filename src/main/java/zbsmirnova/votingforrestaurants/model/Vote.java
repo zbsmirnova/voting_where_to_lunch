@@ -50,6 +50,10 @@ public class Vote extends AbstractBaseEntity{
         this.restaurant = restaurant;
     }
 
+    public Vote(Vote vote){
+        this(vote.getId(), vote.getVoteDate(), vote.getUser(), vote.getRestaurant());
+    }
+
     public User getUser() {
         return user;
     }

@@ -29,8 +29,7 @@ public class VoteTestData {
     public static Vote getCreatedVote(){return new Vote(LocalDate.now());}
 
     public static Vote getUpdatedVote(){
-        VOTE_1.setRestaurant(MCDONALDS);
-        return VOTE_1;
+        return new Vote(VOTE_1_ID, LocalDate.parse("2018-07-25"), USER1, MCDONALDS);
     }
 
     public static Vote getDuplicateUserIdDateVote(){

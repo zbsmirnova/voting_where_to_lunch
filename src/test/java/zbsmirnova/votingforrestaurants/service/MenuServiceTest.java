@@ -11,6 +11,7 @@ import java.util.List;
 
 import static zbsmirnova.votingforrestaurants.testData.DishTestData.*;
 import static zbsmirnova.votingforrestaurants.testData.MenuTestData.*;
+import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.BUSHE_ID;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.KETCHUP_ID;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.KFC_ID;
 
@@ -22,8 +23,7 @@ public class MenuServiceTest extends AbstractServiceTest {
     @Test
     public void delete() {
         service.delete(KFC_EXPIRED_MENU_ID);
-        assertMatch(service.getAll(), MCDONALDS_EXPIRED_MENU, KETCHUP_EXPIRED_MENU, BUSHE_EXPIRED_MENU,
-                KFC_ACTUAL_MENU, MCDONALDS_ACTUAL_MENU, KETCHUP_ACTUAL_MENU, BUSHE_ACTUAL_MENU);
+        assertMatch(service.getAll(KFC_ID), KFC_ACTUAL_MENU);
     }
 
     @Test(expected = NotFoundException.class)
@@ -35,9 +35,13 @@ public class MenuServiceTest extends AbstractServiceTest {
     public void create() {
         Menu created = getCreatedMenu();
         service.save(created, KETCHUP_ID);
-        assertMatch(service.getAll(), KFC_EXPIRED_MENU, MCDONALDS_EXPIRED_MENU, KETCHUP_EXPIRED_MENU, BUSHE_EXPIRED_MENU,
-                KFC_ACTUAL_MENU, MCDONALDS_ACTUAL_MENU, KETCHUP_ACTUAL_MENU, BUSHE_ACTUAL_MENU, created);
+        assertMatch(service.getAll(KETCHUP_ID), KETCHUP_EXPIRED_MENU, created, KETCHUP_ACTUAL_MENU);
+    }
 
+    @Test(expected = org.springframework.transaction.TransactionSystemException.class)
+    public void createInvalid() {
+        Menu created = new Menu(null);
+        service.save(created, KETCHUP_ID);
     }
 
     @Test
@@ -47,15 +51,21 @@ public class MenuServiceTest extends AbstractServiceTest {
         assertMatch(service.get(updated.getId()), updated);
     }
 
-    @Test
-    public void getWithDishes() {
-        Menu menu = service.getWithDishes(KETCHUP_EXPIRED_MENU_ID);
-        DishTestData.assertMatch(menu.getDishes(), SALAD, KETCHUPBURGER, WATER);
+    @Test(expected = NotFoundException.class)
+    public void updateInvalidId(){
+        Menu updated = getUpdatedMenu();
+        updated.setId(50);
+        service.save(updated, KETCHUP_ID);
     }
 
     @Test
     public void getAll() {
-        assertMatch(service.getAll(), ALL_MENUS);
+        assertMatch(service.getAll(BUSHE_ID), BUSHE_EXPIRED_MENU, BUSHE_ACTUAL_MENU);
+    }
+
+    @Test
+    public void getAllNotFound() {
+        service.getAll(50);
     }
 
     @Test
@@ -69,28 +79,12 @@ public class MenuServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void getAllByRestaurantId(){
-        List<Menu> kfcMenus = service.getAll(KFC_ID);
-        assertMatch(service.getAll(KFC_ID), KFC_EXPIRED_MENU, KFC_ACTUAL_MENU);
+    public void getToday(){
+        assertMatch(service.getToday(BUSHE_ID), BUSHE_ACTUAL_MENU);
     }
 
-    @Test
-    public void getByDateWithDishes(){
-        Menu menu = service.getByDateWithDishes(KFC_ID, LocalDate.parse("2018-07-25"));
-        assertMatch(menu, KFC_EXPIRED_MENU);
-        DishTestData.assertMatch(menu.getDishes(),FRIES, CHICKEN, COLA);
-    }
-
-    @Test
-    public void getTodayWithDishes(){
-        Menu todayMenu = service.getByDateWithDishes(KFC_ID, LocalDate.now());
-        assertMatch(todayMenu, KFC_ACTUAL_MENU);
-        DishTestData.assertMatch(todayMenu.getDishes(), CHICKEN_SPECIAL);
-    }
-
-    @Test
-    public void findAllByDate(){
-        List<Menu> menus = service.getAllByDate(LocalDate.now());
-        assertMatch(menus, KFC_ACTUAL_MENU, MCDONALDS_ACTUAL_MENU, KETCHUP_ACTUAL_MENU, BUSHE_ACTUAL_MENU);
+    @Test(expected = NotFoundException.class)
+    public void getTodayNotFound(){
+        service.getToday(50);
     }
 }

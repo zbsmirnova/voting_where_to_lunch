@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.testData.MenuTestData;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
@@ -50,6 +51,13 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         assertMatch(service.get(updated.getId()), updated);
     }
 
+    @Test(expected = NotFoundException.class)
+    public void updateInvalidId() {
+        Restaurant updated = getUpdatedRestaurant();
+        updated.setId(50);
+        service.save(updated);
+    }
+
     @Test
     public void create() {
         Restaurant created = getCreatedRestaurant();
@@ -57,26 +65,24 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         assertMatch(service.getAll(), created, BUSHE, KETCHUP, KFC, MCDONALDS);
     }
 
+    @Test(expected = TransactionSystemException.class)
+    public void createInvalid() {
+        Restaurant created = new Restaurant(null);
+        service.save(created);
+    }
+
     @Test(expected = DataAccessException.class)
-    public void createDuplicateName() throws Exception {
+    public void createDuplicateName(){
         service.save(new Restaurant("bushe"));
     }
 
     @Test
     public void get() {
-        Restaurant restaurant = service.get(BUSHE_ID);
         assertMatch(service.get(BUSHE_ID), BUSHE);
     }
 
     @Test(expected = NotFoundException.class)
-    public void getNotFound() throws Exception {
+    public void getNotFound(){
         service.get(50);
-    }
-
-
-    @Test
-    public void getWithMenus() {
-        Restaurant restaurant = service.getWithMenus(BUSHE_ID);
-        MenuTestData.assertMatch(restaurant.getMenus(), BUSHE_EXPIRED_MENU, BUSHE_ACTUAL_MENU);
     }
 }

@@ -1,6 +1,5 @@
 package zbsmirnova.votingforrestaurants.repository;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.votingforrestaurants.model.Vote;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
@@ -25,15 +24,10 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     Vote save(Vote vote);
 
-    List<Vote> getAllByRestaurantId(int restaurantId);
-
-    List<Vote> getAllByUserId(int userId);
+    List<Vote> getAllByRestaurantIdAndVoteDate(int restaurantId, LocalDate date);
 
     List<Vote> getAllByVoteDate(LocalDate date);
 
-    @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT v FROM Vote v WHERE v.id=?1")
-    Vote getWithRestaurant(int id);
-
+    Optional<Vote> findByUserIdAndVoteDate(int userId, LocalDate date);
 
 }

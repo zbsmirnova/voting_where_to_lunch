@@ -7,6 +7,10 @@ import zbsmirnova.votingforrestaurants.model.Role;
 import zbsmirnova.votingforrestaurants.model.User;
 import zbsmirnova.votingforrestaurants.to.UserTo;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
 public class UserUtil {
 
     public static User createNewFromTo(UserTo newUser) {
@@ -29,5 +33,9 @@ public class UserUtil {
         user.setPassword(StringUtils.isEmpty(password) ? password : passwordEncoder.encode(password));
         user.setEmail(user.getEmail().toLowerCase());
         return user;
+    }
+
+    public static List<UserTo> asTo(List<User> users){
+        return users.stream().map(UserUtil::asTo).collect(toList());
     }
 }

@@ -55,14 +55,6 @@ public class Menu extends AbstractBaseEntity{
         this.dishes = dishes;
     }
 
-    public LocalDate getMenuDate() {
-        return date;
-    }
-
-    public void setMenuDate(LocalDate menuDate) {
-        this.date = menuDate;
-    }
-
     public LocalDate getDate() {
         return date;
     }
@@ -83,7 +75,7 @@ public class Menu extends AbstractBaseEntity{
     public String toString() {
         return "Menu{"  +
                 "date: " + date +
-                ", restaurant" + restaurant +
+//                ", restaurant" + restaurant +
                 '}';
 
     }

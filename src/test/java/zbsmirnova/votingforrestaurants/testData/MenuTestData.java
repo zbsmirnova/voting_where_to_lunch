@@ -1,16 +1,18 @@
 package zbsmirnova.votingforrestaurants.testData;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import zbsmirnova.votingforrestaurants.model.Menu;
+import zbsmirnova.votingforrestaurants.to.MenuTo;
 
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.*;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
+import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
 public class MenuTestData {
     public static final int KFC_EXPIRED_MENU_ID = START_SEQ + 4;
@@ -30,13 +32,9 @@ public class MenuTestData {
     public static final Menu BUSHE_EXPIRED_MENU = new Menu(BUSHE_EXPIRED_MENU_ID, BUSHE, LocalDate.parse("2018-07-25"));
 
     public static final Menu KFC_ACTUAL_MENU = new Menu(KFC_ACTUAL_MENU_ID, KFC, LocalDate.now());
-    public static final Menu MCDONALDS_ACTUAL_MENU = new Menu(MCDONALDS_ACTUAL_MENU_ID, MCDONALDS, LocalDate.now());
+    public static final Menu MCDONALDS_ACTUAL_MENU = new Menu(MCDONALDS_ACTUAL_MENU_ID, MCDONALDS, LocalDate.parse("2018-05-25"));
     public static final Menu KETCHUP_ACTUAL_MENU = new Menu(KETCHUP_ACTUAL_MENU_ID, KETCHUP, LocalDate.now());
     public static final Menu BUSHE_ACTUAL_MENU = new Menu(BUSHE_ACTUAL_MENU_ID, BUSHE, LocalDate.now());
-
-    public static final List<Menu> ALL_MENUS = Arrays.asList(KFC_EXPIRED_MENU, MCDONALDS_EXPIRED_MENU, KETCHUP_EXPIRED_MENU, BUSHE_EXPIRED_MENU,
-                                                        KFC_ACTUAL_MENU, MCDONALDS_ACTUAL_MENU, KETCHUP_ACTUAL_MENU, BUSHE_ACTUAL_MENU);
-
 
     public static Menu getCreatedMenu() {
         return new Menu(KETCHUP, LocalDate.parse("2018-07-26"));
@@ -59,4 +57,15 @@ public class MenuTestData {
         assertThat(actual).usingElementComparatorIgnoringFields("restaurant", "dishes").isEqualTo(expected);
     }
 
-        }
+    public static ResultMatcher contentJson(MenuTo expected) {
+        return content().json(writeValue(expected));
+    }
+
+    public static ResultMatcher contentJson(List<MenuTo> expected) {
+        return content().json(writeValue(expected));
+    }
+
+    public static ResultMatcher contentJson(MenuTo... expected) {
+        return content().json(writeValue(Arrays.asList(expected)));
+    }
+}

@@ -43,6 +43,6 @@ public class DishServiceImpl implements DishService{
 
     @Override
     public List<Dish> getAll(int menuId) {
-        return repository.findAllByMenuIdOrderByName(menuId);
+        return repository.findAllByMenuId(menuId);
     }
 }

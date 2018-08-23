@@ -24,6 +24,6 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
 
     List<Dish> findAll();
 
-    List<Dish> findAllByMenuIdOrderByName(int menuId);
+    List<Dish> findAllByMenuId(int menuId);
 
 }

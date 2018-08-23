@@ -1,10 +1,16 @@
 package zbsmirnova.votingforrestaurants.util;
 
 
+import org.omg.CORBA.DynAnyPackage.Invalid;
 import zbsmirnova.votingforrestaurants.HasId;
+import zbsmirnova.votingforrestaurants.util.exception.InvalidVoteTimeException;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
+import java.time.LocalTime;
+
+
 public class ValidationUtil {
+    private static final LocalTime STOP_VOTING_TIME = LocalTime.of(11, 00, 00, 00);
 
     private ValidationUtil() {
     }
@@ -15,6 +21,10 @@ public class ValidationUtil {
 
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
+    }
+
+    public static <T> T checkNotFoundWithUserId(T object, int id) {
+        return checkNotFound(object, "userId=" + id);
     }
 
     public static <T> T checkNotFound(T object, String msg) {
@@ -52,5 +62,11 @@ public class ValidationUtil {
             result = cause;
         }
         return result;
+    }
+
+    public static void checkVotingTime(LocalTime voteTime){
+        if(voteTime.isAfter(STOP_VOTING_TIME)){
+            throw new InvalidVoteTimeException("it`s too late to vote, try tomorrow before 11:00 a.m.");
+        }
     }
 }

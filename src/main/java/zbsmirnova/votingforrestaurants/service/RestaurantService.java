@@ -15,5 +15,4 @@ public interface RestaurantService {
 
     Restaurant get(int id) throws NotFoundException ;
 
-    Restaurant getWithMenus(int id) throws NotFoundException ;
 }
