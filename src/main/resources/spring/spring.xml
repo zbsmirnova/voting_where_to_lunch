@@ -16,6 +16,7 @@
 
     <import resource="spring-security.xml"/>
     <import resource="spring-tools.xml"/>
+    <import resource="clock_bean.xml"/>
 
     <context:component-scan base-package="zbsmirnova.votingforrestaurants.model"/>
     <context:component-scan base-package="zbsmirnova.votingforrestaurants.service"/>

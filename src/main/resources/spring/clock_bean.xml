@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--Clock bean for runtime-->
+    <bean id="systemClock" class="java.time.Clock" factory-method="systemUTC" />
+
+    <bean id="profileVoteController" class="zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController">
+        <constructor-arg type="java.time.Clock" ref="systemClock"/>
+    </bean>
+
+</beans>

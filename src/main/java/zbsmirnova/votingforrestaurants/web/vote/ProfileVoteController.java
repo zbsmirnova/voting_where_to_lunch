@@ -16,6 +16,7 @@ import zbsmirnova.votingforrestaurants.web.user.AdminController;
 
 
 import java.net.URI;
+import java.time.Clock;
 import java.time.LocalTime;
 
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundWithUserId;
@@ -29,11 +30,15 @@ public class ProfileVoteController {
 
     static final String URL = "/profile/restaurants/{restaurantId}/votes";
 
+    Clock clock;
+
     private final VoteService service;
 
+
     @Autowired
-    public ProfileVoteController(VoteService service) {
+    public ProfileVoteController(VoteService service, Clock clock) {
         this.service = service;
+        this.clock = clock;
     }
 
 
@@ -54,7 +59,7 @@ public class ProfileVoteController {
         //update
         else{
             log.info("update vote {} for restaurant {} by user {}", vote.getId(), restaurantId, authorizedUser.getId());
-            checkVotingTime(LocalTime.now());
+            checkVotingTime(LocalTime.now(clock));
             service.save(vote, authorizedUser.getId(), restaurantId);
             return ResponseEntity.noContent().build();
         }
@@ -91,7 +96,9 @@ public class ProfileVoteController {
 //        service.save(vote, AuthorizedUser.id(), restaurantId);
 //    }
 
-    private static LocalTime getVoteTime(){
-        return LocalTime.now();
+
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
     }
 }
