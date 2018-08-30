@@ -20,3 +20,8 @@
 9. AdminMenuController надо ли принимать в теле запроса MenuTо, было бы достаточно просто даты
     MenuTo поле restaurantId или restaurantName
     сделать метод getTodayMenu(int restaurantId)
+
+10. Пользователь может просматривать только свой сегодняшний! голос
+
+11. в какой контроллер AdminRestaurantController или AdminVoteController метод для просмотра всех
+    голосов за ресторан за определенную дату? или удалить

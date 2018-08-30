@@ -1,7 +1,9 @@
 package zbsmirnova.votingforrestaurants.testData;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import zbsmirnova.votingforrestaurants.model.User;
 import zbsmirnova.votingforrestaurants.model.Vote;
+import zbsmirnova.votingforrestaurants.to.VoteTo;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -9,10 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.*;
 import static zbsmirnova.votingforrestaurants.testData.UserTestData.USER1;
 import static zbsmirnova.votingforrestaurants.testData.UserTestData.USER2;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
+import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
 public class VoteTestData {
     public static final int VOTE_1_ID = START_SEQ + 31;
@@ -46,5 +50,13 @@ public class VoteTestData {
 
     public static void assertMatch(Iterable<Vote> actual, Iterable<Vote> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("restaurant", "user").isEqualTo(expected);
+    }
+
+    public static ResultMatcher contentJson(VoteTo expected) {
+        return content().json(writeValue(expected));
+    }
+
+    public static ResultMatcher contentJson(VoteTo ... expected) {
+        return content().json(writeValue(Arrays.asList(expected)));
     }
 }

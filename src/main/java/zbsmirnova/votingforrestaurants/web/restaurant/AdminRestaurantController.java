@@ -12,9 +12,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.service.RestaurantService;
 import zbsmirnova.votingforrestaurants.to.RestaurantTo;
+import zbsmirnova.votingforrestaurants.to.VoteTo;
 
 import javax.validation.groups.Default;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.asTo;
@@ -77,5 +79,12 @@ public class AdminRestaurantController {
         log.info("delete restaurant {}", id);
         service.delete(id);
     }
+
+//    @GetMapping(value = "/admin/restaurants/{restaurantId}/votes/")
+//    public List<VoteTo> getAllVotesForDateByRestaurantId(@PathVariable("restaurantId") int restaurantId,
+//                                                    @RequestParam(value = "date", required = false) LocalDate date){
+//        log.info("get all votes for restaurant {} on date {}", restaurantId, date);
+//        return asTo(service.getAll(restaurantId, date));
+//    }
 
 }

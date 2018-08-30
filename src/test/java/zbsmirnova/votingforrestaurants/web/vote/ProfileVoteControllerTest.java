@@ -8,23 +8,21 @@ import zbsmirnova.votingforrestaurants.TestUtil;
 import zbsmirnova.votingforrestaurants.model.Vote;
 import zbsmirnova.votingforrestaurants.service.VoteService;
 import zbsmirnova.votingforrestaurants.web.AbstractControllerTest;
-import zbsmirnova.votingforrestaurants.web.json.JsonUtil;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static zbsmirnova.votingforrestaurants.TestUtil.userHttpBasic;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.MCDONALDS;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.MCDONALDS_ID;
 import static zbsmirnova.votingforrestaurants.testData.UserTestData.*;
-import static zbsmirnova.votingforrestaurants.testData.VoteTestData.VOTE_3;
-import static zbsmirnova.votingforrestaurants.testData.VoteTestData.assertMatch;
+import static zbsmirnova.votingforrestaurants.testData.VoteTestData.*;
+import static zbsmirnova.votingforrestaurants.util.VoteUtil.asTo;
+import static zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController.GET_URL;
 
 
 public class ProfileVoteControllerTest extends AbstractControllerTest {
@@ -51,6 +49,10 @@ public class ProfileVoteControllerTest extends AbstractControllerTest {
 
     }
 
+    @Test
+    public void testCreateInvalid(){}
+
+
     //Doesn't work after 11.00 am
     @Test
     public void testUpdate() throws Exception {
@@ -68,6 +70,24 @@ public class ProfileVoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testGet() {
+    public void testUpdateInvalid(){
+
+    }
+
+    @Test
+    public void testGetUnauth() throws Exception {
+        mockMvc.perform(get(GET_URL))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testGet() throws Exception{
+        TestUtil.print(
+                mockMvc.perform(get(GET_URL)
+                        .with(userHttpBasic(USER2)))
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                        .andExpect(contentJson(asTo(VOTE_3)))
+        );
     }
 }

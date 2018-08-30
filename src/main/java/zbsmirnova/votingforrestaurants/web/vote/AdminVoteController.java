@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import zbsmirnova.votingforrestaurants.model.Vote;
 import zbsmirnova.votingforrestaurants.service.VoteService;
 import zbsmirnova.votingforrestaurants.to.VoteTo;
 
@@ -48,16 +49,17 @@ public class AdminVoteController {
         return asTo(service.getAll());
     }
 
-    @GetMapping(value = "/{restaurantId}")
-    public List<VoteTo> getAllForDateByRestaurantId(@PathVariable("restaurantId") int restaurantId,
-                                                    @RequestParam(value = "date", required = false) LocalDate date){
-        log.info("get all votes for restaurant {} on date {}", restaurantId, date);
-        return asTo(service.getAll(restaurantId, date));
-    }
+//    @GetMapping(value = "/admin/restaurants/{restaurantId}/votes/")
+//    public List<VoteTo> getAllForDateByRestaurantId(@PathVariable("restaurantId") int restaurantId,
+//                                                    @RequestParam(value = "date", required = false) LocalDate date){
+//        log.info("get all votes for restaurant {} on date {}", restaurantId, date);
+//        return asTo(service.getAll(restaurantId, date));
+//    }
 
     @GetMapping(value = "/todayVotes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VoteTo> getTodayVotes() {
         log.info("get today votes");
+        List<Vote> votes = service.getTodayVotes();
         return asTo(service.getTodayVotes());
     }
 }
