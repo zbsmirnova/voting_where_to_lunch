@@ -40,19 +40,6 @@ public class AdminMenuController {
         this.menuService = service;
     }
 
-    @DeleteMapping(value = "/{menuId}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId) {
-        log.info("delete menu {} for restaurant {}", menuId, restaurantId);
-        menuService.delete(menuId);
-    }
-
-    @GetMapping
-    public List<MenuTo> getAll(@PathVariable("restaurantId") int restaurantId){
-        log.info("get all menus for restaurant {}", restaurantId);
-        return asTo(menuService.getAll(restaurantId));
-    }
-
     @GetMapping(value = "/{menuId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public MenuTo get(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId){
         log.info("get menu {} for restaurant {} ", menuId, restaurantId);
@@ -62,6 +49,19 @@ public class AdminMenuController {
     public MenuTo getToday(@PathVariable("restaurantId") int restaurantId){
         log.info("get today menu for restaurant {} ", restaurantId);
         return asTo(menuService.getToday(restaurantId));}
+
+    @GetMapping
+    public List<MenuTo> getAll(@PathVariable("restaurantId") int restaurantId){
+        log.info("get all menus for restaurant {}", restaurantId);
+        return asTo(menuService.getAll(restaurantId));
+    }
+
+    @DeleteMapping(value = "/{menuId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId) {
+        log.info("delete menu {} for restaurant {}", menuId, restaurantId);
+        menuService.delete(menuId);
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> createToday(@PathVariable("restaurantId") int restaurantId) {

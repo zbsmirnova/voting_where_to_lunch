@@ -25,3 +25,5 @@
 
 11. в какой контроллер AdminRestaurantController или AdminVoteController метод для просмотра всех
     голосов за ресторан за определенную дату? или удалить
+
+12. базовый класс ProfileVoteTest и 2 наследника с разными ContextConfiguration для разного времени

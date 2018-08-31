@@ -29,23 +29,6 @@ public class AdminVoteControllerTest extends AbstractControllerTest {
     private VoteService service;
 
     private static final String URL = AdminVoteController.URL + '/';
-    @Test
-    public void testDelete() throws Exception {
-        mockMvc.perform(delete(URL + VOTE_1_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        assertMatch(service.getAll(), VOTE_2, VOTE_3);
-    }
-
-//    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        mockMvc.perform(delete(URL + 1)
-//                .with(userHttpBasic(ADMIN)))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andDo(print());
-//    }
-
 
     @Test
     public void testGet() throws Exception {
@@ -64,18 +47,14 @@ public class AdminVoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    @Test
-    public void getAll() throws Exception{
-        TestUtil.print(mockMvc.perform(get(URL)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonArray(asTo(VOTE_1), asTo(VOTE_2), asTo(VOTE_3))));
-    }
-
-//    @Test
-//    public void getAllForDateByRestaurantId() {
-//    }
+    ////    @Test
+////    public void testGetNotFound() throws Exception {
+////        mockMvc.perform(get(URL + 1)
+////                .with(userHttpBasic(ADMIN)))
+////                //.andExpect(status().isUnprocessableEntity())
+////                .andExpect(status().isNotFound())
+////                .andDo(print());
+////    }
 
     @Test
     public void getTodayVotes() throws Exception{
@@ -85,4 +64,31 @@ public class AdminVoteControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonArray(asTo(VOTE_3))));
     }
+
+    @Test
+    public void getAll() throws Exception{
+        TestUtil.print(mockMvc.perform(get(URL)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJsonArray(asTo(VOTE_1), asTo(VOTE_2), asTo(VOTE_3))));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(URL + VOTE_1_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        assertMatch(service.getAll(), VOTE_2, VOTE_3);
+    }
+
+//    @Test
+//    public void testDeleteNotFound() throws Exception {
+//        mockMvc.perform(delete(URL + 1)
+//                .with(userHttpBasic(ADMIN)))
+//                .andExpect(status().isUnprocessableEntity())
+//                .andDo(print());
+//    }
+
 }

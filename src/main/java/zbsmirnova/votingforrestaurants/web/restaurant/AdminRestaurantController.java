@@ -39,16 +39,23 @@ public class AdminRestaurantController {
         this.service = service;
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RestaurantTo get(@PathVariable("id") int id){
+        log.info("get restaurant {} ", id);
+        return asTo(service.get(id));}
+
     @GetMapping
     public List<RestaurantTo> getAll(){
         log.info("get all restaurants");
         return asTo(service.getAll());
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RestaurantTo get(@PathVariable("id") int id){
-        log.info("get restaurant {} ", id);
-        return asTo(service.get(id));}
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") int id) {
+        log.info("delete restaurant {}", id);
+        service.delete(id);
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> create(@Validated(Default.class) @RequestBody RestaurantTo restaurantTo) {
@@ -71,13 +78,6 @@ public class AdminRestaurantController {
         updateFromTo(restaurant, restaurantTo);
         log.info("update {} with id={}", restaurant, id);
         service.save(restaurant);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id) {
-        log.info("delete restaurant {}", id);
-        service.delete(id);
     }
 
 //    @GetMapping(value = "/admin/restaurants/{restaurantId}/votes/")

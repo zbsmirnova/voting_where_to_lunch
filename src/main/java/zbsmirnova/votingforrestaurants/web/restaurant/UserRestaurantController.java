@@ -30,14 +30,14 @@ public class UserRestaurantController {
         this.service = service;
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RestaurantTo get(@PathVariable("id") int id){
+        log.info("get restaurant {} ", id);
+        return asTo(service.get(id));}
+
     @GetMapping
     public List<RestaurantTo> getAll(){
         log.info("get all restaurants");
         return asTo(service.getAll());
     }
-
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RestaurantTo get(@PathVariable("id") int id){
-        log.info("get restaurant {} ", id);
-        return asTo(service.get(id));}
 }

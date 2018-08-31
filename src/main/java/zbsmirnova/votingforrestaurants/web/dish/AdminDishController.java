@@ -29,21 +29,26 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 public class AdminDishController {
     private static final Logger log = LoggerFactory.getLogger(ProfileMenuController.class);
 
-    @Autowired
-    DishService service;
-
     static final String URL = "/admin/restaurants/{restaurantId}/menus/{menuId}/dishes";
+
+    private final DishService service;
+
+    @Autowired
+    public AdminDishController(DishService service) {
+        this.service = service;
+    }
+
+
+    @GetMapping(value = "/{dishId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public DishTo get(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId,
+                      @PathVariable("dishId") int dishId){
+        log.info("get dish {} for menu {} for restaurant {} ", dishId, menuId, restaurantId);
+        return asTo(service.get(dishId));}
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DishTo> getAll(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId){
         log.info("get all dishes {} for menu {} for restaurant {} ", menuId, restaurantId);
         return asTo(service.getAll(menuId));}
-
-    @GetMapping(value = "/{dishId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DishTo get(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId,
-                    @PathVariable("dishId") int dishId){
-        log.info("get dish {} for menu {} for restaurant {} ", dishId, menuId, restaurantId);
-        return asTo(service.get(dishId));}
 
     @DeleteMapping(value = "/{dishId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -54,7 +59,8 @@ public class AdminDishController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> create(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId,
+    public ResponseEntity<Dish> create(@PathVariable("restaurantId") int restaurantId,
+                                       @PathVariable("menuId") int menuId,
                                        @Validated(Default.class) @RequestBody DishTo dishTo) {
 
         Dish dish = createNewFromTo(dishTo);
@@ -62,8 +68,8 @@ public class AdminDishController {
 
         log.info("create dish {} for menu {} for restaurant {}", dish, menuId, restaurantId);
 
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(URL + "/{dishId}")
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{dishId}")
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);

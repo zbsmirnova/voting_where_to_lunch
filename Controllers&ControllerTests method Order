@@ -1,0 +1,25 @@
+Controllers:
+    -get : get, specialGet single, getAll, specialGetAll
+    -delete
+    -create
+    -update
+
+ControllerTests:
+    testGet
+    testGetUnauth
+    testGetNotFound
+    testspecialGet
+    testGetAll
+    testSpecialGetAll
+    ????testGetForbidden????? есть в AdminControllerTest
+
+    testDelete
+    testDeleteNotFound
+
+    testCreate
+    testCreateInvalid
+    testCreateDuplicate
+
+    testUpdate
+    testUpdateInvalid
+    testUpdateDuplicate

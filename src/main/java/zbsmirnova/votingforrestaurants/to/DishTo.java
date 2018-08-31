@@ -14,13 +14,17 @@ public class DishTo extends BaseTo implements Serializable {
     @NotNull
     int price;
 
+    @NotNull
+    int menuId;
+
     public DishTo() {
     }
 
-    public DishTo(Integer id, @NotBlank @Size(min = 2, max = 100) String name, @NotNull int price) {
+    public DishTo(Integer id, String name, int price, int menuId) {
         super(id);
         this.name = name;
         this.price = price;
+        this.menuId = menuId;
     }
 
     public String getName() {
@@ -37,5 +41,13 @@ public class DishTo extends BaseTo implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
     }
 }

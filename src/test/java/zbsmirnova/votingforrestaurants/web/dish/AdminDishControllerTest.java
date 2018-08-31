@@ -1,50 +1,52 @@
-package zbsmirnova.votingforrestaurants.web.vote;
+package zbsmirnova.votingforrestaurants.web.dish;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import zbsmirnova.votingforrestaurants.TestUtil;
-import zbsmirnova.votingforrestaurants.model.Vote;
-import zbsmirnova.votingforrestaurants.service.VoteService;
+import zbsmirnova.votingforrestaurants.model.Dish;
+import zbsmirnova.votingforrestaurants.service.DishService;
+import zbsmirnova.votingforrestaurants.to.DishTo;
 import zbsmirnova.votingforrestaurants.web.AbstractControllerTest;
-
+import zbsmirnova.votingforrestaurants.web.json.JsonUtil;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static zbsmirnova.votingforrestaurants.TestUtil.userHttpBasic;
-import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.MCDONALDS;
-import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.MCDONALDS_ID;
-import static zbsmirnova.votingforrestaurants.testData.UserTestData.*;
-import static zbsmirnova.votingforrestaurants.testData.VoteTestData.*;
-import static zbsmirnova.votingforrestaurants.util.VoteUtil.asTo;
-import static zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController.GET_URL;
+import static zbsmirnova.votingforrestaurants.testData.DishTestData.*;
+import static zbsmirnova.votingforrestaurants.testData.MenuTestData.*;
+import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.BUSHE_ID;
+import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.KETCHUP_ID;
+import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.KFC_ID;
+import static zbsmirnova.votingforrestaurants.testData.UserTestData.ADMIN;
+import static zbsmirnova.votingforrestaurants.util.DishUtil.asTo;
+import static zbsmirnova.votingforrestaurants.util.DishUtil.createNewFromTo;
 
-
-public class ProfileVoteControllerTest extends AbstractControllerTest {
-    private static final String POST_URL = ProfileVoteController.POST_URL + '/';
+public class AdminDishControllerTest extends AbstractControllerTest {
+    private static final String URL = AdminDishController.URL + '/';
 
     @Autowired
-    VoteService service;
+    DishService service;
 
     @Test
     public void testGet() throws Exception{
-        TestUtil.print(
-                mockMvc.perform(get(GET_URL)
-                        .with(userHttpBasic(USER2)))
-                        .andExpect(status().isOk())
-                        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                        .andExpect(contentJson(asTo(VOTE_3)))
-        );
+        mockMvc.perform(get(URL + COFFEE_ID, BUSHE_ID, BUSHE_EXPIRED_MENU_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(asTo(COFFEE)));
     }
 
     @Test
     public void testGetUnauth() throws Exception {
-        mockMvc.perform(get(GET_URL))
+        mockMvc.perform(get(URL + CHICKEN_ID, KFC_ID, KFC_EXPIRED_MENU_ID))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -58,24 +60,53 @@ public class ProfileVoteControllerTest extends AbstractControllerTest {
 ////    }
 
     @Test
-    public void testCreate() throws Exception{
-        ResultActions action = mockMvc.perform(post(POST_URL,  MCDONALDS_ID)
+    public void testGetAll() throws Exception{
+        TestUtil.print(mockMvc.perform(get(URL, KETCHUP_ID, KETCHUP_EXPIRED_MENU_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(asTo(KETCHUPBURGER), asTo(SALAD), asTo(WATER))));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(URL + CHICKEN_ID, KFC_ID, KFC_EXPIRED_MENU_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        assertMatch(service.getAll(KFC_EXPIRED_MENU_ID), FRIES, COLA);
+    }
+
+//    @Test
+//    public void testDeleteNotFound() throws Exception {
+//        mockMvc.perform(delete(URL + 1)
+//                .with(userHttpBasic(ADMIN)))
+//                .andExpect(status().isUnprocessableEntity())
+//                .andDo(print());
+//    }
+
+    @Test
+    public void testCreate() throws Exception {
+        DishTo createdTo = new DishTo();
+        createdTo.setName("newDish");
+        createdTo.setPrice(12000);
+        //createdTo.setMenuId(BUSHE_ACTUAL_MENU_ID);
+
+        ResultActions action = mockMvc.perform(post(URL, BUSHE_ID, BUSHE_ACTUAL_MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER1))
-                .param("restaurantId", String.valueOf(MCDONALDS_ID)))
-                //.content(JsonUtil.writeValue(createdTo)))
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(createdTo)))
                 .andExpect(status().isCreated());
 
-        Vote returned = TestUtil.readFromJson(action, Vote.class);
-        Vote created = new Vote(LocalDate.now(), USER1, MCDONALDS);
+        Dish returned = TestUtil.readFromJson(action, Dish.class);
+        Dish created = createNewFromTo(createdTo);
         created.setId(returned.getId());
 
         assertMatch(returned, created);
-        assertMatch(service.getTodayByUserId(USER1_ID), created);
-
+        assertMatch(service.getAll(BUSHE_ACTUAL_MENU_ID), CAKE_SPECIAL, created);
     }
 
-    //    @Test
+//    @Test
 //    public void testCreateInvalid() throws Exception {
 //        Restaurant created = new Restaurant(null);
 //        ResultActions action = mockMvc.perform(post(URL)
@@ -101,23 +132,23 @@ public class ProfileVoteControllerTest extends AbstractControllerTest {
 ////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_DATETIME));
 //    }
 
-
-    //Doesn't work after 11.00 am
     @Test
     public void testUpdate() throws Exception {
-        mockMvc.perform(post(POST_URL,  MCDONALDS_ID)
+        DishTo createdTo = new DishTo();
+        createdTo.setName("updatedDish");
+        createdTo.setPrice(12000);
+        mockMvc.perform(put(URL + CAKE_ID, BUSHE_ID, BUSHE_EXPIRED_MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER2))
-                .param("restaurantId", String.valueOf(MCDONALDS_ID)))
-                //.content(JsonUtil.writeValue(createdTo)))
-                .andExpect(status().isCreated());
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(createdTo)))
+                .andExpect(status().isOk());
 
-        Vote updated = new Vote(VOTE_3);
-        updated.setRestaurant(MCDONALDS);
-        assertMatch(service.getTodayByUserId(USER2_ID), updated);
+        Dish updated = createNewFromTo(createdTo);
+        updated.setId(CAKE_ID);
+        assertMatch(service.get(CAKE_ID), updated);
     }
 
-    //    @Test
+//    @Test
 //    public void testUpdateInvalid() throws Exception {
 //        Restaurant updated = new Restaurant();
 //        updated.setName("");

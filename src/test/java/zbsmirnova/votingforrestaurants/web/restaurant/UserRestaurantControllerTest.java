@@ -18,11 +18,6 @@ import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.asTo;
 public class UserRestaurantControllerTest extends AbstractControllerTest {
 
     private static final String URL = UserRestaurantController.URL + '/';
-    @Test
-    public void testGetUnauth() throws Exception {
-        mockMvc.perform(get(URL + KFC_ID))
-                .andExpect(status().isUnauthorized());
-    }
 
     @Test
     public void testGet() throws Exception {
@@ -33,6 +28,12 @@ public class UserRestaurantControllerTest extends AbstractControllerTest {
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(asTo(KFC)));
+    }
+
+    @Test
+    public void testGetUnauth() throws Exception {
+        mockMvc.perform(get(URL + KFC_ID))
+                .andExpect(status().isUnauthorized());
     }
 
 //    @Test

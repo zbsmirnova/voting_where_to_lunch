@@ -33,6 +33,53 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     MenuService service;
 
     @Test
+    public void testGet() throws Exception {
+        mockMvc.perform(get(URL + "{menuId}", BUSHE_ID, BUSHE_ACTUAL_MENU_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                // https://jira.spring.io/browse/SPR-14472
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(asTo(BUSHE_ACTUAL_MENU)));
+    }
+
+    @Test
+    public void testGetUnauth() throws Exception {
+        mockMvc.perform(get(URL + "{menuId}", BUSHE_ID, BUSHE_ACTUAL_MENU_ID))
+                .andExpect(status().isUnauthorized());
+    }
+
+    ////    @Test
+////    public void testGetNotFound() throws Exception {
+////        mockMvc.perform(get(URL + 1)
+////                .with(userHttpBasic(ADMIN)))
+////                //.andExpect(status().isUnprocessableEntity())
+////                .andExpect(status().isNotFound())
+////                .andDo(print());
+////    }
+
+    @Test
+    public void testGetToday() throws Exception {
+        mockMvc.perform(get(URL + "today", BUSHE_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                // https://jira.spring.io/browse/SPR-14472
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(asTo(BUSHE_ACTUAL_MENU)));
+    }
+
+    @Test
+    public void testGetAll() throws Exception {
+        TestUtil.print(mockMvc.perform(get(URL,  BUSHE_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(asTo(BUSHE_EXPIRED_MENU), asTo(BUSHE_ACTUAL_MENU))));
+    }
+
+
+    @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(URL + "{menuId}", KFC_ID, KFC_EXPIRED_MENU_ID)
                 .with(userHttpBasic(ADMIN)))
@@ -48,46 +95,6 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
 //                .andExpect(status().isUnprocessableEntity())
 //                .andDo(print());
 //    }
-
-    @Test
-    public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(URL,  BUSHE_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(asTo(BUSHE_EXPIRED_MENU), asTo(BUSHE_ACTUAL_MENU))));
-    }
-
-    @Test
-    public void testGet() throws Exception {
-        mockMvc.perform(get(URL + "{menuId}", BUSHE_ID, BUSHE_ACTUAL_MENU_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(asTo(BUSHE_ACTUAL_MENU)));
-    }
-
-    @Test
-    public void testGetToday() throws Exception {
-        mockMvc.perform(get(URL + "today", BUSHE_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(asTo(BUSHE_ACTUAL_MENU)));
-    }
-
-////    @Test
-////    public void testGetNotFound() throws Exception {
-////        mockMvc.perform(get(URL + 1)
-////                .with(userHttpBasic(ADMIN)))
-////                //.andExpect(status().isUnprocessableEntity())
-////                .andExpect(status().isNotFound())
-////                .andDo(print());
-////    }
 
     @Test
     public void testCreate() throws Exception {

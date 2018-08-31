@@ -19,7 +19,7 @@ public class DishUtil {
     }
 
     public static DishTo asTo(Dish dish) {
-        return new DishTo(dish.getId(), dish.getName(), dish.getPrice());
+        return new DishTo(dish.getId(), dish.getName(), dish.getPrice(), dish.getMenu().getId());
     }
     public static List<DishTo> asTo(List<Dish> dishes){
         return dishes.stream().map(DishUtil::asTo).collect(toList());

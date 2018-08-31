@@ -25,12 +25,11 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(RootController.REST_URL)
 public class RootController {
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     static final String REST_URL = "/rest";
 
     private final UserService service;
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
     public RootController(UserService service) {
         this.service = service;

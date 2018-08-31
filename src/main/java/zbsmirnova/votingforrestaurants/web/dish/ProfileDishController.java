@@ -34,7 +34,7 @@ public class ProfileDishController {
         return asTo(service.get(dishId));}
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<DishTo> getAllForMenu(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId){
+    public List<DishTo> getAll(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId){
         log.info("get all dishes {} for menu {} for restaurant {} ", menuId, restaurantId);
         return asTo(service.getAll(menuId));}
 }

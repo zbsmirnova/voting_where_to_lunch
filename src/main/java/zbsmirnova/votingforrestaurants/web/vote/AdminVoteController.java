@@ -30,13 +30,6 @@ public class AdminVoteController {
         this.service = service;
     }
 
-    @DeleteMapping(value = "/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id) {
-        log.info("delete vote {}", id);
-        service.delete(id);
-    }
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public VoteTo get(@PathVariable("id") int id) {
         log.info("get vote id={}", id);
@@ -49,6 +42,20 @@ public class AdminVoteController {
         return asTo(service.getAll());
     }
 
+    @GetMapping(value = "/todayVotes", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<VoteTo> getTodayVotes() {
+        log.info("get today votes");
+        List<Vote> votes = service.getTodayVotes();
+        return asTo(service.getTodayVotes());
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") int id) {
+        log.info("delete vote {}", id);
+        service.delete(id);
+    }
+
 //    @GetMapping(value = "/admin/restaurants/{restaurantId}/votes/")
 //    public List<VoteTo> getAllForDateByRestaurantId(@PathVariable("restaurantId") int restaurantId,
 //                                                    @RequestParam(value = "date", required = false) LocalDate date){
@@ -56,10 +63,4 @@ public class AdminVoteController {
 //        return asTo(service.getAll(restaurantId, date));
 //    }
 
-    @GetMapping(value = "/todayVotes", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VoteTo> getTodayVotes() {
-        log.info("get today votes");
-        List<Vote> votes = service.getTodayVotes();
-        return asTo(service.getTodayVotes());
-    }
 }

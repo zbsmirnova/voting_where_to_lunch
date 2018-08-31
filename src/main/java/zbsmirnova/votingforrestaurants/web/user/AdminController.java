@@ -51,6 +51,14 @@ public class AdminController {
         log.info("get all users");
         return asTo(service.getAll());}
 
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") int id) {
+        log.info("delete user {}", id);
+        service.delete(id);
+    }
+
+        //creates only user(ROLE.USER)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createUser(@Validated(Default.class) @RequestBody UserTo userTo) {
         User user = UserUtil.createNewFromTo(userTo);
@@ -70,15 +78,8 @@ public class AdminController {
     public void update(@Validated(Default.class)@RequestBody UserTo userTo, @PathVariable("id") int id) {
 
         log.info("update {} with id={}", userTo, id);
-        assureIdConsistent(userTo, id); // ???? OK???
+        assureIdConsistent(userTo, id);
         service.update(userTo, id);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id) {
-        log.info("delete user {}", id);
-        service.delete(id);
     }
 
 }

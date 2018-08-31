@@ -30,10 +30,30 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     private static final String URL = AdminRestaurantController.URL + '/';
 
     @Test
+    public void testGet() throws Exception {
+        mockMvc.perform(get(URL + KFC_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                // https://jira.spring.io/browse/SPR-14472
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(asTo(KFC)));
+    }
+
+    @Test
     public void testGetUnauth() throws Exception {
         mockMvc.perform(get(URL + KFC_ID))
                 .andExpect(status().isUnauthorized());
     }
+
+    //    @Test
+//    public void testGetNotFound() throws Exception {
+//        mockMvc.perform(get(URL + 1)
+//                .with(userHttpBasic(ADMIN)))
+//                //.andExpect(status().isUnprocessableEntity())
+//                .andExpect(status().isNotFound())
+//                .andDo(print());
+//    }
 
     @Test
     public void testGetAll() throws Exception {
@@ -45,22 +65,19 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testGet() throws Exception {
-        mockMvc.perform(get(URL + KFC_ID)
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(URL + KFC_ID)
                 .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
                 .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(asTo(KFC)));
+                .andExpect(status().isNoContent());
+        assertMatch(service.getAll(), BUSHE, KETCHUP, MCDONALDS);
     }
 
-//    @Test
-//    public void testGetNotFound() throws Exception {
-//        mockMvc.perform(get(URL + 1)
+    //    @Test
+//    public void testDeleteNotFound() throws Exception {
+//        mockMvc.perform(delete(URL + 1)
 //                .with(userHttpBasic(ADMIN)))
-//                //.andExpect(status().isUnprocessableEntity())
-//                .andExpect(status().isNotFound())
+//                .andExpect(status().isUnprocessableEntity())
 //                .andDo(print());
 //    }
 
@@ -150,23 +167,6 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 //                .andExpect(status().isConflict())
 ////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
 //////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_EMAIL))
-//                .andDo(print());
-//    }
-
-    @Test
-    public void testDelete() throws Exception {
-        mockMvc.perform(delete(URL + KFC_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        assertMatch(service.getAll(), BUSHE, KETCHUP, MCDONALDS);
-    }
-
-//    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        mockMvc.perform(delete(URL + 1)
-//                .with(userHttpBasic(ADMIN)))
-//                .andExpect(status().isUnprocessableEntity())
 //                .andDo(print());
 //    }
 }

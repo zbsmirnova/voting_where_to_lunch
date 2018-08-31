@@ -81,4 +81,8 @@ public class DishTestData {
     public static ResultMatcher contentJson(DishTo expected) {
         return content().json(writeValue(expected));
     }
+
+    public static ResultMatcher contentJson(DishTo ... expected) {
+        return content().json(writeValue(Arrays.asList(expected)));
+    }
 }

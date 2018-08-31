@@ -42,6 +42,15 @@ public class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
+    ////    @Test
+////    public void testGetNotFound() throws Exception {
+////        mockMvc.perform(get(URL + 1)
+////                .with(userHttpBasic(ADMIN)))
+////                //.andExpect(status().isUnprocessableEntity())
+////                .andExpect(status().isNotFound())
+////                .andDo(print());
+////    }
+
     @Test
     public void testDelete() throws Exception{
         mockMvc.perform(delete(PROFILE_URL)
@@ -49,6 +58,14 @@ public class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         assertMatch(userService.getAll(), ADMIN, USER2);
     }
+
+    //    @Test
+//    public void testDeleteNotFound() throws Exception {
+//        mockMvc.perform(delete(URL + 1)
+//                .with(userHttpBasic(ADMIN)))
+//                .andExpect(status().isUnprocessableEntity())
+//                .andDo(print());
+//    }
 
     @Test
     public void testUpdate() throws Exception {

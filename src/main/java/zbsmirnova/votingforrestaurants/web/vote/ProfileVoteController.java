@@ -27,11 +27,11 @@ import static zbsmirnova.votingforrestaurants.util.VoteUtil.*;
 public class ProfileVoteController {
     private static final Logger log = LoggerFactory.getLogger(ProfileVoteController.class);
 
-    static final String URL = "/profile/restaurants/{restaurantId}/votes";
+    static final String POST_URL = "/profile/restaurants/{restaurantId}/votes";
 
     static final String GET_URL = "/profile/votes/";
 
-    Clock clock;
+    private Clock clock;
 
     private final VoteService service;
 
@@ -42,7 +42,13 @@ public class ProfileVoteController {
         this.clock = clock;
     }
 
-    @PostMapping(value = URL, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = GET_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+    public VoteTo get(@AuthenticationPrincipal AuthorizedUser authorizedUser){
+        log.info("get today vote by user {}", authorizedUser.getId());
+        return asTo(checkNotFoundWithUserId(service.getTodayByUserId(authorizedUser.getId()), authorizedUser.getId()));
+    }
+
+    @PostMapping(value = POST_URL, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createOrUpdate(@RequestParam("restaurantId") int restaurantId, @AuthenticationPrincipal AuthorizedUser authorizedUser){
         Vote vote = service.getTodayByUserId(authorizedUser.getId());
         //create
@@ -65,11 +71,7 @@ public class ProfileVoteController {
         }
     }
 
-    @GetMapping(value = GET_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-    public VoteTo get(@AuthenticationPrincipal AuthorizedUser authorizedUser){
-        log.info("get today vote by user {}", authorizedUser.getId());
-        return asTo(checkNotFoundWithUserId(service.getTodayByUserId(authorizedUser.getId()), authorizedUser.getId()));
-    }
+
 //    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity<Vote> createWithLocation(@RequestParam("restaurantId") int restaurantId) {
 //

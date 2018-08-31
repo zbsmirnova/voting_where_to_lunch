@@ -16,11 +16,11 @@ import static zbsmirnova.votingforrestaurants.testData.UserTestData.USER1;
 import static zbsmirnova.votingforrestaurants.util.MenuUtil.asTo;
 
 public class ProfileMenuControllerTest extends AbstractControllerTest {
-    private static final String URL = ProfileMenuController.URL;
+    private static final String URL = ProfileMenuController.URL + "/";
 
     @Test
     public void getTodayMenu() throws Exception{
-        mockMvc.perform(get("/profile/restaurants/"+ KFC_ID + "/menus")
+        mockMvc.perform(get(URL, KFC_ID)
                 .with(userHttpBasic(USER1))
                 .param("restaurantId", String.valueOf(KFC_ID)))
                 .andExpect(status().isOk())
@@ -29,4 +29,19 @@ public class ProfileMenuControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(asTo(KFC_ACTUAL_MENU)));
     }
+
+    @Test
+    public void testGetUnauth() throws Exception {
+        mockMvc.perform(get(URL, KFC_ID ))
+                .andExpect(status().isUnauthorized());
+    }
+
+    ////    @Test
+////    public void testGetNotFound() throws Exception {
+////        mockMvc.perform(get(URL + 1)
+////                .with(userHttpBasic(ADMIN)))
+////                //.andExpect(status().isUnprocessableEntity())
+////                .andExpect(status().isNotFound())
+////                .andDo(print());
+////    }
 }

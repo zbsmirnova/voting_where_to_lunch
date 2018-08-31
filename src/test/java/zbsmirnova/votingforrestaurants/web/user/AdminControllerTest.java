@@ -69,6 +69,23 @@ public class AdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(URL + USER1_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        assertMatch(userService.getAll(), ADMIN, USER2);
+    }
+
+//    @Test
+//    public void testDeleteNotFound() throws Exception {
+//        mockMvc.perform(delete(URL + 1)
+//                .with(userHttpBasic(ADMIN)))
+//                .andExpect(status().isUnprocessableEntity())
+//                .andDo(print());
+//    }
+
+    @Test
     public void testCreateUser() throws Exception {
         //не работает для создания админа
         //User expected = new User(null, "New", "new@gmail.com", "newPass",   Role.ROLE_ADMIN);
@@ -96,6 +113,20 @@ public class AdminControllerTest extends AbstractControllerTest {
 //                .andExpect(status().isUnprocessableEntity())
 ////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
 //                .andDo(print());
+//    }
+
+    //    @Test
+//    @Transactional(propagation = Propagation.NEVER)
+//    public void testCreateDuplicate() throws Exception {
+//        Restaurant invalid = new Restaurant("kfc");
+//        mockMvc.perform(post(URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.writeValue(invalid))
+//                .with(userHttpBasic(ADMIN)))
+//                .andDo(print())
+//                .andExpect(status().isConflict());
+////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
+////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_DATETIME));
 //    }
 
     @Test
@@ -142,37 +173,4 @@ public class AdminControllerTest extends AbstractControllerTest {
 //////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_EMAIL))
 //                .andDo(print());
 //    }
-
-//    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    public void testCreateDuplicate() throws Exception {
-//        User expected = new User(null, "New", "user@yandex.ru", "newPass", Role.ROLE_ADMIN);
-//        mockMvc.perform(post(URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-//                .content(jsonWithPassword(expected, "newPass")))
-//                .andExpect(status().isConflict());
-////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_EMAIL));
-//
-//    }
-
-    @Test
-    public void testDelete() throws Exception {
-        mockMvc.perform(delete(URL + USER1_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        assertMatch(userService.getAll(), ADMIN, USER2);
-    }
-
-//    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        mockMvc.perform(delete(URL + 1)
-//                .with(userHttpBasic(ADMIN)))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andDo(print());
-//    }
-
-
 }
