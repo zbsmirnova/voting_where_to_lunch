@@ -12,7 +12,6 @@ import zbsmirnova.votingforrestaurants.AuthorizedUser;
 import zbsmirnova.votingforrestaurants.model.Vote;
 import zbsmirnova.votingforrestaurants.service.VoteService;
 import zbsmirnova.votingforrestaurants.to.VoteTo;
-import zbsmirnova.votingforrestaurants.web.user.AdminController;
 
 
 import java.net.URI;
@@ -29,16 +28,15 @@ public class ProfileVoteController {
 
     static final String POST_URL = "/profile/restaurants/{restaurantId}/votes";
 
-    static final String GET_URL = "/profile/votes/";
+    static final String GET_URL = "/profile/votes";
 
     private Clock clock;
 
-    private final VoteService service;
-
+    @Autowired
+    private VoteService service;
 
     @Autowired
-    public ProfileVoteController(VoteService service, Clock clock) {
-        this.service = service;
+    public ProfileVoteController(Clock clock) {
         this.clock = clock;
     }
 
@@ -65,9 +63,10 @@ public class ProfileVoteController {
         //update
         else{
             log.info("update vote {} for restaurant {} by user {}", vote.getId(), restaurantId, authorizedUser.getId());
-            checkVotingTime(LocalTime.now(clock));
+            LocalTime voteTime = LocalTime.now(clock);
+            checkVotingTime(voteTime);
             service.save(vote, authorizedUser.getId(), restaurantId);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         }
     }
 

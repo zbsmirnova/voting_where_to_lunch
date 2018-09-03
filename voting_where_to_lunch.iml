@@ -3,10 +3,15 @@
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration>
-        <fileset id="fileset" name="Spring Application Context " removed="false">
+        <fileset id="web application context" name="MVC application context" removed="true" profiles="systemTime">
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring.xml</file>
+        </fileset>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/spring/spring.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/spring/spring-mvc.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-db.xml</file>
         </fileset>
+        <fileset id="web application context" profiles="systemTime" autodetected="true" />
       </configuration>
     </facet>
     <facet type="web" name="Web">

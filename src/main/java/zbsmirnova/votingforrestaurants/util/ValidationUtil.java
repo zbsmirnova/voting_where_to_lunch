@@ -66,7 +66,7 @@ public class ValidationUtil {
 
     public static void checkVotingTime(LocalTime voteTime){
         if(voteTime.isAfter(STOP_VOTING_TIME)){
-            throw new InvalidVoteTimeException("it`s too late to vote, try tomorrow before 11:00 a.m.");
+            throw new InvalidVoteTimeException("it`s too late to vote, " + voteTime + ", try tomorrow before 11:00 a.m.");
         }
     }
 }

@@ -42,6 +42,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Vote getTodayByUserId(int userId) throws NotFoundException {
+        Vote vote = voteRepository.findByUserIdAndVoteDate(userId, LocalDate.now()).orElse(null);
         return voteRepository.findByUserIdAndVoteDate(userId, LocalDate.now()).orElse(null);
     }
 

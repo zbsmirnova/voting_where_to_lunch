@@ -4,10 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--Clock bean for runtime-->
-    <bean id="systemClock" class="java.time.Clock" factory-method="systemUTC" />
+    <bean id="systemClock" class="java.time.Clock" factory-method="systemDefaultZone" />
 
     <bean id="profileVoteController" class="zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController">
         <constructor-arg type="java.time.Clock" ref="systemClock"/>
     </bean>
-
 </beans>
