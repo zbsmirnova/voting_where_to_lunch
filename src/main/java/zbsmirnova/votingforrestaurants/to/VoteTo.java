@@ -14,22 +14,35 @@ public class VoteTo extends BaseTo implements Serializable{
     @NotNull
     LocalDate voteDate;
 
-    @NotBlank
-    @Size(min = 2, max = 100)
-    String userName;
+//    @NotBlank
+//    @Size(min = 2, max = 100)
+//    String userName;
+//
+//    @NotBlank
+//    @Size(min = 2, max = 100)
+//    String restaurantName;
 
-    @NotBlank
-    @Size(min = 2, max = 100)
-    String restaurantName;
+    @NotNull
+    int userId;
+
+    @NotNull
+    int restaurantId;
 
     public VoteTo(){};
 
-    public VoteTo(Integer id, LocalDate voteDate, String userName, String restaurantName) {
+    public VoteTo(Integer id, LocalDate voteDate, int userId, int restaurantId) {
         super(id);
         this.voteDate = voteDate;
-        this.userName = userName;
-        this.restaurantName = restaurantName;
+        this.userId = userId;
+        this.restaurantId = restaurantId;
     }
+
+//    public VoteTo(Integer id, LocalDate voteDate, String userName, String restaurantName) {
+//        super(id);
+//        this.voteDate = voteDate;
+//        this.userName = userName;
+//        this.restaurantName = restaurantName;
+//    }
 
     public LocalDate getVoteDate() {
         return voteDate;
@@ -39,19 +52,35 @@ public class VoteTo extends BaseTo implements Serializable{
         this.voteDate = voteDate;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getRestaurantName() {
-        return restaurantName;
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
     }
+
+    //    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName;
+//    }
+//
+//    public String getRestaurantName() {
+//        return restaurantName;
+//    }
+//
+//    public void setRestaurantName(String restaurantName) {
+//        this.restaurantName = restaurantName;
+//    }
 }

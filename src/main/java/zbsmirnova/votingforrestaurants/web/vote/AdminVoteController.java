@@ -6,12 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import zbsmirnova.votingforrestaurants.model.Vote;
 import zbsmirnova.votingforrestaurants.service.VoteService;
 import zbsmirnova.votingforrestaurants.to.VoteTo;
 
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static zbsmirnova.votingforrestaurants.util.VoteUtil.asTo;
@@ -45,7 +43,6 @@ public class AdminVoteController {
     @GetMapping(value = "/todayVotes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VoteTo> getTodayVotes() {
         log.info("get today votes");
-        List<Vote> votes = service.getTodayVotes();
         return asTo(service.getTodayVotes());
     }
 

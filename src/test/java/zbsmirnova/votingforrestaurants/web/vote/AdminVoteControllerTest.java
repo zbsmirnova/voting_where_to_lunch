@@ -3,15 +3,10 @@ package zbsmirnova.votingforrestaurants.web.vote;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 import zbsmirnova.votingforrestaurants.TestUtil;
-import zbsmirnova.votingforrestaurants.model.Vote;
 import zbsmirnova.votingforrestaurants.service.VoteService;
-import zbsmirnova.votingforrestaurants.to.VoteTo;
 import zbsmirnova.votingforrestaurants.web.AbstractControllerTest;
 
-
-import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

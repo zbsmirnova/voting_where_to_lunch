@@ -1,7 +1,5 @@
 package zbsmirnova.votingforrestaurants.util;
 
-import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
-
 import java.time.*;
 
 public class ClockUtil {
@@ -24,7 +22,4 @@ public class ClockUtil {
         return CLOCK_AFTER_STOP;
     }
 
-    public static void main(String[] args) {
-        System.out.println(LocalTime.now(Clock.systemDefaultZone()));
-    }
 }

@@ -27,3 +27,5 @@
     голосов за ресторан за определенную дату? или удалить
 
 12. базовый класс ProfileVoteTest и 2 наследника с разными ContextConfiguration для разного времени
+
+13. добавить в RestaurantTo List<Dishes> todayDishes и todayMenu???

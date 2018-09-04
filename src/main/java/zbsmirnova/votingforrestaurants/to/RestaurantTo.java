@@ -1,9 +1,5 @@
 package zbsmirnova.votingforrestaurants.to;
 
-import org.hibernate.validator.constraints.SafeHtml;
-import zbsmirnova.votingforrestaurants.model.Menu;
-import zbsmirnova.votingforrestaurants.model.Restaurant;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
