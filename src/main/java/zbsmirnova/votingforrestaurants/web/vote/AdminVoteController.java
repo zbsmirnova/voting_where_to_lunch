@@ -53,11 +53,5 @@ public class AdminVoteController {
         service.delete(id);
     }
 
-//    @GetMapping(value = "/admin/restaurants/{restaurantId}/votes/")
-//    public List<VoteTo> getAllForDateByRestaurantId(@PathVariable("restaurantId") int restaurantId,
-//                                                    @RequestParam(value = "date", required = false) LocalDate date){
-//        log.info("get all votes for restaurant {} on date {}", restaurantId, date);
-//        return asTo(service.getAll(restaurantId, date));
-//    }
 
 }
