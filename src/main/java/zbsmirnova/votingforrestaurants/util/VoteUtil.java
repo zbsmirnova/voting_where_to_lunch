@@ -14,12 +14,12 @@ public class VoteUtil {
     }
 
     public static Vote updateFromTo(Vote vote, VoteTo voteTo) {
-        vote.setVoteDate(voteTo.getVoteDate());
+        vote.setDate(voteTo.getVoteDate());
         return vote;
     }
 
     public static VoteTo asTo(Vote vote) {
-        return new VoteTo(vote.getId(), vote.getVoteDate(), vote.getUser().getId(), vote.getRestaurant().getId());
+        return new VoteTo(vote.getId(), vote.getDate(), vote.getUser().getId(), vote.getRestaurant().getId());
     }
     public static List<VoteTo> asTo(List<Vote> votes){
         return votes.stream().map(VoteUtil::asTo).collect(toList());

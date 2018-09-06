@@ -17,18 +17,21 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundW
 @Service
 public class VoteServiceImpl implements VoteService {
 
-    private final VoteRepository voteRepository;
-
-    private final RestaurantService restaurantService;
-
-    private final UserService userService;
+    @Autowired
+    private VoteRepository voteRepository;
 
     @Autowired
-    public VoteServiceImpl(VoteRepository voteRepository, RestaurantService restaurantService, UserService userService) {
-        this.voteRepository = voteRepository;
-        this.restaurantService = restaurantService;
-        this.userService = userService;
-    }
+    private RestaurantService restaurantService;
+
+    @Autowired
+    private UserService userService;
+
+//    @Autowired
+//    public VoteServiceImpl(VoteRepository voteRepository, RestaurantService restaurantService, UserService userService) {
+//        this.voteRepository = voteRepository;
+//        this.restaurantService = restaurantService;
+//        this.userService = userService;
+//    }
 
     @Override
     public void delete(int id) throws NotFoundException{
@@ -42,8 +45,8 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Vote getTodayByUserId(int userId) throws NotFoundException {
-        Vote vote = voteRepository.findByUserIdAndVoteDate(userId, LocalDate.now()).orElse(null);
-        return voteRepository.findByUserIdAndVoteDate(userId, LocalDate.now()).orElse(null);
+        Vote vote = voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElse(null);
+        return voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElse(null);
     }
 
     @Transactional
@@ -63,11 +66,11 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public List<Vote> getAll(int restaurantId, LocalDate date) {
-        return voteRepository.getAllByRestaurantIdAndVoteDate(restaurantId, date);
+        return voteRepository.getAllByRestaurantIdAndDate(restaurantId, date);
     }
 
     @Override
     public List<Vote> getTodayVotes() {
-        return voteRepository.getAllByVoteDate(LocalDate.now());
+        return voteRepository.getAllByDate(LocalDate.now());
     }
 }

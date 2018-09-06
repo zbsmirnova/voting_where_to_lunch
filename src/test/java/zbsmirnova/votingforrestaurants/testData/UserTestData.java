@@ -16,9 +16,9 @@ import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeIgnoreProps;
 
 public class UserTestData {
-    public static final int USER1_ID = START_SEQ + 28;
-    public static final int USER2_ID = START_SEQ + 29;
-    public static final int ADMIN_ID = START_SEQ + 30;
+    public static final int USER1_ID = START_SEQ + 20;
+    public static final int USER2_ID = START_SEQ + 21;
+    public static final int ADMIN_ID = START_SEQ + 22;
 
     public static final User USER1 = new User(USER1_ID, "User1", "user1@yandex.ru", "password", Role.ROLE_USER);
     public static final User USER2 = new User(USER2_ID, "User2", "user2@mail.ru", "password", Role.ROLE_USER);

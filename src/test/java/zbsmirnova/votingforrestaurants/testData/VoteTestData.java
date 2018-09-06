@@ -1,11 +1,9 @@
 package zbsmirnova.votingforrestaurants.testData;
 
 import org.springframework.test.web.servlet.ResultMatcher;
-import zbsmirnova.votingforrestaurants.model.User;
 import zbsmirnova.votingforrestaurants.model.Vote;
 import zbsmirnova.votingforrestaurants.to.VoteTo;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +17,9 @@ import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
 public class VoteTestData {
-    public static final int VOTE_1_ID = START_SEQ + 31;
-    public static final int VOTE_2_ID = START_SEQ + 32;
-    public static final int VOTE_3_ID = START_SEQ + 33;
+    public static final int VOTE_1_ID = START_SEQ + 23;
+    public static final int VOTE_2_ID = START_SEQ + 24;
+    public static final int VOTE_3_ID = START_SEQ + 25;
 
 
     public static final Vote VOTE_1 = new Vote(VOTE_1_ID, LocalDate.parse("2018-07-25"), USER1, KFC);

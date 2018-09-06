@@ -24,10 +24,10 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     Vote save(Vote vote);
 
-    List<Vote> getAllByRestaurantIdAndVoteDate(int restaurantId, LocalDate date);
+    List<Vote> getAllByRestaurantIdAndDate(int restaurantId, LocalDate date);
 
-    List<Vote> getAllByVoteDate(LocalDate date);
+    List<Vote> getAllByDate(LocalDate date);
 
-    Optional<Vote> findByUserIdAndVoteDate(int userId, LocalDate date);
+    Optional<Vote> findByUserIdAndDate(int userId, LocalDate date);
 
 }

@@ -11,25 +11,22 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.votingforrestaurants.model.Dish;
 import zbsmirnova.votingforrestaurants.service.DishService;
-import zbsmirnova.votingforrestaurants.to.DishTo;
-import zbsmirnova.votingforrestaurants.web.menu.ProfileMenuController;
 
 import javax.validation.groups.Default;
 import java.net.URI;
 import java.util.List;
 
-import static zbsmirnova.votingforrestaurants.util.DishUtil.asTo;
-import static zbsmirnova.votingforrestaurants.util.DishUtil.createNewFromTo;
-import static zbsmirnova.votingforrestaurants.util.DishUtil.updateFromTo;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.assureIdConsistent;
-import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
+
 
 @RestController
 @RequestMapping(AdminDishController.URL)
 public class AdminDishController {
-    private static final Logger log = LoggerFactory.getLogger(ProfileMenuController.class);
 
-    static final String URL = "/admin/restaurants/{restaurantId}/menus/{menuId}/dishes";
+    private final Logger log = LoggerFactory.getLogger(AdminDishController.class);
+
+
+    static final String URL = "/admin/restaurants/{restaurantId}/dishes";
 
     private final DishService service;
 
@@ -38,35 +35,40 @@ public class AdminDishController {
         this.service = service;
     }
 
-
     @GetMapping(value = "/{dishId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DishTo get(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId,
+    public Dish get(@PathVariable("restaurantId") int restaurantId,
                       @PathVariable("dishId") int dishId){
-        log.info("get dish {} for menu {} for restaurant {} ", dishId, menuId, restaurantId);
-        return asTo(service.get(dishId));}
+        log.info("get dish {} for restaurant {} ", dishId, restaurantId);
+        return service.get(dishId, restaurantId);
+        }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<DishTo> getAll(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId){
-        log.info("get all dishes {} for menu {} for restaurant {} ", menuId, restaurantId);
-        return asTo(service.getAll(menuId));}
+    public List<Dish> getAll(@PathVariable("restaurantId") int restaurantId){
+        log.info("get all dishes {} for restaurant {} ", restaurantId);
+        return service.getAll(restaurantId);
+        }
+
+    @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Dish> getAllToday(@PathVariable("restaurantId") int restaurantId){
+        log.info("get all dishes {} for restaurant {} for today", restaurantId);
+        return service.getAllToday(restaurantId);
+    }
 
     @DeleteMapping(value = "/{dishId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("restaurantId") int restaurantId, @PathVariable("menuId") int menuId,
+    public void delete(@PathVariable("restaurantId") int restaurantId,
                        @PathVariable("dishId") int dishId) {
-        log.info("delete dish{} for menu {} for restaurant {}", dishId, menuId, restaurantId);
-        service.delete(dishId);
+        log.info("delete dish{} for menu {} for restaurant {}", dishId, restaurantId);
+        service.delete(dishId, restaurantId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@PathVariable("restaurantId") int restaurantId,
-                                       @PathVariable("menuId") int menuId,
-                                       @Validated(Default.class) @RequestBody DishTo dishTo) {
+                                       @Validated(Default.class) @RequestBody Dish dish) {
 
-        Dish dish = createNewFromTo(dishTo);
-        Dish created = service.save(dish, menuId);
+        Dish created = service.save(dish, restaurantId);
 
-        log.info("create dish {} for menu {} for restaurant {}", dish, menuId, restaurantId);
+        log.info("create dish {} for restaurant {}", dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{dishId}")
@@ -76,11 +78,10 @@ public class AdminDishController {
     }
 
     @PutMapping(value = "/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Validated(Default.class) @RequestBody DishTo dishTo, @PathVariable("dishId") int dishId,
-                       @PathVariable("menuId") int menuId, @PathVariable("restaurantId") int restaurantId) {
-        Dish dish = service.get(dishId);
-        updateFromTo(dish, dishTo);
-        log.info("update dish {} with id={} for menu {} for restaurant {}", dish, dishId, menuId, restaurantId);
-        service.save(dish, menuId);
+    public void update(@Validated(Default.class) @RequestBody Dish dish, @PathVariable("dishId") int dishId,
+                       @PathVariable("restaurantId") int restaurantId) {
+        assureIdConsistent(dish, dishId);
+        log.info("update dish {} for restaurant {}", dish, restaurantId);
+        service.save(dish, restaurantId);
     }
 }

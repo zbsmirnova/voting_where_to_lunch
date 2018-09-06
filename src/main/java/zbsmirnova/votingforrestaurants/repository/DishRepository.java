@@ -8,15 +8,17 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.votingforrestaurants.model.Dish;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional(readOnly = true)
 public interface DishRepository extends JpaRepository<Dish, Integer> {
-    @Modifying
     @Transactional
-    @Query("DELETE FROM Dish d WHERE d.id=:id")
-    int delete(@Param("id") int id);
+    @Modifying
+    @Query("DELETE FROM Dish m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
+    int delete(@Param("id") int id, @Param("restaurantId") int restaurantId);
 
     @Transactional
     @Override
@@ -24,6 +26,9 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
 
     List<Dish> findAll();
 
-    List<Dish> findAllByMenuId(int menuId);
+    List<Dish> findAllByRestaurantId(int menuId);
+
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id = ?1 and d.date = ?2")
+    List<Dish> getTodayMenu(int restaurantId, LocalDate date);
 
 }

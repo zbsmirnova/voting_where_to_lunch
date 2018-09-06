@@ -17,7 +17,7 @@ import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.asTo;
 
 public class UserRestaurantControllerTest extends AbstractControllerTest {
 
-    private static final String URL = UserRestaurantController.URL + '/';
+    private static final String URL = ProfileRestaurantController.URL + '/';
 
     @Test
     public void testGet() throws Exception {

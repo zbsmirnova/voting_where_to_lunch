@@ -1,8 +1,0 @@
-1. `curl -s http://localhost:8080/admin/votes/100031 --user admin@gmail.com:admin`
-    output: {"id":100031,"voteDate":"2018-07-25","userId":100028,"restaurantId":100000}
-
-2. `curl -s http://localhost:8080/admin/votes --user admin@gmail.com:admin`
-    output:
-    [{"id":100031,"voteDate":"2018-07-25","userId":100028,"restaurantId":100000},
-    {"id":100032,"voteDate":"2018-07-25","userId":100029,"restaurantId":100003},
-    {"id":100033,"voteDate":"2018-09-04","userId":100029,"restaurantId":100002}]

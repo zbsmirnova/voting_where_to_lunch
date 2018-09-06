@@ -12,21 +12,13 @@ public class VoteTo extends BaseTo implements Serializable{
     //private static final long serialVersionUID = 1L;
 
     @NotNull
-    LocalDate voteDate;
-
-//    @NotBlank
-//    @Size(min = 2, max = 100)
-//    String userName;
-//
-//    @NotBlank
-//    @Size(min = 2, max = 100)
-//    String restaurantName;
+    private LocalDate voteDate;
 
     @NotNull
-    int userId;
+    private int userId;
 
     @NotNull
-    int restaurantId;
+    private int restaurantId;
 
     public VoteTo(){};
 
@@ -36,13 +28,6 @@ public class VoteTo extends BaseTo implements Serializable{
         this.userId = userId;
         this.restaurantId = restaurantId;
     }
-
-//    public VoteTo(Integer id, LocalDate voteDate, String userName, String restaurantName) {
-//        super(id);
-//        this.voteDate = voteDate;
-//        this.userName = userName;
-//        this.restaurantName = restaurantName;
-//    }
 
     public LocalDate getVoteDate() {
         return voteDate;
@@ -68,19 +53,13 @@ public class VoteTo extends BaseTo implements Serializable{
         this.restaurantId = restaurantId;
     }
 
-    //    public String getUserName() {
-//        return userName;
-//    }
-//
-//    public void setUserName(String userName) {
-//        this.userName = userName;
-//    }
-//
-//    public String getRestaurantName() {
-//        return restaurantName;
-//    }
-//
-//    public void setRestaurantName(String restaurantName) {
-//        this.restaurantName = restaurantName;
-//    }
+    @Override
+    public String toString() {
+        return "VoteTo{" +
+                "id = " + id +
+                ", userId =" + userId + '\'' +
+                ", restaurantId = " + restaurantId + '\'' +
+                ", date =" + voteDate + '\'' +
+                '}';
+    }
 }

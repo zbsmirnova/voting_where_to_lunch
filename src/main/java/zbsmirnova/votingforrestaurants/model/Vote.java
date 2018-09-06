@@ -8,50 +8,50 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "votes")
+@Table(name = "votes",uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_idx")})
 public class Vote extends AbstractBaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)//??? надо ли
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private User user;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)//???
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Restaurant restaurant;
 
 
-    @Column(name = "voteDate", columnDefinition = "timestamp default current_date",  nullable = false)
+    @Column(name = "date", columnDefinition = "timestamp default current_date",  nullable = false)
     @NotNull
-    private LocalDate voteDate = LocalDate.now();
+    private LocalDate date;
 
     public Vote(){}
 
     public Vote(LocalDate date){
         super(null);
-        this.voteDate = date;
+        this.date = date;
     }
 
     public Vote(int id, LocalDate date, User user, Restaurant restaurant){
         super(id);
-        this.voteDate = date;
+        this.date = date;
         this.user = user;
         this.restaurant = restaurant;
     }
 
     public Vote(LocalDate date, User user, Restaurant restaurant){
         super(null);
-        this.voteDate = date;
+        this.date = date;
         this.user = user;
         this.restaurant = restaurant;
     }
 
     public Vote(Vote vote){
-        this(vote.getId(), vote.getVoteDate(), vote.getUser(), vote.getRestaurant());
+        this(vote.getId(), vote.getDate(), vote.getUser(), vote.getRestaurant());
     }
 
     public User getUser() {
@@ -70,12 +70,12 @@ public class Vote extends AbstractBaseEntity{
         this.restaurant = restaurant;
     }
 
-    public LocalDate getVoteDate() {
-        return voteDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setVoteDate(LocalDate voteDate) {
-        this.voteDate = voteDate;
+    public void setDate(LocalDate voteDate) {
+        this.date = voteDate;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Vote extends AbstractBaseEntity{
                 "id=" + id +
                 ", user id =" + user.getId() +
                 ", restaurant id =" + restaurant.getId() +
-                ", vote date =" + voteDate +
+                ", vote date =" + date +
                 '}';
     }
 }

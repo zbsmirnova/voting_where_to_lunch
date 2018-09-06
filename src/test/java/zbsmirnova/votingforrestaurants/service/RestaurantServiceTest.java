@@ -7,11 +7,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
-import zbsmirnova.votingforrestaurants.testData.MenuTestData;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
-
-import static zbsmirnova.votingforrestaurants.testData.MenuTestData.BUSHE_ACTUAL_MENU;
-import static zbsmirnova.votingforrestaurants.testData.MenuTestData.BUSHE_EXPIRED_MENU;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.*;
 
 
@@ -67,13 +63,13 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test(expected = TransactionSystemException.class)
     public void createInvalid() {
-        Restaurant created = new Restaurant(null);
+        Restaurant created = new Restaurant(null, "");
         service.save(created);
     }
 
     @Test(expected = DataAccessException.class)
     public void createDuplicateName(){
-        service.save(new Restaurant("bushe"));
+        service.save(new Restaurant("bushe", "addressBushe"));
     }
 
     @Test

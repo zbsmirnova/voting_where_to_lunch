@@ -20,23 +20,23 @@ public class RestaurantTestData {
     public static final int BUSHE_ID = START_SEQ + 3;
 
 
-    public static final Restaurant KFC = new Restaurant(KFC_ID,"kfc");
-    public static final Restaurant MCDONALDS = new Restaurant(MCDONALDS_ID,"mcDonalds");
-    public static final Restaurant KETCHUP = new Restaurant(KETCHUP_ID,"ketchup");
-    public static final Restaurant BUSHE = new Restaurant(BUSHE_ID,"bushe");
+    public static final Restaurant KFC = new Restaurant(KFC_ID,"kfc", "addressKfc");
+    public static final Restaurant MCDONALDS = new Restaurant(MCDONALDS_ID,"mcDonalds", "addressMcDonalds");
+    public static final Restaurant KETCHUP = new Restaurant(KETCHUP_ID,"ketchup", "addressKetchup");
+    public static final Restaurant BUSHE = new Restaurant(BUSHE_ID,"bushe", "addressBushe");
 
     public static List<Restaurant> ALL_RESTAURANTS = Arrays.asList(BUSHE, KETCHUP, KFC, MCDONALDS);
 
     public static Restaurant getCreatedRestaurant(){
-        return new Restaurant("british bakeries");
+        return new Restaurant("british bakeries", "address british bakeries");
     }
 
     public static Restaurant getUpdatedRestaurant(){
-        return new Restaurant(BUSHE_ID,"bushe updated");
+        return new Restaurant(BUSHE_ID,"bushe updated", "addressBushe updated");
     }
 
     public static void assertMatch(Restaurant actual, Restaurant expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "menus", "votes");
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "dishes", "votes");
     }
 
     public static void assertMatch(Iterable<Restaurant> actual, Restaurant... expected) {
@@ -44,11 +44,11 @@ public class RestaurantTestData {
     }
 
     public static void assertMatch(Iterable<Restaurant> actual, Iterable<Restaurant> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("menus", "votes").isEqualTo(expected);
+        assertThat(actual).usingElementComparatorIgnoringFields("dishes", "votes").isEqualTo(expected);
     }
 
     public static ResultMatcher contentJson(Restaurant... expected) {
-        return content().json(writeIgnoreProps(Arrays.asList(expected), "menus", "votes"));
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "dishes", "votes"));
     }
 
 //    public static ResultMatcher contentJson(List<Restaurant> expected) {
@@ -60,7 +60,7 @@ public class RestaurantTestData {
     }
 
     public static ResultMatcher contentJson(Restaurant expected) {
-        return content().json(writeIgnoreProps(expected, "menus", "votes"));
+        return content().json(writeIgnoreProps(expected, "dishes", "votes"));
     }
 
     public static ResultMatcher contentJson(RestaurantTo expected) {
