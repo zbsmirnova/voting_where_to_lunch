@@ -12,6 +12,7 @@ import zbsmirnova.votingforrestaurants.web.json.JsonUtil;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -70,7 +71,8 @@ public class AdminDishControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(service.getAll(KFC_ID), FRIES, COLA);
+        List<Dish> dishes = service.getAll(KFC_ID);
+        assertMatch(service.getAll(KFC_ID), COLA, FRIES, CHICKEN_SPECIAL);
     }
 
 //    @Test
@@ -83,12 +85,10 @@ public class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        Dish created = new Dish();
-        created.setName("newDish");
-        created.setPrice(12000);
-        //createdTo.setMenuId(BUSHE_ACTUAL_MENU_ID);
+        Dish created = new Dish(12000, "newDish", LocalDate.now());
 
         ResultActions action = mockMvc.perform(post(URL, BUSHE_ID)
+                .param("restaurantId", String.valueOf(BUSHE_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(created)))
