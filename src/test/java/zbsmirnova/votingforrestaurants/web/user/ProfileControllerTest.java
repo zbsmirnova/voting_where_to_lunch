@@ -42,15 +42,6 @@ public class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    ////    @Test
-////    public void testGetNotFound() throws Exception {
-////        mockMvc.perform(get(URL + 1)
-////                .with(userHttpBasic(ADMIN)))
-////                //.andExpect(status().isUnprocessableEntity())
-////                .andExpect(status().isNotFound())
-////                .andDo(print());
-////    }
-
     @Test
     public void testDelete() throws Exception{
         mockMvc.perform(delete(PROFILE_URL)
@@ -58,14 +49,6 @@ public class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         assertMatch(userService.getAll(), ADMIN, USER2);
     }
-
-    //    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        mockMvc.perform(delete(URL + 1)
-//                .with(userHttpBasic(ADMIN)))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andDo(print());
-//    }
 
     @Test
     public void testUpdate() throws Exception {
@@ -80,19 +63,17 @@ public class ProfileControllerTest extends AbstractControllerTest {
         assertMatch(userService.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER1), updatedTo));
     }
 
-//    @Test
-//    public void testUpdateInvalid() throws Exception {
-//        UserTo updatedTo = new UserTo(null, null, "password@pass.ru", "1234");
-//
-//        mockMvc.perform(put(PROFILE_URL).contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(USER1))
-//                .content(JsonUtil.writeValue(updatedTo)))
-//                .andDo(print())
-//                //.andExpect(status().isUnprocessableEntity())
-//                //.andExpect(jsonPath("$.type").value("org.springframework.web.bind.MethodArgumentNotValidException"))
-//                .andExpect(jsonPath("$.error").value("MethodArgumentNotValidException"))
-//                .andDo(print());
-//    }
+    @Test
+    public void testUpdateInvalid() throws Exception {
+        UserTo updatedTo = new UserTo(null, null, "password@pass.ru", "1234");
+
+        mockMvc.perform(put(PROFILE_URL).contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(USER1))
+                .content(JsonUtil.writeValue(updatedTo)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 
 //    @Test
 //    @Transactional(propagation = Propagation.NEVER)

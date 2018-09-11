@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.votingforrestaurants.model.Dish;
 import zbsmirnova.votingforrestaurants.service.DishService;
 
+import javax.validation.Valid;
 import javax.validation.groups.Default;
 import java.net.URI;
 import java.util.List;
@@ -78,7 +79,7 @@ public class AdminDishController {
     }
 
     @PutMapping(value = "/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Validated(Default.class) @RequestBody Dish dish, @PathVariable("dishId") int dishId,
+    public void update(@Valid @RequestBody Dish dish, @PathVariable("dishId") int dishId,
                        @PathVariable("restaurantId") int restaurantId) {
         assureIdConsistent(dish, dishId);
         log.info("update dish {} for restaurant {}", dish, restaurantId);

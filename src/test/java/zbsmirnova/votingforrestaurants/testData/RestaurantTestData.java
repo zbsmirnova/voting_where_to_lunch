@@ -39,6 +39,10 @@ public class RestaurantTestData {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "dishes", "votes");
     }
 
+    public static void assertMatch(RestaurantTo actual, RestaurantTo expected) {
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "dishes", "votes");
+    }
+
     public static void assertMatch(Iterable<Restaurant> actual, Restaurant... expected) {
         assertMatch(actual, Arrays.asList(expected));
     }
@@ -64,6 +68,6 @@ public class RestaurantTestData {
     }
 
     public static ResultMatcher contentJson(RestaurantTo expected) {
-        return content().json(writeValue(expected));
+        return content().json(writeIgnoreProps(expected, "dishes", "votes"));
     }
 }

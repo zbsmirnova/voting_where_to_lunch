@@ -44,13 +44,13 @@ public class AdminControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-//    @Test
-//    public void testGetNotFound() throws Exception {
-//        mockMvc.perform(get(URL + 1)
-//                .with(userHttpBasic(ADMIN)))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andDo(print());
-//    }
+    @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 
     @Test
     public void testGetAll() throws Exception {
@@ -77,13 +77,13 @@ public class AdminControllerTest extends AbstractControllerTest {
         assertMatch(userService.getAll(), ADMIN, USER2);
     }
 
-//    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        mockMvc.perform(delete(URL + 1)
-//                .with(userHttpBasic(ADMIN)))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andDo(print());
-//    }
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 
     @Test
     public void testCreateUser() throws Exception {
@@ -103,17 +103,17 @@ public class AdminControllerTest extends AbstractControllerTest {
         assertMatch(userService.getAll(), ADMIN, expected, USER1, USER2);
     }
 
-//    @Test
-//    public void testCreateInvalid() throws Exception {
-//        User expected = new User(null, null, "", "newPass", Role.ROLE_USER);
-//        ResultActions action = mockMvc.perform(post(URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-//                .content(JsonUtil.writeValue(expected)))
-//                .andExpect(status().isUnprocessableEntity())
-////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-//                .andDo(print());
-//    }
+    @Test
+    public void testCreateInvalid() throws Exception {
+        User invalid = new User(null, "", "", "",   Role.ROLE_USER);
+
+                mockMvc.perform(post(URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(invalid)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 
     //    @Test
 //    @Transactional(propagation = Propagation.NEVER)
@@ -135,7 +135,7 @@ public class AdminControllerTest extends AbstractControllerTest {
         updated.setName("UpdatedName");
         updated.setEmail("updated@mail.ru");
         updated.setPassword("updatedpassw");
-        //updated.setRole(Role.ROLE_ADMIN);
+
         mockMvc.perform(put(URL + USER1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
@@ -145,19 +145,18 @@ public class AdminControllerTest extends AbstractControllerTest {
         assertMatch(userService.get(USER1_ID), updated);
     }
 
-//    @Test
-//    public void testUpdateInvalid() throws Exception {
-//        User updated = new User(USER1);
-//        updated.setName("");
-//        mockMvc.perform(put(URL + USER1_ID)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-//                .content(JsonUtil.writeValue(updated)))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andDo(print())
-////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-//                .andDo(print());
-//    }
+    @Test
+    public void testUpdateInvalid() throws Exception {
+        User updated = new User(USER1);
+        updated.setName("");
+        mockMvc.perform(put(URL + USER1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print())
+                .andDo(print());
+    }
 
 //    @Test
 //    @Transactional(propagation = Propagation.NEVER)

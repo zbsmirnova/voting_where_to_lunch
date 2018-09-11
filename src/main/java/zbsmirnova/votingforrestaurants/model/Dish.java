@@ -1,5 +1,6 @@
 package zbsmirnova.votingforrestaurants.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -24,8 +25,8 @@ public class Dish extends AbstractNamedEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    @NotNull
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Restaurant restaurant;
 
     public Dish(){}
@@ -33,7 +34,6 @@ public class Dish extends AbstractNamedEntity{
     public Dish(int price, String name, LocalDate date){
         super(null, name);
         this.price = price;
-        this.restaurant = restaurant;
         this.date = date;
     }
 
@@ -45,7 +45,6 @@ public class Dish extends AbstractNamedEntity{
     public Dish(int id, int price, String name,  LocalDate date){
         super(id, name);
         this.price = price;
-        this.restaurant = restaurant;
         this.date = date;
     }
 
@@ -54,6 +53,9 @@ public class Dish extends AbstractNamedEntity{
         this.restaurant = restaurant;
     }
 
+    public Dish(Dish dish){
+        this(dish.getId(), dish.getPrice(), dish.getName(), dish.getRestaurant(), dish.getDate());
+    }
     public int getPrice() {
         return price;
     }

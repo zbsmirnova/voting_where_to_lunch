@@ -42,14 +42,13 @@ public class AdminVoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    ////    @Test
-////    public void testGetNotFound() throws Exception {
-////        mockMvc.perform(get(URL + 1)
-////                .with(userHttpBasic(ADMIN)))
-////                //.andExpect(status().isUnprocessableEntity())
-////                .andExpect(status().isNotFound())
-////                .andDo(print());
-////    }
+        @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 
     @Test
     public void getTodayVotes() throws Exception{
@@ -78,12 +77,12 @@ public class AdminVoteControllerTest extends AbstractControllerTest {
         assertMatch(service.getAll(), VOTE_2, VOTE_3);
     }
 
-//    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        mockMvc.perform(delete(URL + 1)
-//                .with(userHttpBasic(ADMIN)))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andDo(print());
-//    }
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 
 }

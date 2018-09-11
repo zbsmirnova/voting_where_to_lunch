@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeIgnoreProps;
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
 public class TestUtil {
@@ -32,6 +33,10 @@ public class TestUtil {
 
     public static <T> ResultMatcher contentJson(T expected) {
         return content().json(writeValue(expected));
+    }
+
+    public static <T> ResultMatcher contentJson(T expected, String ... props) {
+        return content().json(writeIgnoreProps(expected, props));
     }
 
     public static <T> ResultMatcher contentJsonArray(T... expected) {

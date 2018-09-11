@@ -1,6 +1,7 @@
 package zbsmirnova.votingforrestaurants.to;
 
 import zbsmirnova.votingforrestaurants.model.Dish;
+import zbsmirnova.votingforrestaurants.model.Restaurant;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,6 +23,15 @@ public class RestaurantTo extends BaseTo implements Serializable{
     private List<Dish> menu;
 
     public RestaurantTo(){}
+
+    public RestaurantTo(String name,String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public RestaurantTo(Restaurant restaurant){
+        this(restaurant.getId(), restaurant.getName(), restaurant.getAddress(), restaurant.getDishes());
+    }
 
     public RestaurantTo(int id, String name, String address, List<Dish> menu){
         super(id);
