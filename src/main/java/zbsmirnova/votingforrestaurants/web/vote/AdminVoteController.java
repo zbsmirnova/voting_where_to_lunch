@@ -40,7 +40,7 @@ public class AdminVoteController {
         return asTo(service.getAll());
     }
 
-    @GetMapping(value = "/todayVotes", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VoteTo> getTodayVotes() {
         log.info("get today votes");
         return asTo(service.getTodayVotes());

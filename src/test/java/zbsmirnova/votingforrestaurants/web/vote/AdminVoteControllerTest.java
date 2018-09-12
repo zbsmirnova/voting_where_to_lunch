@@ -52,7 +52,7 @@ public class AdminVoteControllerTest extends AbstractControllerTest {
 
     @Test
     public void getTodayVotes() throws Exception{
-        TestUtil.print(mockMvc.perform(get(URL + "/todayVotes")
+        TestUtil.print(mockMvc.perform(get(URL + "/today")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
