@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import zbsmirnova.votingforrestaurants.model.Dish;
-import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.repository.DishRepository;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
@@ -28,10 +27,7 @@ public class DishServiceImpl implements DishService{
 
     @Override
     public Dish get(int dishId, int restaurantId) throws NotFoundException  {
-        Dish dish = checkNotFoundWithId(repository.findById(dishId).orElse(null), dishId);
-        if(dish == null) return null;
-        if(dish.getRestaurant().getId() != restaurantId) return null;
-        return dish;
+         return checkNotFoundWithId(repository.getByIdAndRestaurantId(dishId, restaurantId).orElse(null), dishId);
     }
 
     @Override
@@ -40,7 +36,8 @@ public class DishServiceImpl implements DishService{
     }
 
     @Override
-    public List<Dish> getAllToday(int restaurantId){
+    public List<Dish> getTodayMenu(int restaurantId){
+        checkNotFoundWithId(restaurantService.get(restaurantId), restaurantId);
         return repository.getTodayMenu(restaurantId, LocalDate.now());
     }
 

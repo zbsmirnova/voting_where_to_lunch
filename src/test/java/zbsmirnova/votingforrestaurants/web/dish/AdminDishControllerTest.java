@@ -96,7 +96,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
         created.setId(returned.getId());
 
         assertMatch(returned, created);
-        assertMatch(service.getAllToday(BUSHE_ID), CAKE_SPECIAL, created);
+        assertMatch(service.getTodayMenu(BUSHE_ID), CAKE_SPECIAL, created);
     }
 
     @Test

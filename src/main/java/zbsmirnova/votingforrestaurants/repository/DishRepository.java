@@ -1,5 +1,6 @@
 package zbsmirnova.votingforrestaurants.repository;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,11 +11,20 @@ import zbsmirnova.votingforrestaurants.model.Dish;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
 @Transactional(readOnly = true)
 public interface DishRepository extends JpaRepository<Dish, Integer> {
+
+    Optional<Dish> getByIdAndRestaurantId(int dishId, int restaurantId);
+
+    List<Dish> findAllByRestaurantId(int restaurantId);
+
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id = ?1 and d.date = ?2")
+    List<Dish> getTodayMenu(int restaurantId, LocalDate date);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Dish m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
@@ -23,12 +33,4 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
     @Transactional
     @Override
     Dish save(Dish dish);
-
-    List<Dish> findAll();
-
-    List<Dish> findAllByRestaurantId(int menuId);
-
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id = ?1 and d.date = ?2")
-    List<Dish> getTodayMenu(int restaurantId, LocalDate date);
-
 }

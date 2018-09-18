@@ -15,6 +15,26 @@ public class UserServiceTest extends AbstractServiceTest {
     UserService service;
 
     @Test
+    public void get() {
+        assertMatch(service.get(USER1_ID), USER1);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getNotFound() throws Exception {
+        service.get(50);
+    }
+
+    @Test
+    public void getByEmail(){
+        assertMatch(service.getByEmail("user1@yandex.ru"), USER1);
+    }
+
+    @Test
+    public void getAll() {
+        assertMatch(service.getAll(), ALL_USERS);
+    }
+
+    @Test
     public void delete() {
         service.delete(USER1_ID);
         assertMatch(service.getAll(), ADMIN, USER2);
@@ -56,20 +76,4 @@ public class UserServiceTest extends AbstractServiceTest {
         updated.setId(50);
         service.save(updated);
     }
-
-    @Test
-    public void get() {
-        assertMatch(service.get(USER1_ID), USER1);
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void getNotFound() throws Exception {
-        service.get(50);
-    }
-
-    @Test
-    public void getAll() {
-        assertMatch(service.getAll(), ALL_USERS);
-    }
-
 }

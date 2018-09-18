@@ -7,7 +7,10 @@ import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
+import zbsmirnova.votingforrestaurants.testData.DishTestData;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
+
+import static zbsmirnova.votingforrestaurants.testData.DishTestData.KETCHUPBURGER_SPECIAL;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.*;
 
 
@@ -22,6 +25,23 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Before
     public void setUp() throws Exception {
         cacheManager.getCache("restaurants").clear();
+    }
+
+    @Test
+    public void get() {
+        assertMatch(service.get(BUSHE_ID), BUSHE);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getNotFound(){
+        service.get(50);
+    }
+
+    @Test
+    public void getWithTodayMenu(){
+        Restaurant ketchupWithTodayMenu = service.getWithTodayMenu(KETCHUP_ID);
+        assertMatch(ketchupWithTodayMenu, KETCHUP);
+        DishTestData.assertMatch(ketchupWithTodayMenu.getDishes(), KETCHUPBURGER_SPECIAL);
     }
 
     @Test
@@ -70,15 +90,5 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Test(expected = DataAccessException.class)
     public void createDuplicateName(){
         service.save(new Restaurant("bushe", "addressBushe"));
-    }
-
-    @Test
-    public void get() {
-        assertMatch(service.get(BUSHE_ID), BUSHE);
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void getNotFound(){
-        service.get(50);
     }
 }

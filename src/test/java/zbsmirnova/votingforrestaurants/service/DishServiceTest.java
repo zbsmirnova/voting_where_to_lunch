@@ -6,10 +6,13 @@ import zbsmirnova.votingforrestaurants.model.Dish;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static zbsmirnova.votingforrestaurants.testData.DishTestData.*;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.BUSHE_ID;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.KFC_ID;
+import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.MCDONALDS_ID;
 
 
 public class DishServiceTest extends AbstractServiceTest{
@@ -18,13 +21,49 @@ public class DishServiceTest extends AbstractServiceTest{
     protected DishService service;
 
     @Test
-    public void delete() throws Exception {
+    public void get(){
+        Dish actual = service.get(CHICKEN_ID, KFC_ID);
+        assertMatch(actual, CHICKEN);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getNotFoundById(){
+        Dish actual = service.get(100, BUSHE_ID);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getNotFoundByRestaurantId(){
+        Dish actual = service.get(CHICKEN_ID, BUSHE_ID);
+    }
+
+    @Test
+    public void getAll(){
+        assertMatch(service.getAll(BUSHE_ID), BREAD, CAKE, COFFEE, CAKE_SPECIAL);
+    }
+
+    @Test
+    public void getTodayMenu(){
+        assertMatch(service.getTodayMenu(BUSHE_ID), CAKE_SPECIAL);
+    }
+
+    @Test
+    public void getTodayMenuEmpty(){
+        assertMatch(service.getTodayMenu(MCDONALDS_ID), Collections.emptyList());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getTodayMenuNotFoundByRestaurant(){
+        assertMatch(service.getTodayMenu(100), CAKE_SPECIAL);
+    }
+
+    @Test
+    public void delete(){
         service.delete(CHICKEN_ID, KFC_ID);
         assertMatch(service.getAll(KFC_ID), COLA, FRIES, CHICKEN_SPECIAL);
     }
 
     @Test(expected = NotFoundException.class)
-    public void deleteNotFound() throws Exception {
+    public void deleteNotFound(){
         service.delete(CHICKEN_ID, BUSHE_ID);
     }
 
@@ -55,22 +94,5 @@ public class DishServiceTest extends AbstractServiceTest{
         Dish created = getCreatedDish();
         created.setId(50);
         service.save(created, BUSHE_ID);
-    }
-
-    @Test
-    public void get(){
-        Dish actual = service.get(CHICKEN_ID, KFC_ID);
-        assertMatch(actual, CHICKEN);
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void getNotFound(){
-        Dish actual = service.get(100, BUSHE_ID);
-    }
-
-
-    @Test
-    public void getAllByMenuId(){
-        assertMatch(service.getAll(BUSHE_ID), BREAD, CAKE, COFFEE, CAKE_SPECIAL);
     }
 }

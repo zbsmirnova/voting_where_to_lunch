@@ -8,7 +8,7 @@ ControllerTests:
     testGet
     testGetUnauth
     testGetNotFound
-    testspecialGet
+    testSpecialGet
     testGetAll
     testSpecialGetAll
     ????testGetForbidden????? есть в AdminControllerTest

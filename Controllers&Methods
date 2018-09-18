@@ -1,0 +1,41 @@
+1. AdminDishController ("/admin/restaurants/{restaurantId}/dishes")
+    -Dish get(int dishId, int restaurantId)
+    -List<Dish> getAll(int restaurantId)
+    -List<Dish> getTodayMenu(int restaurantId)
+    -void delete(dishId, restaurantId)
+    -ResponseEntity<Dish> create(restaurantId, dish)
+    -void update(int restaurantId, int dishId, Dish dish)
+
+2. AdminRestaurantController("/admin/restaurants")
+    -RestaurantTo get(int id)
+    -List<Restaurant> getAll()
+    -void delete(int id)
+    -ResponseEntity<Restaurant> createWithLocation(RestaurantTo restaurantTo)
+    -void update(RestaurantTo restaurantTo, int id)
+
+3. ProfileRestaurantController("/profile/restaurants")
+    -RestaurantTo get(int id)
+    -List<Restaurant> getAll()
+
+4. AdminController("/admin/users")
+    -UserTo get(int id)
+    -List<UserTo> getAll()
+    -void delete(int id)
+    -ResponseEntity<User> createUser(UserTo userTo)
+    -void update(UserTo userTo,int id)
+
+5. ProfileController("/profile")
+    -UserTo get(AuthorizedUser authorizedUser)
+    -void delete(AuthorizedUser authorizedUser)
+    -void update(UserTo userTo, AuthorizedUser authorizedUser)
+
+6. AdminVoteController("/admin/votes")
+    -VoteTo get(int id)
+    -List<VoteTo> getAll()
+    -List<VoteTo> getTodayVotes()
+    -void delete(int id)
+
+7. ProfileVoteController("/profile/restaurants/{restaurantId}/votes", "/profile/votes")
+    -VoteTo get(AuthorizedUser authorizedUser)
+    -ResponseEntity<Vote> createOrUpdate(int restaurantId, AuthorizedUser authorizedUser)
+

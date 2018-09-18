@@ -18,17 +18,6 @@ public class VoteServiceTest extends AbstractServiceTest {
     VoteService service;
 
     @Test
-    public void delete() {
-        service.delete(VOTE_1_ID);
-        assertMatch(service.getAll(), VOTE_2, VOTE_3);
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void deleteNotFound() {
-        service.delete(50);
-    }
-
-        @Test
     public void get() {
         assertMatch(service.get(VOTE_1_ID), VOTE_1);
     }
@@ -41,6 +30,32 @@ public class VoteServiceTest extends AbstractServiceTest {
     @Test
     public void getTodayByUserId(){
         assertMatch(service.getTodayByUserId(USER2_ID), VOTE_3);
+    }
+
+    @Test
+    public void getAll(){
+        assertMatch(service.getAll(), ALL_VOTES);
+    }
+
+    @Test
+    public void getByRestaurantIdAndDate() {
+        assertMatch(service.getAll(BUSHE_ID, LocalDate.parse("2018-07-25")), VOTE_2);
+    }
+
+    @Test
+    public void getAllToday(){
+        assertMatch(service.getTodayVotes(), VOTE_3);
+    }
+
+    @Test
+    public void delete() {
+        service.delete(VOTE_1_ID);
+        assertMatch(service.getAll(), VOTE_2, VOTE_3);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void deleteNotFound() {
+        service.delete(50);
     }
 
         @Test
@@ -69,19 +84,4 @@ public class VoteServiceTest extends AbstractServiceTest {
         service.save(updated, USER1_ID, MCDONALDS_ID);
     }
 
-    @Test
-    public void getAll(){
-        assertMatch(service.getAll(), ALL_VOTES);
-    }
-
-
-    @Test
-    public void getByRestaurantIdAndDate() {
-        assertMatch(service.getAll(BUSHE_ID, LocalDate.parse("2018-07-25")), VOTE_2);
-    }
-
-    @Test
-    public void getAllToday(){
-        assertMatch(service.getTodayVotes(), VOTE_3);
-    }
 }

@@ -34,6 +34,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User get(int id) throws NotFoundException {
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
+    }
+
+    @Override
+    public User getByEmail(String email) throws NotFoundException {
+        Assert.notNull(email, "email must not be null");
+        return checkNotFound(repository.getByEmail(email), "email=" + email);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return repository.getAll();
+    }
+
+    @Override
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id) != 0, id);
     }
@@ -51,24 +67,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = get(id);
         repository.save(UserUtil.updateFromTo(user, userTo));
     }
-
-    @Override
-    public User get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
-    }
-
-    @Override
-    public User getByEmail(String email) throws NotFoundException {
-        Assert.notNull(email, "email must not be null");
-        return checkNotFound(repository.getByEmail(email), "email=" + email);
-    }
-
-    @Override
-    public List<User> getAll() {
-        return repository.getAll();
-    }
-
-
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

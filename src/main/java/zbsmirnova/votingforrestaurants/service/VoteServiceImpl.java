@@ -26,18 +26,6 @@ public class VoteServiceImpl implements VoteService {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    public VoteServiceImpl(VoteRepository voteRepository, RestaurantService restaurantService, UserService userService) {
-//        this.voteRepository = voteRepository;
-//        this.restaurantService = restaurantService;
-//        this.userService = userService;
-//    }
-
-    @Override
-    public void delete(int id) throws NotFoundException{
-        checkNotFoundWithId(voteRepository.delete(id) != 0, id);
-    }
-
     @Override
     public Vote get(int id) throws NotFoundException {
         return checkNotFoundWithId(voteRepository.findById(id).orElse(null), id);
@@ -45,18 +33,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Vote getTodayByUserId(int userId) throws NotFoundException {
-        Vote vote = voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElse(null);
         return voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElse(null);
-    }
-
-    @Transactional
-    @Override
-    public Vote save(Vote vote, int userId, int restaurantId) {
-        Assert.notNull(vote, "vote must not be null");
-        if(!vote.isNew() && get(vote.getId()) == null) return null;
-        vote.setRestaurant(restaurantService.get(restaurantId));
-        vote.setUser(userService.get(userId));
-        return voteRepository.save(vote);
     }
 
     @Override
@@ -69,8 +46,24 @@ public class VoteServiceImpl implements VoteService {
         return voteRepository.getAllByRestaurantIdAndDate(restaurantId, date);
     }
 
+
     @Override
     public List<Vote> getTodayVotes() {
         return voteRepository.getAllByDate(LocalDate.now());
+    }
+
+    @Override
+    public void delete(int id) throws NotFoundException{
+        checkNotFoundWithId(voteRepository.delete(id) != 0, id);
+    }
+
+    @Transactional
+    @Override
+    public Vote save(Vote vote, int userId, int restaurantId) {
+        Assert.notNull(vote, "vote must not be null");
+        if(!vote.isNew() && get(vote.getId()) == null) return null;
+        vote.setRestaurant(restaurantService.get(restaurantId));
+        vote.setUser(userService.get(userId));
+        return voteRepository.save(vote);
     }
 }

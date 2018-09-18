@@ -16,6 +16,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
+    Optional<Restaurant> findById(int id);
+
     @Query("SELECT r FROM Restaurant r  ORDER BY r.name")
     List<Restaurant> getAll();
 
@@ -30,6 +32,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     Restaurant save(Restaurant restaurant);
 
 
-    Optional<Restaurant> findById(Integer id);
+
 
 }

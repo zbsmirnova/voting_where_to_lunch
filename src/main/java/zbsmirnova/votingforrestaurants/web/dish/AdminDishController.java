@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.votingforrestaurants.model.Dish;
 import zbsmirnova.votingforrestaurants.service.DishService;
 
 import javax.validation.Valid;
-import javax.validation.groups.Default;
 import java.net.URI;
 import java.util.List;
 
@@ -50,9 +48,9 @@ public class AdminDishController {
         }
 
     @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Dish> getAllToday(@PathVariable("restaurantId") int restaurantId){
+    public List<Dish> getTodayMenu(@PathVariable("restaurantId") int restaurantId){
         log.info("get all dishes {} for restaurant {} for today", restaurantId);
-        return service.getAllToday(restaurantId);
+        return service.getTodayMenu(restaurantId);
     }
 
     @DeleteMapping(value = "/{dishId}")
@@ -65,7 +63,7 @@ public class AdminDishController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@PathVariable("restaurantId") int restaurantId,
-                                       @Validated(Default.class) @RequestBody Dish dish) {
+                                       @Valid @RequestBody Dish dish) {
 
         Dish created = service.save(dish, restaurantId);
 
@@ -79,8 +77,8 @@ public class AdminDishController {
     }
 
     @PutMapping(value = "/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid @RequestBody Dish dish, @PathVariable("dishId") int dishId,
-                       @PathVariable("restaurantId") int restaurantId) {
+    public void update(@PathVariable("restaurantId") int restaurantId,
+                       @PathVariable("dishId") int dishId, @Valid @RequestBody Dish dish) {
         assureIdConsistent(dish, dishId);
         log.info("update dish {} for restaurant {}", dish, restaurantId);
         service.save(dish, restaurantId);

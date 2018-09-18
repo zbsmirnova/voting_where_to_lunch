@@ -15,6 +15,12 @@ import java.util.Optional;
 @Repository
 @Transactional(readOnly = true)
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
+    List<Vote> getAllByRestaurantIdAndDate(int restaurantId, LocalDate date);
+
+    List<Vote> getAllByDate(LocalDate date);
+
+    Optional<Vote> findByUserIdAndDate(int userId, LocalDate date);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Vote v WHERE v.id=:id")
@@ -23,11 +29,4 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Transactional
     @Override
     Vote save(Vote vote);
-
-    List<Vote> getAllByRestaurantIdAndDate(int restaurantId, LocalDate date);
-
-    List<Vote> getAllByDate(LocalDate date);
-
-    Optional<Vote> findByUserIdAndDate(int userId, LocalDate date);
-
 }

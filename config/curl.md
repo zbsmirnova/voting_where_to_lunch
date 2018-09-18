@@ -86,4 +86,5 @@ ProfileVoteController
 `curl -s http://localhost:8080/profile/votes --user user1@yandex.ru:password`
 
 #### createOrUpdate Authorized User`s Vote for Restaurant 100001
-`curl -s -X POST -d ' {}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/profile/restaurants/100001/votes --user user1@yandex.ru:password`
+`curl -s -X POST http://localhost:8080/profile/restaurants/100001/votes --user user1@yandex.ru:password`
+

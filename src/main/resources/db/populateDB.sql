@@ -29,7 +29,7 @@ INSERT INTO dishes (name, price, restaurant_id, date) VALUES
   ('bread', 9080, 100003, '2018-07-27'),
   ('coffee', 10080, 100003, '2018-07-27'),
   ('chicken_special',12000 ,100000, CURRENT_DATE),
-  ('cheesburger_special',15020, 100001, CURRENT_DATE),
+  ('cheesburger_special',15020, 100001, '2018-07-26'),
   ('ketchup_burger_special', 25000, 100002, CURRENT_DATE),
   ('cake_special', 18080, 100003, CURRENT_DATE);
 

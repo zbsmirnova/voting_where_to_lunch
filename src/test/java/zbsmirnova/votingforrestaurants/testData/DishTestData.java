@@ -47,13 +47,13 @@ public class DishTestData {
     public static final Dish COFFEE = new Dish(COFFEE_ID, 10080, "coffee", BUSHE, LocalDate.parse("2018-07-27"));
 
     public static final Dish CHICKEN_SPECIAL = new Dish(CHICKEN_SPECIAL_ID, 12000, "chicken_special", KFC, LocalDate.now());
-    public static final Dish CHEESBURGER_SPECIAL = new Dish(CHEESBURGER_SPECIAL_ID, 15020, "cheesburger_special", MCDONALDS, LocalDate.now());
+    public static final Dish CHEESBURGER_SPECIAL = new Dish(CHEESBURGER_SPECIAL_ID, 15020, "cheesburger_special", MCDONALDS, LocalDate.parse("2018-07-27"));
     public static final Dish KETCHUPBURGER_SPECIAL = new Dish(KETCHUPBURGER_SPECIAL_ID, 25000, "ketchup_burger_special", KETCHUP, LocalDate.now());
     public static final Dish CAKE_SPECIAL = new Dish(CAKE_SPECIAL_ID, 18080, "cake_special", BUSHE, LocalDate.now());
 
     public static final List<Dish> ALL_DISHES = Arrays.asList(CHICKEN, FRIES, COLA, CHEESBURGER, HAMBURGER, FISHBURGER,
                                                 KETCHUPBURGER, SALAD, WATER, CAKE, BREAD, COFFEE,
-                                                CHICKEN_SPECIAL, CHEESBURGER_SPECIAL, KETCHUPBURGER_SPECIAL, CAKE_SPECIAL);
+                                                CHICKEN_SPECIAL, KETCHUPBURGER_SPECIAL, CAKE_SPECIAL);
 
 
     public static Dish getCreatedDish() {

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.votingforrestaurants.model.User;
@@ -15,7 +14,7 @@ import zbsmirnova.votingforrestaurants.to.UserTo;
 import zbsmirnova.votingforrestaurants.util.UserUtil;
 
 
-import javax.validation.groups.Default;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class AdminController {
 
         //creates only user(ROLE.USER)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createUser(@Validated(Default.class) @RequestBody UserTo userTo) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserTo userTo) {
         User user = UserUtil.createNewFromTo(userTo);
 
         User created = service.save(user);
@@ -75,7 +74,7 @@ public class AdminController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Validated(Default.class)@RequestBody UserTo userTo, @PathVariable("id") int id) {
+    public void update(@Valid @RequestBody UserTo userTo, @PathVariable("id") int id) {
 
         log.info("update {} with id={}", userTo, id);
         assureIdConsistent(userTo, id);

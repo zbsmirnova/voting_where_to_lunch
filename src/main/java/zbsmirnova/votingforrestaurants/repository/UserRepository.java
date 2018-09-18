@@ -15,6 +15,13 @@ import java.util.Optional;
 @Repository
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Integer>{
+    @Override
+    Optional<User> findById(Integer id);
+
+    User getByEmail(String email);
+
+    @Query("SELECT u FROM User u  ORDER BY u.name")
+    List<User> getAll();
 
     @Transactional
     @Modifying
@@ -24,12 +31,4 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     @Override
     @Transactional
     User save(User user);
-
-    @Override
-    Optional<User> findById(Integer id);
-
-    @Query("SELECT u FROM User u  ORDER BY u.name")
-    List<User> getAll();
-
-    User getByEmail(String email);
 }
