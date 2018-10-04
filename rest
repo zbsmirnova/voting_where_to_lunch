@@ -1,25 +1,182 @@
-GET/admin/users - список всех юзеров
-GET/admin/users/100001 - юзер №100001
-DELETE/admin/users/100001 - удалить юзера №100001
-POST/admin/users (@RequestBody User user) - создать юзера (данные в теле запроса)
-PUT/admin/users/100001 (@RequestBody User user) - обновить юзера №100001 (данные в теле запроса)
+### curl samples
 
-GET/profile - залогиненный юзер
-DELETE/profile - удалить залогиненного юзера
-PUT/profile - обновить залогиненного юзера
+AdminController
+#### get User 100021
+`curl -s http://localhost:8080/admin/users/100021 --user admin@gmail.com:admin`
 
-GET/admin/restaurants
-GET/admin/restaurants/100001
-DELETE/admin/restaurants/100001
-POST/admin/restaurants/100001
-PUT/admin/restaurants/100001
+bash: {"id":100021,"name":"User2","email":"user2@mail.ru","password":"{noop}password"}:
 
-Правильно:
-GET/admin/restaurants/100001/menus - все меню ресторана 100001
-GET/admin/restaurants/100001/menus/100010 - меню № 100010 ресторана 100001
-GET/admin/restaurants/100001/menus/100010/dishes/100020
+#### get All Users
+`curl -s http://localhost:8080/admin/users --user admin@gmail.com:admin`
 
-Неправильно:
-GET/admin/menus/100010 - меню № 100010
+bash: [{"id":100022,"name":"Admin","email":"admin@gmail.com","password":"{noop}admin"},
+ {"id":100020,"name":"User1","email":"user1@yandex.ru","password":"{noop}password"},
+ {"id":100021,"name":"User2","email":"user2@mail.ru","password":"{noop}password"}]
+
+#### create User
+`curl -s -X POST -d ' {"name": "newUser", "email": "user@gmail.com", "password": "{noop}password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/users --user admin@gmail.com:admin`
+
+bash: {"id":100026,"name":"newUser","email":"user@gmail.com","password":"{bcrypt}$2a$10$anvp2XbqrVr.ZNVbCgrLm.2vmnSZNQiD1pXl3aTHmIQ7nc134ErjS",
+"role":"ROLE_USER"}:
+
+#### update User 100026
+`curl -s -X PUT -d ' {"name": "updatedUser", "email": "updated@gmail.com", "password": "{noop}password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/users/100026 --user admin@gmail.com:admin`
+
+getUser 100026:  `curl -s http://localhost:8080/admin/users/100026 --user admin@gmail.com:admin`
+    bash: {"id":100026,"name":"updatedUser","email":"updated@gmail.com","password":"{noop}password"}:
+
+#### delete User
+`curl -s -X DELETE http://localhost:8080/admin/users/100026 --user admin@gmail.com:admin`
+
+get All Users  `curl -s http://localhost:8080/admin/users --user admin@gmail.com:admin`
+    bash:[{"id":100022,"name":"Admin","email":"admin@gmail.com","password":"{noop}admin"},
+        {"id":100020,"name":"User1","email":"user1@yandex.ru","password":"{noop}password"},
+        {"id":100021,"name":"User2","email":"user2@mail.ru","password":"{noop}password"}]
+
+ProfileController
+#### get Authorized User
+`curl -s http://localhost:8080/profile --user user1@yandex.ru:password`
+
+bash: {"id":100020,"name":"User1","email":"user1@yandex.ru","password":"{noop}password"}
+
+#### update Authorized User
+`curl -s -X PUT -d ' {"name": "updatedUserAuth", "email": "updatedAuth@gmail.com", "password": "{noop}password"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/profile --user user1@yandex.ru:password`
+
+get Authorized User: `curl -s http://localhost:8080/profile --user updatedAuth@gmail.com:password`
+    bash: {"id":100020,"name":"updatedUserAuth","email":"updatedauth@gmail.com","password":"{noop}password"}
+
+#### delete Authorized User
+`curl -s -X DELETE http://localhost:8080/profile --user updatedauth@gmail.com:password`
+
+admin Get All Users: `curl -s http://localhost:8080/admin/users --user admin@gmail.com:admin`
+    bash: [{"id":100022,"name":"Admin","email":"admin@gmail.com","password":"{noop}admin"},
+           {"id":100021,"name":"User2","email":"user2@mail.ru","password":"{noop}password"}]
+
+AdminRestaurantController
+#### get RestaurantTo 100000
+`curl -s http://localhost:8080/admin/restaurants/100000 --user admin@gmail.com:admin`
+
+bash: {"id":100000,"name":"kfc","address":"addressKfc","menu":
+                                            [{"id":100016,"name":"chicken_special","price":12000,"date":"2018-09-19"}]}
+
+#### get All Restaurants
+`curl -s http://localhost:8080/admin/restaurants --user admin@gmail.com:admin`
+
+bash:   [{"id":100003,"name":"bushe","address":"addressBushe","dishes":null,"votes":null},
+        {"id":100002,"name":"ketchup","address":"addressKetchup","dishes":null,"votes":null},
+        {"id":100000,"name":"kfc","address":"addressKfc","dishes":null,"votes":null},
+        {"id":100001,"name":"mcDonalds","address":"addressMcDonalds","dishes":null,"votes":null}]
+
+#### delete Restaurant
+`curl -s -X DELETE http://localhost:8080/admin/restaurants/100000 --user admin@gmail.com:admin`
+
+ get All Restaurants: `curl -s http://localhost:8080/admin/restaurants --user admin@gmail.com:admin`
+    bash: [{"id":100003,"name":"bushe","address":"addressBushe","dishes":null,"votes":null},
+    {"id":100002,"name":"ketchup","address":"addressKetchup","dishes":null,"votes":null},
+    {"id":100001,"name":"mcDonalds","address":"addressMcDonalds","dishes":null,"votes":null}]
+
+
+#### create Restaurant
+`curl -s -X POST -d '  { "name": "new", "address": "addressNew"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/restaurants --user admin@gmail.com:admin`
+
+bash: {"id":100027,"name":"new","address":"addressNew"}
+
+#### update Restaurant 100027
+`curl -s -X PUT -d ' {"name": "Upd", "address": "addressUpd"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/restaurants/100027 --user admin@gmail.com:admin`
+
+get RestaurantTo 100027:
+    bash: {"id":100027,"name":"Upd","address":"addressUpd","menu":[]}
+
+ProfileRestaurantController
+#### get RestaurantTo 100002
+`curl -s http://localhost:8080/profile/restaurants/100002 --user updated@gmail.com:password`
+
+bash: {"id":100002,"name":"ketchup","address":"addressKetchup","menu":
+                [{"id":100018,"name":"ketchup_burger_special","price":25000,"date":"2018-09-19"}]}
+
+#### get All Restaurants
+`curl -s http://localhost:8080/profile/restaurants --user user2@mail.ru:password`
+
+bash:   [{"id":100003,"name":"bushe","address":"addressBushe","dishes":null,"votes":null},
+        {"id":100002,"name":"ketchup","address":"addressKetchup","dishes":null,"votes":null},
+        {"id":100001,"name":"mcDonalds","address":"addressMcDonalds","dishes":null,"votes":null}]
+
+
+AdminDishController
+#### get Dish 100007 for Restaurant 100001
+`curl -s http://localhost:8080/admin/restaurants/100001/dishes/100007 --user admin@gmail.com:admin`
+
+bash: {"id":100007,"name":"cheesburger","price":15020,"date":"2018-07-26"}
+
+#### get all Dishes for Restaurant 100001
+`curl -s http://localhost:8080/admin/restaurants/100001/dishes --user admin@gmail.com:admin`
+
+bash:   [{"id":100007,"name":"cheesburger","price":15020,"date":"2018-07-26"},
+        {"id":100017,"name":"cheesburger_special","price":15020,"date":"2018-07-26"},
+        {"id":100009,"name":"fishburger","price":9000,"date":"2018-07-26"},
+        {"id":100008,"name":"hamburger","price":12500,"date":"2018-07-26"}]
+
+#### get all today Dishes for Restaurant 100002
+`curl -s http://localhost:8080/admin/restaurants/100002/dishes/today --user admin@gmail.com:admin`
+
+bash:   [{"id":100018,"name":"ketchup_burger_special","price":25000,"date":"2018-07-26"}]
+
+#### delete Dish 100007 for Restaurant 100001
+`curl -s -X DELETE http://localhost:8080/admin/restaurants/100001/dishes/100007 --user admin@gmail.com:admin`
+
+get all Dishes for Restaurant 100001: `curl -s http://localhost:8080/admin/restaurants/100001/dishes --user admin@gmail.com:admin`
+bash:   [{"id":100017,"name":"cheesburger_special","price":15020,"date":"2018-07-26"},
+        {"id":100009,"name":"fishburger","price":9000,"date":"2018-07-26"},
+        {"id":100008,"name":"hamburger","price":12500,"date":"2018-07-26"}]
+
+#### create Dish for Restaurant 100001
+`curl -s -X POST -d '  {"name":"newDish","price":12000,"date":"2018-09-10"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/restaurants/100001/dishes --user admin@gmail.com:admin`
+
+bash: {"id":100027,"name":"newDish","price":12000,"date":"2018-09-10"}
+
+#### update Dish 100027 for Restaurant 100001
+`curl -s -X PUT -d ' {"name":"updatedDish","price":1000,"date":"2018-09-11"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/restaurants/100001/dishes/100027 --user admin@gmail.com:admin`
+
+get Dish 100027 for Restaurant 100001: `curl -s http://localhost:8080/admin/restaurants/100001/dishes/100027 --user admin@gmail.com:admin`
+bash: {"id":100027,"name":"updatedDish","price":1000,"date":"2018-09-11"}
+
+
+AdminVoteController
+#### get Vote 100024
+`curl -s http://localhost:8080/admin/votes/100024 --user admin@gmail.com:admin`
+
+bash: {"id":100024,"voteDate":"2018-07-25","userId":100021,"restaurantId":100003}
+
+#### get all Votes
+`curl -s http://localhost:8080/admin/votes --user admin@gmail.com:admin`
+
+bash: [{"id":100024,"voteDate":"2018-07-25","userId":100021,"restaurantId":100003},
+        {"id":100025,"voteDate":"2018-09-19","userId":100021,"restaurantId":100002}]
+
+
+#### get all today Votes
+`curl -s http://localhost:8080/admin/votes/today --user admin@gmail.com:admin`
+
+bash: [{"id":100025,"voteDate":"2018-09-19","userId":100021,"restaurantId":100002}]
+
+#### delete Vote 100025
+`curl -s -X DELETE http://localhost:8080/admin/votes/100025 --user admin@gmail.com:admin`
+
+get all Votes: `curl -s http://localhost:8080/admin/votes --user admin@gmail.com:admin`
+bash: [{"id":100024,"voteDate":"2018-07-25","userId":100021,"restaurantId":100003}]
+
+
+ProfileVoteController
+#### createOrUpdate Authorized User`s Vote for Restaurant 100003
+`curl -s -X POST -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/profile/restaurants/100003/votes --user user2@mail.ru:password`
+
+bash:   {"id":100028,
+        "user":{"id":100021,"name":"User2","email":"user2@mail.ru","password":"{noop}password","votes":null,"role":"ROLE_USER"},
+        "restaurant":{"id":100003,"name":"bushe","address":"addressBushe","dishes":null,"votes":null},"date":"2018-09-20"}
+
+#### get Authorized User`s today Vote
+`curl -s http://localhost:8080/profile/votes --user user2@mail.ru:password`
+
+bash: {"id":100028,"voteDate":"2018-09-20","userId":100021,"restaurantId":100003}
 
 

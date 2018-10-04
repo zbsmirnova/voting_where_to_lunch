@@ -20,7 +20,7 @@ import java.util.List;
 
 import static zbsmirnova.votingforrestaurants.util.UserUtil.asTo;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.assureIdConsistent;
-
+import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 
 
 @RestController
@@ -60,6 +60,8 @@ public class AdminController {
         //creates only user(ROLE.USER)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createUser(@Valid @RequestBody UserTo userTo) {
+        checkNew(userTo);
+
         User user = UserUtil.createNewFromTo(userTo);
 
         User created = service.save(user);
@@ -75,7 +77,6 @@ public class AdminController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@Valid @RequestBody UserTo userTo, @PathVariable("id") int id) {
-
         log.info("update {} with id={}", userTo, id);
         assureIdConsistent(userTo, id);
         service.update(userTo, id);

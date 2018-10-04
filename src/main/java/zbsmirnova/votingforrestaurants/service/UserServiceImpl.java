@@ -57,13 +57,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        if(!user.isNew() && get(user.getId()) == null) return null;
         return repository.save(prepareToSave(user, passwordEncoder));
     }
 
     @Transactional
     @Override
     public void update(UserTo userTo, int id) {
+        Assert.notNull(userTo, "user must not be null");
         User user = get(id);
         repository.save(UserUtil.updateFromTo(user, userTo));
     }

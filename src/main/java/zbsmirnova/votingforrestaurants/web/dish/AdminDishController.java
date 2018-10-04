@@ -16,6 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.assureIdConsistent;
+import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 
 
 @RestController
@@ -64,8 +65,8 @@ public class AdminDishController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@PathVariable("restaurantId") int restaurantId,
                                        @Valid @RequestBody Dish dish) {
-
-        Dish created = service.save(dish, restaurantId);
+        checkNew(dish);
+        Dish created = service.create(dish, restaurantId);
 
         log.info("create dish {} for restaurant {}", dish, restaurantId);
 
@@ -81,6 +82,6 @@ public class AdminDishController {
                        @PathVariable("dishId") int dishId, @Valid @RequestBody Dish dish) {
         assureIdConsistent(dish, dishId);
         log.info("update dish {} for restaurant {}", dish, restaurantId);
-        service.save(dish, restaurantId);
+        service.update(dish, restaurantId);
     }
 }

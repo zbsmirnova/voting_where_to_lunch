@@ -18,6 +18,7 @@ import java.net.URI;
 import java.time.Clock;
 import java.time.LocalTime;
 
+import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundWithId;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundWithUserId;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkVotingTime;
 import static zbsmirnova.votingforrestaurants.util.VoteUtil.*;
@@ -43,11 +44,12 @@ public class ProfileVoteController {
     @GetMapping(value = GET_URL, produces = MediaType.APPLICATION_JSON_VALUE)
     public VoteTo get(@AuthenticationPrincipal AuthorizedUser authorizedUser){
         log.info("get today vote by user {}", authorizedUser.getId());
-        return asTo(checkNotFoundWithUserId(service.getTodayByUserId(authorizedUser.getId()), authorizedUser.getId()));
+        return checkNotFoundWithId(asTo(service.getTodayByUserId(authorizedUser.getId())), authorizedUser.getId());
     }
 
+
     @PostMapping(value = POST_URL, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createOrUpdate(@RequestParam("restaurantId") int restaurantId, @AuthenticationPrincipal AuthorizedUser authorizedUser){
+    public ResponseEntity<Vote> createOrUpdate(@PathVariable("restaurantId") int restaurantId, @AuthenticationPrincipal AuthorizedUser authorizedUser){
         Vote vote = service.getTodayByUserId(authorizedUser.getId());
         //create
         if(vote == null){
@@ -69,31 +71,4 @@ public class ProfileVoteController {
             return ResponseEntity.ok().build();
         }
     }
-
-
-//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<Vote> createWithLocation(@RequestParam("restaurantId") int restaurantId) {
-//
-//        checkVotingTime();
-//
-//        Vote created = service.save(createNew(), AuthorizedUser.id(), restaurantId);
-//
-//        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path(URL + "/{id}")
-//                .buildAndExpand(created.getId()).toUri();
-//
-//        return ResponseEntity.created(uriOfNewResource).body(created);
-//    }
-//
-//    @PutMapping(value = "/{voteId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public void update(@PathVariable("voteId") int voteId,
-//                       @RequestParam("restaurantId") int restaurantId) {
-//
-//        checkVotingTime();
-//
-//        Vote vote = service.get(voteId);
-//
-//        service.save(vote, AuthorizedUser.id(), restaurantId);
-//    }
-
 }

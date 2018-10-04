@@ -3,6 +3,7 @@ package zbsmirnova.votingforrestaurants.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.votingforrestaurants.model.Role;
 import zbsmirnova.votingforrestaurants.model.User;
@@ -70,7 +71,7 @@ public class UserServiceTest extends AbstractServiceTest {
         assertMatch(service.get(updated.getId()), updated);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test(expected = DataIntegrityViolationException.class)
     public void updateInvalidId() {
         User updated = getUpdatedUser();
         updated.setId(50);

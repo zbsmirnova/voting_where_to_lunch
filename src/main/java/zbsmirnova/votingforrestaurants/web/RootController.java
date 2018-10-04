@@ -15,6 +15,7 @@ import zbsmirnova.votingforrestaurants.service.UserService;
 import zbsmirnova.votingforrestaurants.to.UserTo;
 
 
+import javax.validation.Valid;
 import javax.validation.groups.Default;
 import java.net.URI;
 
@@ -27,7 +28,7 @@ import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 public class RootController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    static final String REST_URL = "/rest";
+    static final String REST_URL = "/register";
 
     private final UserService service;
     @Autowired
@@ -35,8 +36,8 @@ public class RootController {
         this.service = service;
     }
 
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> registerNewUserAccount(@Validated(Default.class)@RequestBody UserTo userTo) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> registerNewUserAccount(@Valid @RequestBody UserTo userTo) {
         User user = createNewFromTo(userTo);
         checkNew(user);
         logger.info("creating new user account {}", user);

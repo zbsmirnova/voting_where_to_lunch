@@ -47,10 +47,17 @@ public class DishServiceImpl implements DishService{
     }
 
     @Override
-    public Dish save(Dish dish, int restaurantId) {
+    public Dish create(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
-        if(!dish.isNew() && get(dish.getId(), restaurantId) == null) return null;
         dish.setRestaurant(restaurantService.get(restaurantId));
         return repository.save(dish);
+    }
+
+    @Override
+    public void update(Dish dish, int restaurantId){
+        Assert.notNull(dish, "dish must not be null");
+        if(get(dish.getId(), restaurantId) == null) return;
+        dish.setRestaurant(restaurantService.get(restaurantId));
+        checkNotFoundWithId(repository.save(dish), restaurantId);
     }
 }

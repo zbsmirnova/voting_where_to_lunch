@@ -12,6 +12,7 @@ import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
 import static zbsmirnova.votingforrestaurants.testData.DishTestData.KETCHUPBURGER_SPECIAL;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.*;
+import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.asTo;
 
 
 public class RestaurantServiceTest extends AbstractServiceTest {
@@ -63,7 +64,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Test
     public void update() {
         Restaurant updated = getUpdatedRestaurant();
-        service.save(updated);
+        service.update(asTo(updated));
         assertMatch(service.get(updated.getId()), updated);
     }
 
@@ -71,24 +72,24 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     public void updateInvalidId() {
         Restaurant updated = getUpdatedRestaurant();
         updated.setId(50);
-        service.save(updated);
+        service.update(asTo(updated));
     }
 
     @Test
     public void create() {
         Restaurant created = getCreatedRestaurant();
-        service.save(created);
+        service.create(created);
         assertMatch(service.getAll(), created, BUSHE, KETCHUP, KFC, MCDONALDS);
     }
 
     @Test(expected = TransactionSystemException.class)
     public void createInvalid() {
         Restaurant created = new Restaurant(null, "");
-        service.save(created);
+        service.create(created);
     }
 
     @Test(expected = DataAccessException.class)
     public void createDuplicateName(){
-        service.save(new Restaurant("bushe", "addressBushe"));
+        service.create(new Restaurant("bushe", "addressBushe"));
     }
 }

@@ -10,12 +10,14 @@ import zbsmirnova.votingforrestaurants.model.Dish;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.repository.DishRepository;
 import zbsmirnova.votingforrestaurants.repository.RestaurantRepository;
+import zbsmirnova.votingforrestaurants.to.RestaurantTo;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.updateFromTo;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundWithId;
 
 
@@ -39,7 +41,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant getWithTodayMenu(int restaurantId) {
         Restaurant restaurant = checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElse(null), restaurantId);
-        if(restaurant == null) return null;
         List<Dish> todayMenu = dishRepository.getTodayMenu(restaurantId, LocalDate.now());
         restaurant.setDishes(todayMenu);
         return restaurant;
@@ -60,9 +61,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     @CacheEvict(value = "restaurants", allEntries = true)
     @Transactional
     @Override
-    public Restaurant save(Restaurant restaurant) {
+    public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        if(!restaurant.isNew() && get(restaurant.getId()) == null) return null;
         return restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public void update(RestaurantTo restaurantTo) {
+        Restaurant restaurant = get(restaurantTo.getId());
+        restaurantRepository.save(updateFromTo(restaurant, restaurantTo));
     }
 }

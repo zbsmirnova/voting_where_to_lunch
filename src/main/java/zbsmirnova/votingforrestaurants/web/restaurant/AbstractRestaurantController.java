@@ -11,7 +11,8 @@ import java.util.List;
 
 import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.asTo;
 import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.createNewFromTo;
-import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.updateFromTo;
+import static zbsmirnova.votingforrestaurants.util.ValidationUtil.assureIdConsistent;
+import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNew;
 
 public abstract class AbstractRestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -36,13 +37,13 @@ public abstract class AbstractRestaurantController {
 
     public Restaurant create(RestaurantTo restaurantTo){
         log.info("create restaurant {}", restaurantTo);
-        return service.save(createNewFromTo(restaurantTo));
+        checkNew(restaurantTo);
+        return service.create(createNewFromTo(restaurantTo));
     }
 
     public void update(RestaurantTo restaurantTo, int id){
-        Restaurant restaurant = service.get(id);
         log.info("update restaurant {}", restaurantTo);
-        updateFromTo(restaurant, restaurantTo);
-        service.save(restaurant);
+        assureIdConsistent(restaurantTo, id);
+        service.update(restaurantTo);
     }
 }

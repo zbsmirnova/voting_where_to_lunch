@@ -1,6 +1,7 @@
 package zbsmirnova.votingforrestaurants.service;
 
 import zbsmirnova.votingforrestaurants.model.Restaurant;
+import zbsmirnova.votingforrestaurants.to.RestaurantTo;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
 import java.util.List;
@@ -15,5 +16,7 @@ public interface RestaurantService {
 
     void delete(int id) throws NotFoundException;
 
-    Restaurant save(Restaurant restaurant);
+    Restaurant create(Restaurant restaurant);
+
+    void update(RestaurantTo restaurantTo);
 }

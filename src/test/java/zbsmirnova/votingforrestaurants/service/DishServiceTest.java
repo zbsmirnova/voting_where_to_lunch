@@ -70,21 +70,21 @@ public class DishServiceTest extends AbstractServiceTest{
     @Test
     public void create(){
         Dish created = getCreatedDish();
-        service.save(created, KFC_ID);
+        service.create(created, KFC_ID);
         assertMatch(service.getAll(KFC_ID), CHICKEN, COLA, FRIES, created,  CHICKEN_SPECIAL);
     }
 
     @Test(expected = org.springframework.transaction.TransactionSystemException.class)
     public void createInvalid(){
         Dish created = new Dish(20000, null, LocalDate.now());
-        service.save(created, KFC_ID);
+        service.create(created, KFC_ID);
         assertMatch(service.getAll(KFC_ID), CHICKEN, FRIES, COLA, CHICKEN_SPECIAL, created);
     }
 
     @Test
     public void update(){
         Dish updated = getUpdatedDish();
-        service.save(updated, KFC_ID);
+        service.update(updated, KFC_ID);
         assertMatch(service.get(updated.getId(), KFC_ID), updated);
 
     }
@@ -93,6 +93,6 @@ public class DishServiceTest extends AbstractServiceTest{
     public void updateWithInvalidId(){
         Dish created = getCreatedDish();
         created.setId(50);
-        service.save(created, BUSHE_ID);
+        service.update(created, BUSHE_ID);
     }
 }

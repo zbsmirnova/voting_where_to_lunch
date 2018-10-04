@@ -7,25 +7,8 @@
 
 2. SpringSecurity
 
-5. should methods MenuService, DishService (restaurantId, menuId ...)
-
-6. VoteTo правильно ли использовать поля restaurantName и userName, или надо restaurant и user
-
-7. Vote должно ли быть menuId в соответствии с rest иерархией
-
 8. AdminController create создает только юзера Role.USER, те либо подавать не UserTo, a User, либо разные методы
     надо ли делать метод createAdmin
     update не может изменить роль юзера
 
-9. AdminMenuController надо ли принимать в теле запроса MenuTо, было бы достаточно просто даты
-    MenuTo поле restaurantId или restaurantName
-    сделать метод getTodayMenu(int restaurantId)
-
 10. Пользователь может просматривать только свой сегодняшний! голос
-
-11. в какой контроллер AdminRestaurantController или AdminVoteController метод для просмотра всех
-    голосов за ресторан за определенную дату? или удалить
-
-12. базовый класс ProfileVoteTest и 2 наследника с разными ContextConfiguration для разного времени
-
-13. добавить в RestaurantTo List<Dishes> todayDishes и todayMenu???
