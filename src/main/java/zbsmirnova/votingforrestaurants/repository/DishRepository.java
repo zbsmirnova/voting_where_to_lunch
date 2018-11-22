@@ -1,6 +1,5 @@
 package zbsmirnova.votingforrestaurants.repository;
 
-import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +11,6 @@ import zbsmirnova.votingforrestaurants.model.Dish;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 @Transactional(readOnly = true)

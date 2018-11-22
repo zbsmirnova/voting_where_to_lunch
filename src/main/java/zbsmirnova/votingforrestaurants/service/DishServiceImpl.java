@@ -1,6 +1,7 @@
 package zbsmirnova.votingforrestaurants.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import zbsmirnova.votingforrestaurants.model.Dish;
@@ -41,11 +42,13 @@ public class DishServiceImpl implements DishService{
         return repository.getTodayMenu(restaurantId, LocalDate.now());
     }
 
+    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
     @Override
     public void delete(int dishId, int restaurantId) throws NotFoundException {
         checkNotFoundWithId(repository.delete(dishId, restaurantId) != 0, dishId);
     }
 
+    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
     @Override
     public Dish create(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
@@ -53,6 +56,7 @@ public class DishServiceImpl implements DishService{
         return repository.save(dish);
     }
 
+    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
     @Override
     public void update(Dish dish, int restaurantId){
         Assert.notNull(dish, "dish must not be null");

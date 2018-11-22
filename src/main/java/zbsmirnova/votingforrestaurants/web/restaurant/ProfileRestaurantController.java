@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.to.RestaurantTo;
 
 import java.util.List;
@@ -19,8 +18,9 @@ public class ProfileRestaurantController extends AbstractRestaurantController{
     public RestaurantTo get(@PathVariable("id") int id){
         return super.get(id);}
 
+
     @GetMapping
-    public List<Restaurant> getAll(){
-        return super.getAll();
+    public List<RestaurantTo> getAllWithTodayMenu(){
+        return super.getAllWithTodayMenu();
     }
 }

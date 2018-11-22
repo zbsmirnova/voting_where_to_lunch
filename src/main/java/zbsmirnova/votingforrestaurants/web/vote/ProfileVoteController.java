@@ -56,7 +56,7 @@ public class ProfileVoteController {
             vote = createNew();
             Vote created = service.save(vote, authorizedUser.getId(), restaurantId);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{menuId}")
+                    .path("/{restaurantId}")
                     .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);
