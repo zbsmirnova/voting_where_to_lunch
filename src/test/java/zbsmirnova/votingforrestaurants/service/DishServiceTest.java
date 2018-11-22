@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import zbsmirnova.votingforrestaurants.model.Dish;
 import zbsmirnova.votingforrestaurants.util.exception.NotFoundException;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.time.LocalDate;;
 import java.util.Collections;
 
 import static zbsmirnova.votingforrestaurants.testData.DishTestData.*;
