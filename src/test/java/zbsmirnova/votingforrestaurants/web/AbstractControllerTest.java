@@ -21,6 +21,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ContextConfiguration({"classpath:spring/spring.xml",
+                       "classpath:spring/spring-mvc.xml",
                         "classpath:spring/clock-mock.xml"})
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)

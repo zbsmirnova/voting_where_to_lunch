@@ -6,7 +6,7 @@
 
     <http pattern="/resources/**" security="none"/>
     <http pattern="/webjars/**" security="none"/>
-
+    <!--<http pattern="/rest/**" security="none"/>-->
 
     <beans:bean id="passwordEncoder" factory-method="createDelegatingPasswordEncoder" class="org.springframework.security.crypto.factory.PasswordEncoderFactories"/>
 
@@ -17,6 +17,18 @@
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <csrf disabled="true"/>
     </http>
+    <!--<http>-->
+        <!--<intercept-url pattern="/login" access="isAnonymous()"/>-->
+        <!--<intercept-url pattern="/register" access="isAnonymous()"/>-->
+        <!--<intercept-url pattern="/**/admin/**" access="hasRole('ROLE_ADMIN')"/>-->
+        <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
+        <!--<form-login login-page="/login"-->
+                    <!--authentication-failure-url="/login?error=true"-->
+                    <!--login-processing-url="/spring_security_check"-->
+                    <!--authentication-success-handler-ref="customAuthenticationHandler"/>-->
+        <!--<logout logout-success-url="/login"/>-->
+        <!--&lt;!&ndash;<csrf disabled="true"/>&ndash;&gt;-->
+    <!--</http>-->
 
     <beans:bean id="customAuthenticationHandler" class="zbsmirnova.votingforrestaurants.util.CustomAuthenticationHandler"/>
 

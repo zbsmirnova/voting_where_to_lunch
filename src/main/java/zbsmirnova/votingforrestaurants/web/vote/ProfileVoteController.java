@@ -19,6 +19,7 @@ import java.time.Clock;
 import java.time.LocalTime;
 
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundWithId;
+import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkNotFoundWithUserId;
 import static zbsmirnova.votingforrestaurants.util.ValidationUtil.checkVotingTime;
 import static zbsmirnova.votingforrestaurants.util.VoteUtil.*;
 

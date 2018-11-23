@@ -114,12 +114,11 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @Transactional(propagation = Propagation.NEVER)
     public void testCreateDuplicate() throws Exception {
-        Dish duplicate = new Dish(CHICKEN);
-        duplicate.setId(null);
-        duplicate.setRestaurant(KFC);
+        Dish invalid = new Dish(CHICKEN);
+        invalid.setRestaurant(KFC);
         mockMvc.perform(post(URL, KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(duplicate))
+                .content(JsonUtil.writeValue(invalid))
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isConflict());
