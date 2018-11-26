@@ -67,6 +67,14 @@ bash:   [{"id":100003,"name":"bushe","address":"addressBushe","dishes":null,"vot
         {"id":100000,"name":"kfc","address":"addressKfc","dishes":null,"votes":null},
         {"id":100001,"name":"mcDonalds","address":"addressMcDonalds","dishes":null,"votes":null}]
 
+#### get All Restaurants With Today Menu
+`curl -s http://localhost:8080/admin/restaurants/getAllWithTodayMenu --user admin@gmail.com:admin`
+
+bash:
+        [{"id":100003,"name":"bushe","address":"addressBushe","menu":[{"id":100019,"name":"cake_special","price":18080,"date":"2018-11-26"}]},
+        {"id":100002,"name":"ketchup","address":"addressKetchup","menu":[{"id":100018,"name":"ketchup_burger_special","price":25000,"date":"2018-11-26"}]},
+        {"id":100000,"name":"kfc","address":"addressKfc","menu":[{"id":100016,"name":"chicken_special","price":12000,"date":"2018-11-26"}]}]
+
 #### delete Restaurant
 `curl -s -X DELETE http://localhost:8080/admin/restaurants/100000 --user admin@gmail.com:admin`
 
@@ -94,13 +102,12 @@ ProfileRestaurantController
 bash: {"id":100002,"name":"ketchup","address":"addressKetchup","menu":
                 [{"id":100018,"name":"ketchup_burger_special","price":25000,"date":"2018-09-19"}]}
 
-#### get All Restaurants
+#### get All Restaurants With Today Menu
 `curl -s http://localhost:8080/profile/restaurants --user user2@mail.ru:password`
 
-bash:   [{"id":100003,"name":"bushe","address":"addressBushe","dishes":null,"votes":null},
-        {"id":100002,"name":"ketchup","address":"addressKetchup","dishes":null,"votes":null},
-        {"id":100001,"name":"mcDonalds","address":"addressMcDonalds","dishes":null,"votes":null}]
-
+bash:       [{"id":100003,"name":"bushe","address":"addressBushe","menu":[{"id":100019,"name":"cake_special","price":18080,"date":"2018-11-26"}]},
+            {"id":100002,"name":"ketchup","address":"addressKetchup","menu":[{"id":100018,"name":"ketchup_burger_special","price":25000,"date":"2018-11-26"}]},
+            {"id":100000,"name":"kfc","address":"addressKfc","menu":[{"id":100016,"name":"chicken_special","price":12000,"date":"2018-11-26"}]}]
 
 AdminDishController
 #### get Dish 100007 for Restaurant 100001
