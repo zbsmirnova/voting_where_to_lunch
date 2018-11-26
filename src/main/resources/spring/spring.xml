@@ -1,16 +1,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:cache="http://www.springframework.org/schema/cache"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/cache
-       http://www.springframework.org/schema/cache/spring-cache.xsd">
+       http://www.springframework.org/schema/cache/spring-cache.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <import resource="spring-security.xml"/>
     <import resource="clock_bean.xml"/>
-    <import resource="spring-tools.xml"/>
     <import resource="spring-db.xml"/>
 
     <context:annotation-config />
@@ -18,6 +20,31 @@
     <context:component-scan base-package="zbsmirnova.votingforrestaurants.web"/>
     <context:component-scan base-package="zbsmirnova.votingforrestaurants.model"/>
     <context:component-scan base-package="zbsmirnova.votingforrestaurants.service"/>
+
+    <bean class="zbsmirnova.votingforrestaurants.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+        </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver "/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+
+    <!-- enables scanning for @Cacheable annotation -->
+    <cache:annotation-driven cache-manager="ehCacheManager"/>
+
+    <!--https://imhoratiu.wordpress.com/2017/01/26/spring-4-with-ehcache-3-how-to/-->
+    <bean id="ehCacheManager" class="org.springframework.cache.jcache.JCacheCacheManager">
+        <property name="cacheManager">
+            <bean class="org.springframework.cache.jcache.JCacheManagerFactoryBean"
+                  p:cacheManagerUri="classpath:cache/ehcache.xml"/>
+        </property>
+    </bean>
 
 </beans>
 
