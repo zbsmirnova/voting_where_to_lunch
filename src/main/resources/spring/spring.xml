@@ -12,7 +12,6 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <import resource="spring-security.xml"/>
-    <import resource="clock_bean.xml"/>
     <import resource="spring-db.xml"/>
 
     <context:annotation-config />
@@ -44,6 +43,13 @@
             <bean class="org.springframework.cache.jcache.JCacheManagerFactoryBean"
                   p:cacheManagerUri="classpath:cache/ehcache.xml"/>
         </property>
+    </bean>
+
+    <!--Clock bean for runtime-->
+    <bean id="systemClock" class="java.time.Clock" factory-method="systemDefaultZone" />
+
+    <bean id="profileVoteController" class="zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController">
+        <constructor-arg type="java.time.Clock" ref="systemClock"/>
     </bean>
 
 </beans>
