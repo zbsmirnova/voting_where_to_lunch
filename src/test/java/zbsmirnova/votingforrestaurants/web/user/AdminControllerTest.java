@@ -12,7 +12,6 @@ import zbsmirnova.votingforrestaurants.testData.UserTestData;
 import zbsmirnova.votingforrestaurants.web.AbstractControllerTest;
 import zbsmirnova.votingforrestaurants.web.json.JsonUtil;
 
-import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -115,19 +114,18 @@ public class AdminControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 
-    //    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    public void testCreateDuplicate() throws Exception {
-//        Restaurant invalid = new Restaurant("kfc");
-//        mockMvc.perform(post(URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(JsonUtil.writeValue(invalid))
-//                .with(userHttpBasic(ADMIN)))
-//                .andDo(print())
-//                .andExpect(status().isConflict());
-////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_DATETIME));
-//    }
+        @Test
+    @Transactional(propagation = Propagation.NEVER)
+    public void testCreateDuplicate() throws Exception {
+        User duplicate = new User(USER1);
+        mockMvc.perform(post(URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(duplicate))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+    }
 
     @Test
     public void testUpdate() throws Exception {
@@ -158,18 +156,16 @@ public class AdminControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 
-//    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    public void testUpdateDuplicate() throws Exception {
-//        User updated = new User(USER1);
-//        updated.setEmail("admin@gmail.com");
-//        mockMvc.perform(put(URL + USER1_ID)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-//                .content(jsonWithPassword(updated, "password")))
-//                .andExpect(status().isConflict())
-////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-//////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_EMAIL))
-//                .andDo(print());
-//    }
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    public void testUpdateDuplicate() throws Exception {
+        User updated = new User(USER1);
+        updated.setEmail("admin@gmail.com");
+        mockMvc.perform(put(URL + USER1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(jsonWithPassword(updated, "password")))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 }

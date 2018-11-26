@@ -70,7 +70,6 @@ public class AdminDishControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        List<Dish> dishes = service.getAll(KFC_ID);
         assertMatch(service.getAll(KFC_ID), COLA, FRIES, CHICKEN_SPECIAL);
     }
 

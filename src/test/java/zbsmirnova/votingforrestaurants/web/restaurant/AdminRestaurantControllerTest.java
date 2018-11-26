@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.votingforrestaurants.TestUtil;
 import zbsmirnova.votingforrestaurants.model.Restaurant;
 import zbsmirnova.votingforrestaurants.service.RestaurantService;
@@ -16,12 +18,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static zbsmirnova.votingforrestaurants.TestUtil.getContent;
 import static zbsmirnova.votingforrestaurants.TestUtil.userHttpBasic;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.*;
+import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.getAllRestaurantToWithTodayMenu;
 import static zbsmirnova.votingforrestaurants.testData.UserTestData.*;
 import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.asTo;
-import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.createFromToWithId;
 import static zbsmirnova.votingforrestaurants.util.RestaurantUtil.createNewFromTo;
+import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
 
 public class AdminRestaurantControllerTest extends AbstractControllerTest {
@@ -65,14 +69,28 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(contentJson(asTo(ALL_RESTAURANTS))));
     }
 
-//    @Test
-//    public void testDelete() throws Exception {
-//        mockMvc.perform(delete(URL + KFC_ID)
-//                .with(userHttpBasic(ADMIN)))
-//                .andDo(print())
-//                .andExpect(status().isNoContent());
-//        assertMatch(service.getAllWithTodayMenu(), BUSHE, KETCHUP, MCDONALDS);
-//    }
+    @Test
+    public void testGetAllWithTodayMenu() throws Exception {
+        ResultActions action = mockMvc.perform(get(URL + "/getAllWithTodayMenu")
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(getAllRestaurantToWithTodayMenu()));
+
+        String returned = getContent(action);
+        String testData = writeValue(getAllRestaurantToWithTodayMenu());
+        assertMatch(returned, testData);
+
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(URL + KFC_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        assertMatch(service.getAll(), BUSHE, KETCHUP, MCDONALDS);
+    }
 
         @Test
     public void testDeleteNotFound() throws Exception {
@@ -88,14 +106,13 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         ResultActions action = mockMvc.perform(post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(expected)))
+                .content(writeValue(expected)))
                 .andExpect(status().isCreated());
 
         RestaurantTo returned = TestUtil.readFromJson(action, RestaurantTo.class);
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-//        assertMatch(service.getAllWithTodayMenu(), BUSHE, KETCHUP, KFC, MCDONALDS, createFromToWithId(expected));
     }
 
     @Test
@@ -104,23 +121,23 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 mockMvc.perform(post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(invalid)))
+                .content(writeValue(invalid)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
-//    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    public void testCreateDuplicate() throws Exception {
-//        Restaurant invalid = new Restaurant("kfc", "address");
-//        mockMvc.perform(post(URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(JsonUtil.writeValue(invalid))
-//                .with(userHttpBasic(ADMIN)))
-//                .andDo(print())
-//                .andExpect(status().isConflict());
-//
-//    }
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    public void testCreateDuplicate() throws Exception {
+        Restaurant invalid = new Restaurant("kfc", "addressKfc");
+        mockMvc.perform(post(URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isConflict());
+
+    }
 
     @Test
     public void testUpdate() throws Exception {
@@ -129,7 +146,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(URL + KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(restaurantTo)))
+                .content(writeValue(restaurantTo)))
                 .andExpect(status().isOk());
 
         Restaurant updated = createNewFromTo(restaurantTo);
@@ -145,23 +162,21 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(URL + KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(invalid)))
+                .content(writeValue(invalid)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
-//    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    public void testUpdateDuplicate() throws Exception {
-//        User updated = new User(USER1);
-//        updated.setEmail("admin@gmail.com");
-//        mockMvc.perform(put(URL + USER1_ID)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-//                .content(jsonWithPassword(updated, "password")))
-//                .andExpect(status().isConflict())
-////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-//////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_EMAIL))
-//                .andDo(print());
-//    }
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    public void testUpdateDuplicate() throws Exception {
+        Restaurant updated = new Restaurant(KFC);
+        updated.setName("bushe");
+        updated.setAddress("addressBushe");
+        mockMvc.perform(put(URL + KFC_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 }

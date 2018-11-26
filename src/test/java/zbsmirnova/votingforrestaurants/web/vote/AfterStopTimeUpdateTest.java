@@ -3,18 +3,13 @@ package zbsmirnova.votingforrestaurants.web.vote;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import zbsmirnova.votingforrestaurants.model.Vote;
-import zbsmirnova.votingforrestaurants.util.exception.InvalidVoteTimeException;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static zbsmirnova.votingforrestaurants.TestUtil.userHttpBasic;
-import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.MCDONALDS;
 import static zbsmirnova.votingforrestaurants.testData.RestaurantTestData.MCDONALDS_ID;
 import static zbsmirnova.votingforrestaurants.testData.UserTestData.USER2;
-import static zbsmirnova.votingforrestaurants.testData.UserTestData.USER2_ID;
-import static zbsmirnova.votingforrestaurants.testData.VoteTestData.VOTE_3;
-import static zbsmirnova.votingforrestaurants.testData.VoteTestData.assertMatch;
 import static zbsmirnova.votingforrestaurants.util.ClockUtil.AFTER_STOP;
 
 @ActiveProfiles(AFTER_STOP)

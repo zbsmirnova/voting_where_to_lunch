@@ -59,15 +59,4 @@ public abstract class AbstractControllerTest {
         cacheManager.getCache("restaurantsWithTodayMenu").clear();
     }
 
-//    protected String getMessage(String code) {
-//        return messageUtil.getMessage(code, MessageUtil.RU_LOCALE);
-//    }
-//
-//    public ResultMatcher errorType(ErrorType type) {
-//        return jsonPath("$.type").value(type.name());
-//    }
-//
-//    public ResultMatcher jsonMessage(String path, String code) {
-//        return jsonPath(path).value(getMessage(code));
-//    }
 }

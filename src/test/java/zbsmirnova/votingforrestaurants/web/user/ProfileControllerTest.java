@@ -2,6 +2,8 @@ package zbsmirnova.votingforrestaurants.web.user;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.votingforrestaurants.TestUtil;
 import zbsmirnova.votingforrestaurants.model.User;
 import zbsmirnova.votingforrestaurants.to.UserTo;
@@ -54,7 +56,8 @@ public class ProfileControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         UserTo updatedTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
 
-        mockMvc.perform(put(PROFILE_URL).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put(PROFILE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
@@ -67,7 +70,8 @@ public class ProfileControllerTest extends AbstractControllerTest {
     public void testUpdateInvalid() throws Exception {
         UserTo updatedTo = new UserTo(null, null, "password@pass.ru", "1234");
 
-        mockMvc.perform(put(PROFILE_URL).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put(PROFILE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
@@ -75,17 +79,16 @@ public class ProfileControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 
-//    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    public void testDuplicate() throws Exception {
-//        UserTo updatedTo = new UserTo(null, "duplicatedName", "admin@gmail.com", "password");
-//
-//        mockMvc.perform(put(PROFILE_URL).contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(USER1))
-//                .content(JsonUtil.writeValue(updatedTo)))
-//                .andExpect(status().isConflict())
-////                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-////                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_EMAIL))
-//                .andDo(print());
-//    }
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    public void testDuplicate() throws Exception {
+        UserTo updatedTo = new UserTo(null, "updated", USER2.getEmail(), "password");
+
+        mockMvc.perform(put(PROFILE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(USER1))
+                .content(JsonUtil.writeValue(updatedTo)))
+                .andExpect(status().isConflict())
+                .andDo(print());
+    }
 }

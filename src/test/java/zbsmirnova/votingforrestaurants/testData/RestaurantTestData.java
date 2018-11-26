@@ -10,9 +10,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
-import static zbsmirnova.votingforrestaurants.testData.DishTestData.CAKE_SPECIAL;
-import static zbsmirnova.votingforrestaurants.testData.DishTestData.CHICKEN_SPECIAL;
-import static zbsmirnova.votingforrestaurants.testData.DishTestData.KETCHUPBURGER_SPECIAL;
+import static zbsmirnova.votingforrestaurants.testData.DishTestData.*;
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeIgnoreProps;
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
@@ -31,14 +29,15 @@ public class RestaurantTestData {
     public static List<Restaurant> ALL_RESTAURANTS = Arrays.asList(BUSHE, KETCHUP, KFC, MCDONALDS);
 
     public static List<RestaurantTo> getAllRestaurantToWithTodayMenu(){
-        RestaurantTo KfcToWithMenu = new RestaurantTo(KFC);
-        KfcToWithMenu.setMenu(Arrays.asList(CHICKEN_SPECIAL));
+        RestaurantTo BusheToWithMenu = new RestaurantTo(BUSHE);
+        BusheToWithMenu.setMenu(Arrays.asList(CAKE_SPECIAL));
         RestaurantTo KetchupToWithMenu = new RestaurantTo(KETCHUP);
         KetchupToWithMenu.setMenu(Arrays.asList(KETCHUPBURGER_SPECIAL));
-        RestaurantTo BusheToWithMenu = new RestaurantTo(KFC);
-        BusheToWithMenu.setMenu(Arrays.asList(CAKE_SPECIAL));
+        RestaurantTo KfcToWithMenu  = new RestaurantTo(KFC);
+        KfcToWithMenu.setMenu(Arrays.asList(CHICKEN_SPECIAL));
 
-        return Arrays.asList(KfcToWithMenu, KetchupToWithMenu, BusheToWithMenu);
+        return Arrays.asList(BusheToWithMenu, KetchupToWithMenu, KfcToWithMenu);
+
     }
 
     public static Restaurant getCreatedRestaurant(){
@@ -63,6 +62,10 @@ public class RestaurantTestData {
 
     public static void assertMatch(Iterable<Restaurant> actual, Iterable<Restaurant> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("dishes", "votes").isEqualTo(expected);
+    }
+
+    public static void assertMatch(String actual, String expected) {
+        assertThat(actual).isEqualTo(expected);
     }
 
     public static ResultMatcher contentJson(Restaurant... expected) {
