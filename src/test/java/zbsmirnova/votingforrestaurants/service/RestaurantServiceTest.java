@@ -25,7 +25,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        cacheManager.getCache("restaurants").clear();
+        cacheManager.getCache("restaurantsWithTodayMenu").clear();
     }
 
     @Test

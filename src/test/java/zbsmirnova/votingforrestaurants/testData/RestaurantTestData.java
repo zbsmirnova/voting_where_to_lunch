@@ -10,6 +10,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static zbsmirnova.votingforrestaurants.model.AbstractBaseEntity.START_SEQ;
+import static zbsmirnova.votingforrestaurants.testData.DishTestData.CAKE_SPECIAL;
+import static zbsmirnova.votingforrestaurants.testData.DishTestData.CHICKEN_SPECIAL;
+import static zbsmirnova.votingforrestaurants.testData.DishTestData.KETCHUPBURGER_SPECIAL;
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeIgnoreProps;
 import static zbsmirnova.votingforrestaurants.web.json.JsonUtil.writeValue;
 
@@ -26,6 +29,17 @@ public class RestaurantTestData {
     public static final Restaurant BUSHE = new Restaurant(BUSHE_ID,"bushe", "addressBushe");
 
     public static List<Restaurant> ALL_RESTAURANTS = Arrays.asList(BUSHE, KETCHUP, KFC, MCDONALDS);
+
+    public static List<RestaurantTo> getAllRestaurantToWithTodayMenu(){
+        RestaurantTo KfcToWithMenu = new RestaurantTo(KFC);
+        KfcToWithMenu.setMenu(Arrays.asList(CHICKEN_SPECIAL));
+        RestaurantTo KetchupToWithMenu = new RestaurantTo(KETCHUP);
+        KetchupToWithMenu.setMenu(Arrays.asList(KETCHUPBURGER_SPECIAL));
+        RestaurantTo BusheToWithMenu = new RestaurantTo(KFC);
+        BusheToWithMenu.setMenu(Arrays.asList(CAKE_SPECIAL));
+
+        return Arrays.asList(KfcToWithMenu, KetchupToWithMenu, BusheToWithMenu);
+    }
 
     public static Restaurant getCreatedRestaurant(){
         return new Restaurant("british bakeries", "address british bakeries");

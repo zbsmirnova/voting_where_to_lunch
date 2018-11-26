@@ -45,11 +45,11 @@ public class UserRestaurantControllerTest extends AbstractControllerTest {
 //    }
 
     @Test
-    public void testGetAll() throws Exception {
+    public void testGetAllWithTodayMenu() throws Exception {
         TestUtil.print(mockMvc.perform(get(URL)
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(asTo(ALL_RESTAURANTS))));
+                .andExpect(contentJson(getAllRestaurantToWithTodayMenu())));
     }
 }

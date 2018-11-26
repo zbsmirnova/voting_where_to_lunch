@@ -21,7 +21,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ContextConfiguration({"classpath:spring/spring.xml",
-                        "classpath:spring/clock-mock.xml"})
+                        "classpath:spring/clock-mock.xml", "classpath:spring/spring-mvc.xml"})
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -56,7 +56,7 @@ public abstract class AbstractControllerTest {
 
     @Before
     public void setUp() {
-        cacheManager.getCache("restaurants").clear();
+        cacheManager.getCache("restaurantsWithTodayMenu").clear();
     }
 
 //    protected String getMessage(String code) {

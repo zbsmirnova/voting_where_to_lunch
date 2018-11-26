@@ -27,7 +27,7 @@ public class AdminRestaurantController extends AbstractRestaurantController{
         return super.getAll();
     }
 
-    @GetMapping
+    @GetMapping(value = "/getAllWithTodayMenu")
     public List<RestaurantTo> getAllWithTodayMenu(){
         return super.getAllWithTodayMenu();
     }
