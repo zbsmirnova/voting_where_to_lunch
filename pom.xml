@@ -33,7 +33,7 @@
         <javax-el.version>3.0.1-b08</javax-el.version>
 
         <!--Json-->
-        <jackson-json.version>2.9.3</jackson-json.version>
+        <jackson-json.version>2.9.5</jackson-json.version>
 
         <!--    Tests  -->
         <junit.version>4.12</junit.version>
