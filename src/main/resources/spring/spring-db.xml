@@ -14,8 +14,8 @@
        >
 
 
-    <context:component-scan base-package="zbsmirnova.votingforrestaurants.repository"/>
-    <jpa:repositories base-package="zbsmirnova.votingforrestaurants.repository"/>
+    <context:component-scan base-package="zbsmirnova.restaurantvoting.repository"/>
+    <jpa:repositories base-package="zbsmirnova.restaurantvoting.repository"/>
 
     <context:annotation-config />
 
@@ -37,7 +37,7 @@
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
-          p:packagesToScan="zbsmirnova.votingforrestaurants.model">
+          p:packagesToScan="zbsmirnova.restaurantvoting.model">
         <!--p:persistenceUnitName="persistenceUnit">-->
 
         <property name="jpaPropertyMap">

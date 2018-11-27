@@ -18,7 +18,7 @@
         <csrf disabled="true"/>
     </http>
 
-    <beans:bean id="customAuthenticationHandler" class="zbsmirnova.votingforrestaurants.util.CustomAuthenticationHandler"/>
+    <beans:bean id="customAuthenticationHandler" class="zbsmirnova.restaurantvoting.util.CustomAuthenticationHandler"/>
 
     <authentication-manager>
         <authentication-provider user-service-ref="userService">

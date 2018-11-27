@@ -16,11 +16,11 @@
 
     <context:annotation-config />
 
-    <context:component-scan base-package="zbsmirnova.votingforrestaurants.web"/>
-    <context:component-scan base-package="zbsmirnova.votingforrestaurants.model"/>
-    <context:component-scan base-package="zbsmirnova.votingforrestaurants.service"/>
+    <context:component-scan base-package="zbsmirnova.restaurantvoting.web"/>
+    <context:component-scan base-package="zbsmirnova.restaurantvoting.model"/>
+    <context:component-scan base-package="zbsmirnova.restaurantvoting.service"/>
 
-    <bean class="zbsmirnova.votingforrestaurants.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
+    <bean class="zbsmirnova.restaurantvoting.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -48,7 +48,7 @@
     <!--Clock bean for runtime-->
     <bean id="systemClock" class="java.time.Clock" factory-method="systemDefaultZone" />
 
-    <bean id="profileVoteController" class="zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController">
+    <bean id="profileVoteController" class="zbsmirnova.restaurantvoting.web.vote.ProfileVoteController">
         <constructor-arg type="java.time.Clock" ref="systemClock"/>
     </bean>
 

@@ -5,18 +5,18 @@
 
     <beans profile="afterStopTime">
         <!--Clock bean for test time = 14.00.00 a.m.-->
-        <bean id = "clockUtil" class="zbsmirnova.votingforrestaurants.util.ClockUtil" factory-method="getClockAfterStop"/>
+        <bean id = "clockUtil" class="zbsmirnova.restaurantvoting.util.ClockUtil" factory-method="getClockAfterStop"/>
 
-        <bean id="profileVoteController" class="zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController">
+        <bean id="profileVoteController" class="zbsmirnova.restaurantvoting.web.vote.ProfileVoteController">
             <constructor-arg type="java.time.Clock" ref="clockUtil"/>
         </bean>
     </beans>
 
     <beans profile="beforeStopTime">
         <!--Clock bean for test time = 10.00.00 a.m.-->
-        <bean id = "clockUtil" class="zbsmirnova.votingforrestaurants.util.ClockUtil" factory-method="getClockBeforeStop"/>
+        <bean id = "clockUtil" class="zbsmirnova.restaurantvoting.util.ClockUtil" factory-method="getClockBeforeStop"/>
 
-        <bean id="profileVoteController" class="zbsmirnova.votingforrestaurants.web.vote.ProfileVoteController">
+        <bean id="profileVoteController" class="zbsmirnova.restaurantvoting.web.vote.ProfileVoteController">
             <constructor-arg type="java.time.Clock" ref="clockUtil"/>
         </bean>
     </beans>
