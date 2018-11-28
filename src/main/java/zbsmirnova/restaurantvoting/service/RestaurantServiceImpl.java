@@ -15,6 +15,7 @@ import zbsmirnova.restaurantvoting.util.RestaurantUtil;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -60,11 +61,32 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<RestaurantTo> getAllWithTodayMenu() {
         List<Dish> dishes = dishRepository.getTodayWithRest();
-        return dishes.stream()
-                .map(dish -> {Restaurant rest = dish.getRestaurant();
-                 rest.setDishes(Arrays.asList(dish));
-                return asTo(rest);})
-                .collect(Collectors.toList());
+        List<Restaurant> restaurantsWithTodayDishes = new ArrayList<>();
+        for (Dish dish: dishes) {
+            Restaurant restaurant =  dish.getRestaurant();
+            List<Dish> todayDishes;
+            if(restaurantsWithTodayDishes.contains(restaurant)) {
+                List<Dish> dishes1 = new ArrayList<>(restaurant.getDishes());
+                dishes1.add(dish);
+                restaurant.setDishes(dishes1);
+            }
+            else{
+                todayDishes = Arrays.asList(dish);
+                restaurant.setDishes(todayDishes);
+                restaurantsWithTodayDishes.add(restaurant);
+            }
+        }
+        return asTo(restaurantsWithTodayDishes);
+//
+//        taking a list of all restaurants from db? in stream taking today menu for each of them
+//         and filtering to the result list those ones, which have not empty today menu
+
+//        List<Restaurant> allRestaurants = getAll();
+//         return allRestaurants.stream()
+//                .peek(restaurant-> restaurant.setDishes(dishRepository.getTodayMenu(restaurant.getId(), LocalDate.now())))
+//                .filter(restaurant -> !restaurant.getDishes().isEmpty())
+//                .collect(Collectors.toList());
+//
     }
 
     @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)

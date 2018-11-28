@@ -2,19 +2,7 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="web application context" name="MVC application context" removed="true" profiles="systemTime">
-          <file>file://$MODULE_DIR$/src/main/resources/spring/spring.xml</file>
-        </fileset>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/spring/spring.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-mvc.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-db.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-security.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-tools.xml</file>
-        </fileset>
-        <fileset id="web application context" profiles="systemTime" autodetected="true" />
-      </configuration>
+      <configuration />
     </facet>
     <facet type="web" name="Web">
       <configuration>
