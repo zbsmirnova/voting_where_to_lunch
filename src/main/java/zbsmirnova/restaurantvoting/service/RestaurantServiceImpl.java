@@ -60,6 +60,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Cacheable("restaurantsWithTodayMenu")
     @Override
     public List<RestaurantTo> getAllWithTodayMenu() {
+        //taking all today dishes with restaurant from db (about 5-6 dishes for each restaurant), in cycle
+        //for each dish taking restaurant, adding dish to the restaurant menu and put into restaurant list
         List<Dish> dishes = dishRepository.getTodayWithRest();
         List<Restaurant> restaurantsWithTodayDishes = new ArrayList<>();
         for (Dish dish: dishes) {
@@ -80,6 +82,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 //
 //        taking a list of all restaurants from db? in stream taking today menu for each of them
 //         and filtering to the result list those ones, which have not empty today menu
+//          2 calls to db for each restaurant
 
 //        List<Restaurant> allRestaurants = getAll();
 //         return allRestaurants.stream()
