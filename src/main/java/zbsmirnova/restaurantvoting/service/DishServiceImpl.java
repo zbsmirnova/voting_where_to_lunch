@@ -68,5 +68,6 @@ public class DishServiceImpl implements DishService{
         Assert.notNull(dish, "dish must not be null");
         if(get(dish.getId(), restaurantId) == null) return;
         dish.setRestaurant(restaurantService.get(restaurantId));
+        repository.save(dish);
     }
 }
