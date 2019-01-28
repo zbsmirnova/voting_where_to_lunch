@@ -6,9 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"address", "name"}, name = "restaurants_unique_idx")})
 public class Restaurant extends AbstractNamedEntity{
 
@@ -26,8 +32,6 @@ public class Restaurant extends AbstractNamedEntity{
     @OrderBy("voteDate DESC")
     protected List<Vote> votes;
 
-    public Restaurant(){}
-
     public Restaurant(String name, String address){
         super(null, name);
         this.address = address;
@@ -40,22 +44,6 @@ public class Restaurant extends AbstractNamedEntity{
 
     public Restaurant(Restaurant restaurant){
         this(restaurant.id, restaurant.name, restaurant.address);
-    }
-
-    public List<Dish> getDishes() { return dishes; }
-
-    public String getAddress() {return address;}
-
-    public void setAddress(String address) {this.address = address;}
-
-    public void setDishes(List<Dish> dishes) { this.dishes = dishes; }
-
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
     }
 
     @Override

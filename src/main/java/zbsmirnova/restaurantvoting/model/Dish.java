@@ -1,6 +1,9 @@
 package zbsmirnova.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -8,7 +11,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "dishes", uniqueConstraints =
         {@UniqueConstraint(columnNames = {"restaurant_id", "date", "name"}, name = "dishes_unique_idx")})
 public class Dish extends AbstractNamedEntity{
@@ -27,8 +34,6 @@ public class Dish extends AbstractNamedEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Restaurant restaurant;
-
-    public Dish(){}
 
     public Dish(int price, String name, LocalDate date){
         super(null, name);
@@ -54,29 +59,6 @@ public class Dish extends AbstractNamedEntity{
 
     public Dish(Dish dish){
         this(dish.getId(), dish.getPrice(), dish.getName(), dish.getRestaurant(), dish.getDate());
-    }
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 
     @Override

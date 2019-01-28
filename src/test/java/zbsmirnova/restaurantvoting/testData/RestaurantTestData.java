@@ -36,7 +36,7 @@ public class RestaurantTestData {
         RestaurantTo KfcToWithMenu  = new RestaurantTo(KFC);
         KfcToWithMenu.setMenu(Arrays.asList(CHICKEN_SPECIAL));
 
-        return Arrays.asList(BusheToWithMenu, KetchupToWithMenu, KfcToWithMenu);
+        return Arrays.asList(KfcToWithMenu, KetchupToWithMenu, BusheToWithMenu);
 
     }
 

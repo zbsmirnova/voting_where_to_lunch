@@ -29,11 +29,4 @@ public abstract class AbstractServiceTest {
 
     @Rule
     public StopwatchImpl stopwatch = new StopwatchImpl();
-
-    static {
-        // needed only for java.util.logging (postgres driver)
-        SLF4JBridgeHandler.install();
-    }
-
-
 }

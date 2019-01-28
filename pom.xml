@@ -18,6 +18,7 @@
 
         <!-- Logging -->
         <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
 
         <!--Spring-->
         <spring.version>5.0.2.RELEASE</spring.version>
@@ -28,7 +29,6 @@
         <hibernate.version>5.2.12.Final</hibernate.version>
         <hibernate-validator.version>6.0.7.Final</hibernate-validator.version>
         <jsoup.version>1.11.3</jsoup.version>
-
         <javax-el.version>3.0.1-b08</javax-el.version>
 
         <!--Json-->
@@ -42,6 +42,7 @@
 
         <!--Tools-->
         <ehcache.version>3.4.0</ehcache.version>
+        <lombok.version>1.16.16</lombok.version>
     </properties>
 
     <build>
@@ -71,7 +72,7 @@
 
     <dependencies>
 
-        <!-- Logging with SLF4J & LogBack -->
+        <!-- Logging with SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -93,12 +94,12 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
             <scope>runtime</scope>
-        </dependency>-->
+        </dependency>
 
         <!--Spring-->
         <dependency>
@@ -276,6 +277,14 @@
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

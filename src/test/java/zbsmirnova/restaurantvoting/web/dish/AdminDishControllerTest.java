@@ -151,18 +151,4 @@ public class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
-
-//    @Test
-//    @Transactional(propagation = Propagation.NEVER)
-//    public void testUpdateDuplicate() throws Exception {
-//        Dish updated = new Dish(CHICKEN);
-//        mockMvc.perform(put(URL + CHICKEN_ID, KFC_ID)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-//                .content(jsonWithPassword(updated, "password")))
-//                .andExpect(status().isConflict())
-//                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
-//                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_EMAIL))
-//                .andDo(print());
-//    }
 }

@@ -45,16 +45,16 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         DishTestData.assertMatch(ketchupWithTodayMenu.getDishes(), KETCHUPBURGER_SPECIAL);
     }
 
-//    @Test
-//    public void getAll() {
-//        assertMatch(service.getAllWithTodayMenu(), ALL_RESTAURANTS);
-//    }
-//
-//    @Test
-//    public void delete() {
-//        service.delete(KFC_ID);
-//        assertMatch(service.getAllWithTodayMenu(), BUSHE, KETCHUP, MCDONALDS);
-//    }
+    @Test
+    public void getAll() {
+        assertMatch(service.getAll(), ALL_RESTAURANTS);
+    }
+
+    @Test
+    public void delete() {
+        service.delete(KFC_ID);
+        assertMatch(service.getAll(), BUSHE, KETCHUP, MCDONALDS);
+    }
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() {
@@ -75,12 +75,12 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         service.update(asTo(updated));
     }
 
-//    @Test
-//    public void create() {
-//        Restaurant created = getCreatedRestaurant();
-//        service.create(created);
-//        assertMatch(service.getAllWithTodayMenu(), created, BUSHE, KETCHUP, KFC, MCDONALDS);
-//    }
+    @Test
+    public void create() {
+        Restaurant created = getCreatedRestaurant();
+        service.create(created);
+        assertMatch(service.getAll(), created, BUSHE, KETCHUP, KFC, MCDONALDS);
+    }
 
     @Test(expected = TransactionSystemException.class)
     public void createInvalid() {

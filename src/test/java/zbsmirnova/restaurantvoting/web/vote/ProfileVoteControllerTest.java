@@ -7,15 +7,18 @@ import org.springframework.test.web.servlet.ResultActions;
 import zbsmirnova.restaurantvoting.TestUtil;
 import zbsmirnova.restaurantvoting.model.Vote;
 import zbsmirnova.restaurantvoting.service.VoteService;
+import zbsmirnova.restaurantvoting.to.VoteTo;
 import zbsmirnova.restaurantvoting.web.AbstractControllerTest;
 
 import java.time.LocalDate;
+import zbsmirnova.restaurantvoting.web.json.JsonUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static zbsmirnova.restaurantvoting.TestUtil.userHttpBasic;
+import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.KFC;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.MCDONALDS;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.MCDONALDS_ID;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.*;
@@ -49,12 +52,10 @@ public class ProfileVoteControllerTest extends AbstractControllerTest{
 
     @Test
     public void testCreate() throws Exception{
-        ResultActions action = mockMvc.perform(post(POST_URL,  MCDONALDS_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER1))
-                .param("restaurantId", String.valueOf(MCDONALDS_ID)))
-                //.content(JsonUtil.writeValue(createdTo)))
-                .andExpect(status().isCreated());
+      ResultActions action = mockMvc.perform(post( POST_URL, MCDONALDS_ID)
+          .contentType(MediaType.APPLICATION_JSON)
+          .with(userHttpBasic(USER1)))
+          .andExpect(status().isCreated());
 
         Vote returned = TestUtil.readFromJson(action, Vote.class);
         Vote created = new Vote(LocalDate.now(), USER1, MCDONALDS);
