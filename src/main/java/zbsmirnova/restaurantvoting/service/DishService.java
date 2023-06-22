@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DishService {
 
-    Dish get (int dishId, int restaurantId) throws NotFoundException;
+    Dish get(int dishId, int restaurantId) throws NotFoundException;
 
     List<Dish> getAll(int restaurantId);
 
@@ -18,5 +18,4 @@ public interface DishService {
     Dish create(Dish dish, int restaurantId);
 
     void update(Dish dish, int restaurantId);
-
 }

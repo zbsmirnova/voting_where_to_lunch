@@ -35,7 +35,7 @@ public class AdminVoteController {
     }
 
     @GetMapping
-    public List<VoteTo> getAll(){
+    public List<VoteTo> getAll() {
         log.info("get all votes");
         return asTo(service.getAll());
     }

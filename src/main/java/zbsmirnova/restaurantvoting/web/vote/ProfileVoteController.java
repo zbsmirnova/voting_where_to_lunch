@@ -41,17 +41,17 @@ public class ProfileVoteController {
     }
 
     @GetMapping(value = GET_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-    public VoteTo get(@AuthenticationPrincipal AuthorizedUser authorizedUser){
+    public VoteTo get(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
         log.info("get today vote by user {}", authorizedUser.getId());
         return checkNotFoundWithId(asTo(service.getTodayByUserId(authorizedUser.getId())), authorizedUser.getId());
     }
 
 
     @PostMapping(value = POST_URL, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createOrUpdate(@PathVariable("restaurantId") int restaurantId, @AuthenticationPrincipal AuthorizedUser authorizedUser){
+    public ResponseEntity<Vote> createOrUpdate(@PathVariable("restaurantId") int restaurantId, @AuthenticationPrincipal AuthorizedUser authorizedUser) {
         Vote vote = service.getTodayByUserId(authorizedUser.getId());
         //create
-        if(vote == null){
+        if (vote == null) {
             log.info("create vote for restaurant {} by user {}", restaurantId, authorizedUser.getId());
             vote = createNew();
             Vote created = service.save(vote, authorizedUser.getId(), restaurantId);
@@ -59,10 +59,10 @@ public class ProfileVoteController {
                     .path("/{restaurantId}")
                     .buildAndExpand(created.getId()).toUri();
 
-        return ResponseEntity.created(uriOfNewResource).body(created);
+            return ResponseEntity.created(uriOfNewResource).body(created);
         }
         //update
-        else{
+        else {
             log.info("update vote {} for restaurant {} by user {}", vote.getId(), restaurantId, authorizedUser.getId());
             LocalTime voteTime = LocalTime.now(clock);
             checkVotingTime(voteTime);

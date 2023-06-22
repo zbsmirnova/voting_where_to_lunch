@@ -12,7 +12,8 @@ public class ClockUtil {
 
     public static final String AFTER_STOP = "afterStopTime";
 
-    private ClockUtil(){}
+    private ClockUtil() {
+    }
 
     public static Clock getClockBeforeStop() {
         return CLOCK_BEFORE_STOP;
@@ -21,5 +22,4 @@ public class ClockUtil {
     public static Clock getClockAfterStop() {
         return CLOCK_AFTER_STOP;
     }
-
 }

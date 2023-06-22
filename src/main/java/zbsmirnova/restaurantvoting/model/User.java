@@ -5,6 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,8 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_idx")})
-public class User extends AbstractNamedEntity{
-
+public class User extends AbstractNamedEntity {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -33,11 +33,11 @@ public class User extends AbstractNamedEntity{
     @OrderBy("voteDate DESC")
     protected List<Vote> votes;
 
-    @Column(name="role", nullable = false)
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(User user){
+    public User(User user) {
         this(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole());
     }
 

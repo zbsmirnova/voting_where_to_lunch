@@ -1,6 +1,5 @@
 package zbsmirnova.restaurantvoting.util;
 
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import zbsmirnova.restaurantvoting.model.Role;
@@ -35,7 +34,7 @@ public class UserUtil {
         return user;
     }
 
-    public static List<UserTo> asTo(List<User> users){
+    public static List<UserTo> asTo(List<User> users) {
         return users.stream().map(UserUtil::asTo).collect(toList());
     }
 }

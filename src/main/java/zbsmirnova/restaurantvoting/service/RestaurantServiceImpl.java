@@ -25,7 +25,6 @@ import static zbsmirnova.restaurantvoting.util.RestaurantUtil.asTo;
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.updateFromTo;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 
-
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
@@ -39,7 +38,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant get(int restaurantId){
+    public Restaurant get(int restaurantId) {
         return checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElse(null), restaurantId);
     }
 
@@ -64,32 +63,20 @@ public class RestaurantServiceImpl implements RestaurantService {
         //for each dish taking restaurant, adding dish to the restaurant menu and put into restaurant list
         List<Dish> dishes = dishRepository.getTodayWithRest();
         List<Restaurant> restaurantsWithTodayDishes = new ArrayList<>();
-        for (Dish dish: dishes) {
-            Restaurant restaurant =  dish.getRestaurant();
+        for (Dish dish : dishes) {
+            Restaurant restaurant = dish.getRestaurant();
             List<Dish> todayDishes;
-            if(restaurantsWithTodayDishes.contains(restaurant)) {
+            if (restaurantsWithTodayDishes.contains(restaurant)) {
                 List<Dish> dishes1 = new ArrayList<>(restaurant.getDishes());
                 dishes1.add(dish);
                 restaurant.setDishes(dishes1);
-            }
-            else{
+            } else {
                 todayDishes = Arrays.asList(dish);
                 restaurant.setDishes(todayDishes);
                 restaurantsWithTodayDishes.add(restaurant);
             }
         }
         return asTo(restaurantsWithTodayDishes);
-//
-//        taking a list of all restaurants from db? in stream taking today menu for each of them
-//         and filtering to the result list those ones, which have not empty today menu
-//          2 calls to db for each restaurant
-
-//        List<Restaurant> allRestaurants = getAll();
-//         return allRestaurants.stream()
-//                .peek(restaurant-> restaurant.setDishes(dishRepository.getTodayMenu(restaurant.getId(), LocalDate.now())))
-//                .filter(restaurant -> !restaurant.getDishes().isEmpty())
-//                .collect(Collectors.toList());
-//
     }
 
     @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)

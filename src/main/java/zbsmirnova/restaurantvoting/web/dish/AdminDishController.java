@@ -18,7 +18,6 @@ import java.util.List;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNew;
 
-
 @RestController
 @RequestMapping(AdminDishController.URL)
 public class AdminDishController {
@@ -37,19 +36,19 @@ public class AdminDishController {
 
     @GetMapping(value = "/{dishId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Dish get(@PathVariable("restaurantId") int restaurantId,
-                      @PathVariable("dishId") int dishId){
+                    @PathVariable("dishId") int dishId) {
         log.info("get dish {} for restaurant {} ", dishId, restaurantId);
         return service.get(dishId, restaurantId);
-        }
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Dish> getAll(@PathVariable("restaurantId") int restaurantId){
+    public List<Dish> getAll(@PathVariable("restaurantId") int restaurantId) {
         log.info("get all dishes {} for restaurant {} ", restaurantId);
         return service.getAll(restaurantId);
-        }
+    }
 
     @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Dish> getTodayMenu(@PathVariable("restaurantId") int restaurantId){
+    public List<Dish> getTodayMenu(@PathVariable("restaurantId") int restaurantId) {
         log.info("get all dishes {} for restaurant {} for today", restaurantId);
         return service.getTodayMenu(restaurantId);
     }

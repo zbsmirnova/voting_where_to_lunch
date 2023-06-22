@@ -16,7 +16,7 @@ import java.util.List;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class DishServiceImpl implements DishService{
+public class DishServiceImpl implements DishService {
 
     private final DishRepository repository;
 
@@ -29,10 +29,10 @@ public class DishServiceImpl implements DishService{
     }
 
     @Override
-    public Dish get(int dishId, int restaurantId) throws NotFoundException  {
-         return checkNotFoundWithId(repository.getByIdAndRestaurantId(dishId, restaurantId).orElseThrow(()
-                 -> new NotFoundException("Not found dish id = " + dishId +
-                 "for restaurant id = " + restaurantId)), dishId);
+    public Dish get(int dishId, int restaurantId) throws NotFoundException {
+        return checkNotFoundWithId(repository.getByIdAndRestaurantId(dishId, restaurantId).orElseThrow(()
+                -> new NotFoundException("Not found dish id = " + dishId +
+                "for restaurant id = " + restaurantId)), dishId);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class DishServiceImpl implements DishService{
     }
 
     @Override
-    public List<Dish> getTodayMenu(int restaurantId){
+    public List<Dish> getTodayMenu(int restaurantId) {
         checkNotFoundWithId(restaurantService.get(restaurantId), restaurantId);
         return repository.getTodayMenu(restaurantId, LocalDate.now());
     }
@@ -64,9 +64,9 @@ public class DishServiceImpl implements DishService{
     @Transactional
     @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
     @Override
-    public void update(Dish dish, int restaurantId){
+    public void update(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
-        if(get(dish.getId(), restaurantId) == null) return;
+        if (get(dish.getId(), restaurantId) == null) return;
         dish.setRestaurant(restaurantService.get(restaurantId));
         repository.save(dish);
     }

@@ -54,6 +54,4 @@ public class ProfileController {
         assureIdConsistent(userTo, id);
         service.update(userTo, id);
     }
-
-
 }

@@ -21,8 +21,8 @@ public class VoteUtil {
     public static VoteTo asTo(Vote vote) {
         return new VoteTo(vote.getId(), vote.getDate(), vote.getUser().getId(), vote.getRestaurant().getId());
     }
-    public static List<VoteTo> asTo(List<Vote> votes){
+
+    public static List<VoteTo> asTo(List<Vote> votes) {
         return votes.stream().map(VoteUtil::asTo).collect(toList());
     }
-
 }

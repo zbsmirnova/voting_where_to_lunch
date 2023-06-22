@@ -7,7 +7,6 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
 import java.time.LocalTime;
 
-
 public class ValidationUtil {
     private static final LocalTime STOP_VOTING_TIME = LocalTime.of(11, 00, 00, 00);
 
@@ -20,10 +19,6 @@ public class ValidationUtil {
 
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
-    }
-
-    public static <T> T checkNotFoundWithUserId(T object, int id) {
-        return checkNotFound(object, "userId=" + id);
     }
 
     public static <T> T checkNotFound(T object, String msg) {
@@ -63,8 +58,8 @@ public class ValidationUtil {
         return result;
     }
 
-    public static void checkVotingTime(LocalTime voteTime){
-        if(voteTime.isAfter(STOP_VOTING_TIME)){
+    public static void checkVotingTime(LocalTime voteTime) {
+        if (voteTime.isAfter(STOP_VOTING_TIME)) {
             throw new InvalidVoteTimeException("it`s too late to vote, " + voteTime + ", try tomorrow before 11:00 a.m.");
         }
     }

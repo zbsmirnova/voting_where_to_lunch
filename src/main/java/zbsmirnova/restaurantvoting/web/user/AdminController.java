@@ -22,7 +22,6 @@ import static zbsmirnova.restaurantvoting.util.UserUtil.asTo;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNew;
 
-
 @RestController
 @RequestMapping(AdminController.URL)
 public class AdminController {
@@ -42,13 +41,15 @@ public class AdminController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserTo get(@PathVariable("id") int id) {
         log.info("get user {} ", id);
-        return asTo(service.get(id));}
+        return asTo(service.get(id));
+    }
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserTo> getAll() {
         log.info("get all users");
-        return asTo(service.getAll());}
+        return asTo(service.getAll());
+    }
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -57,7 +58,7 @@ public class AdminController {
         service.delete(id);
     }
 
-        //creates only user(ROLE.USER)
+    //creates only user(ROLE.USER)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createUser(@Valid @RequestBody UserTo userTo) {
         checkNew(userTo);
@@ -81,5 +82,4 @@ public class AdminController {
         assureIdConsistent(userTo, id);
         service.update(userTo, id);
     }
-
 }

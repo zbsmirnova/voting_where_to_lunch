@@ -35,8 +35,6 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote getTodayByUserId(int userId) throws NotFoundException {
         return voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElse(null);
-//            orElseThrow(() ->
-//                new NotFoundException("Not found today vote for user id = " + userId));
     }
 
     @Override
@@ -56,7 +54,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public void delete(int id) throws NotFoundException{
+    public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(voteRepository.delete(id) != 0, id);
     }
 
@@ -64,7 +62,7 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote save(Vote vote, int userId, int restaurantId) {
         Assert.notNull(vote, "vote must not be null");
-        if(!vote.isNew() && get(vote.getId()) == null) return null;
+        if (!vote.isNew() && get(vote.getId()) == null) return null;
         vote.setRestaurant(restaurantService.get(restaurantId));
         vote.setUser(userService.get(userId));
         return voteRepository.save(vote);

@@ -11,14 +11,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "dishes", uniqueConstraints =
         {@UniqueConstraint(columnNames = {"restaurant_id", "date", "name"}, name = "dishes_unique_idx")})
-public class Dish extends AbstractNamedEntity{
+public class Dish extends AbstractNamedEntity {
 
     //price in cents
     @Column(name = "price", nullable = false)
@@ -35,35 +34,35 @@ public class Dish extends AbstractNamedEntity{
     @JsonBackReference
     private Restaurant restaurant;
 
-    public Dish(int price, String name, LocalDate date){
+    public Dish(int price, String name, LocalDate date) {
         super(null, name);
         this.price = price;
         this.date = date;
     }
 
-    public Dish(int price, String name, Restaurant restaurant, LocalDate date){
+    public Dish(int price, String name, Restaurant restaurant, LocalDate date) {
         this(price, name, date);
         this.restaurant = restaurant;
     }
 
-    public Dish(int id, int price, String name,  LocalDate date){
+    public Dish(int id, int price, String name, LocalDate date) {
         super(id, name);
         this.price = price;
         this.date = date;
     }
 
-    public Dish(int id, int price, String name, Restaurant restaurant, LocalDate date){
-       this(id, price, name, date);
+    public Dish(int id, int price, String name, Restaurant restaurant, LocalDate date) {
+        this(id, price, name, date);
         this.restaurant = restaurant;
     }
 
-    public Dish(Dish dish){
+    public Dish(Dish dish) {
         this(dish.getId(), dish.getPrice(), dish.getName(), dish.getRestaurant(), dish.getDate());
     }
 
     @Override
     public String toString() {
-        return "Dish{"  +
+        return "Dish{" +
                 " name " + name +
                 ", price = " + price + " cents, " +
                 "date = " + date +

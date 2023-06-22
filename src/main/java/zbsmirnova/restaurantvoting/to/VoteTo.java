@@ -4,8 +4,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class VoteTo extends BaseTo implements Serializable{
-    //private static final long serialVersionUID = 1L;
+public class VoteTo extends BaseTo implements Serializable {
 
     @NotNull
     private LocalDate voteDate;
@@ -15,8 +14,6 @@ public class VoteTo extends BaseTo implements Serializable{
 
     @NotNull
     private int restaurantId;
-
-    public VoteTo(){};
 
     public VoteTo(Integer id, LocalDate voteDate, int userId, int restaurantId) {
         super(id);
@@ -29,18 +26,6 @@ public class VoteTo extends BaseTo implements Serializable{
         return voteDate;
     }
 
-    public void setVoteDate(LocalDate voteDate) {
-        this.voteDate = voteDate;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public int getRestaurantId() {
         return restaurantId;
     }
@@ -51,11 +36,6 @@ public class VoteTo extends BaseTo implements Serializable{
 
     @Override
     public String toString() {
-        return "VoteTo{" +
-                "id = " + id +
-                ", userId =" + userId + '\'' +
-                ", restaurantId = " + restaurantId + '\'' +
-                ", date =" + voteDate + '\'' +
-                '}';
+        return "VoteTo{" + "id = " + id + ", userId =" + userId + '\'' + ", restaurantId = " + restaurantId + '\'' + ", date =" + voteDate + '\'' + '}';
     }
 }

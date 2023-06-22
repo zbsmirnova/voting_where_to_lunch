@@ -20,17 +20,17 @@ public abstract class AbstractRestaurantController {
     @Autowired
     private RestaurantService service;
 
-    public RestaurantTo get(int restaurantId){
+    public RestaurantTo get(int restaurantId) {
         log.info("get restaurant {} ", restaurantId);
         return asTo(service.getWithTodayMenu(restaurantId));
     }
 
-    public List<Restaurant> getAll(){
+    public List<Restaurant> getAll() {
         log.info("get all restaurants");
         return service.getAll();
     }
 
-    public List<RestaurantTo> getAllWithTodayMenu(){
+    public List<RestaurantTo> getAllWithTodayMenu() {
         log.info("get all restaurants with today menu");
         return service.getAllWithTodayMenu();
     }
@@ -40,13 +40,13 @@ public abstract class AbstractRestaurantController {
         service.delete(id);
     }
 
-    public Restaurant create(RestaurantTo restaurantTo){
+    public Restaurant create(RestaurantTo restaurantTo) {
         log.info("create restaurant {}", restaurantTo);
         checkNew(restaurantTo);
         return service.create(createNewFromTo(restaurantTo));
     }
 
-    public void update(RestaurantTo restaurantTo, int id){
+    public void update(RestaurantTo restaurantTo, int id) {
         log.info("update restaurant {}", restaurantTo);
         assureIdConsistent(restaurantTo, id);
         service.update(restaurantTo);

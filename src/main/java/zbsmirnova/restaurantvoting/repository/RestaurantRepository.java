@@ -11,7 +11,6 @@ import zbsmirnova.restaurantvoting.model.Restaurant;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
@@ -20,11 +19,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     @Query("SELECT r FROM Restaurant r  ORDER BY r.name")
     List<Restaurant> getAll();
-
-
-    //SELECT a, p FROM Author a JOIN a.publications p ON p.publishingDate > ?1
-//    @Query("select r, d from Restaurant  r join d on d.")
-//    List<Restaurant> getAllWithTodayMenu();
 
     @Modifying
     @Transactional

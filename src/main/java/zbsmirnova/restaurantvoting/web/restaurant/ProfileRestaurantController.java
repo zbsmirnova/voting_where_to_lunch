@@ -11,16 +11,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping(ProfileRestaurantController.URL)
-public class ProfileRestaurantController extends AbstractRestaurantController{
-   static final String URL = "/profile/restaurants";
+public class ProfileRestaurantController extends AbstractRestaurantController {
+    static final String URL = "/profile/restaurants";
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RestaurantTo get(@PathVariable("id") int id){
-        return super.get(id);}
-
+    public RestaurantTo get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
 
     @GetMapping
-    public List<RestaurantTo> getAllWithTodayMenu(){
+    public List<RestaurantTo> getAllWithTodayMenu() {
         return super.getAllWithTodayMenu();
     }
 }

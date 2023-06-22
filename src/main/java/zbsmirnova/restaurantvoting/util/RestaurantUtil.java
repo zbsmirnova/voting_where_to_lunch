@@ -25,8 +25,8 @@ public class RestaurantUtil {
     public static RestaurantTo asTo(Restaurant restaurant) {
         return new RestaurantTo(restaurant.getId(), restaurant.getName(), restaurant.getAddress(), restaurant.getDishes());
     }
-    public static List<RestaurantTo> asTo(List<Restaurant> restaurants){
+
+    public static List<RestaurantTo> asTo(List<Restaurant> restaurants) {
         return restaurants.stream().map(RestaurantUtil::asTo).collect(toList());
     }
-
 }

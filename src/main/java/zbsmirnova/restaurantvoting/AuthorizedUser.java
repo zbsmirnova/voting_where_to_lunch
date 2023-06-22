@@ -7,11 +7,13 @@ import zbsmirnova.restaurantvoting.to.UserTo;
 import zbsmirnova.restaurantvoting.util.UserUtil;
 
 
+import java.io.Serial;
 import java.util.Collections;
 
 import static java.util.Objects.requireNonNull;
 
 public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final UserTo userTo;
@@ -42,10 +44,6 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
 
     public static int id() {
         return get().userTo.getId();
-    }
-
-    public UserTo getUserTo() {
-        return userTo;
     }
 
     @Override

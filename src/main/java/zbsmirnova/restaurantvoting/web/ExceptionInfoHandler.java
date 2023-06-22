@@ -18,7 +18,6 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
@@ -76,5 +75,4 @@ public class ExceptionInfoHandler {
         }
         return new ErrorInfo(req.getRequestURL(), e);
     }
-
 }

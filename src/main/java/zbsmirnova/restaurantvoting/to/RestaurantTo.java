@@ -8,8 +8,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
-public class RestaurantTo extends BaseTo implements Serializable{
-    //private static final long serialVersionUID = 1L;
+public class RestaurantTo extends BaseTo implements Serializable {
 
     @NotBlank
     @Size(min = 2, max = 100)
@@ -21,18 +20,19 @@ public class RestaurantTo extends BaseTo implements Serializable{
 
     private List<Dish> menu;
 
-    public RestaurantTo(){}
+    public RestaurantTo() {
+    }
 
-    public RestaurantTo(String name,String address) {
+    public RestaurantTo(String name, String address) {
         this.name = name;
         this.address = address;
     }
 
-    public RestaurantTo(Restaurant restaurant){
+    public RestaurantTo(Restaurant restaurant) {
         this(restaurant.getId(), restaurant.getName(), restaurant.getAddress(), restaurant.getDishes());
     }
 
-    public RestaurantTo(int id, String name, String address, List<Dish> menu){
+    public RestaurantTo(int id, String name, String address, List<Dish> menu) {
         super(id);
         this.name = name;
         this.address = address;

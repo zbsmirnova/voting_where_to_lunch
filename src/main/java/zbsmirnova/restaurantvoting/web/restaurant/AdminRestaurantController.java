@@ -14,21 +14,22 @@ import java.util.List;
 
 @RestController
 @RequestMapping(AdminRestaurantController.URL)
-public class AdminRestaurantController extends AbstractRestaurantController{
+public class AdminRestaurantController extends AbstractRestaurantController {
 
     static final String URL = "/admin/restaurants";
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RestaurantTo get(@PathVariable("id") int id){
-        return super.get(id);}
+    public RestaurantTo get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
 
     @GetMapping
-    public List<Restaurant> getAll(){
+    public List<Restaurant> getAll() {
         return super.getAll();
     }
 
     @GetMapping(value = "/getAllWithTodayMenu")
-    public List<RestaurantTo> getAllWithTodayMenu(){
+    public List<RestaurantTo> getAllWithTodayMenu() {
         return super.getAllWithTodayMenu();
     }
 
