@@ -62,6 +62,7 @@ public class ProfileVoteController {
 
             return ResponseEntity.created(uriOfNewResource).body(created);
         }
+        //update
         else {
             log.info("Updating vote {} for restaurant {} by user {}", vote.getId(), restaurantId, authorizedUser.getId());
             LocalTime voteTime = LocalTime.now(clock);
