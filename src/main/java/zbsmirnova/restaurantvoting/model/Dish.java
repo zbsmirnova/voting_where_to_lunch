@@ -21,7 +21,6 @@ public class Dish extends AbstractNamedEntity {
 
     //price in cents
     @Column(name = "price", nullable = false)
-    @NotNull
     private int price;
 
     @Column(name = "date", nullable = false)
@@ -34,7 +33,7 @@ public class Dish extends AbstractNamedEntity {
     @JsonBackReference
     private Restaurant restaurant;
 
-    public Dish(int price, String name, LocalDate date) {
+    public Dish(int price, String name, @NotNull LocalDate date) {
         super(null, name);
         this.price = price;
         this.date = date;
@@ -45,7 +44,7 @@ public class Dish extends AbstractNamedEntity {
         this.restaurant = restaurant;
     }
 
-    public Dish(int id, int price, String name, LocalDate date) {
+    public Dish(int id, int price, String name, @NotNull LocalDate date) {
         super(id, name);
         this.price = price;
         this.date = date;
