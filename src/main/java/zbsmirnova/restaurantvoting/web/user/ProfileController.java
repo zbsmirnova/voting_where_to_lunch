@@ -1,7 +1,6 @@
 package zbsmirnova.restaurantvoting.web.user;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,15 +12,13 @@ import zbsmirnova.restaurantvoting.to.UserTo;
 
 import javax.validation.Valid;
 
-
 import static zbsmirnova.restaurantvoting.util.UserUtil.asTo;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(ProfileController.PROFILE_URL)
+@Slf4j
 public class ProfileController {
-
-    private static final Logger log = LoggerFactory.getLogger(ProfileController.class);
 
     static final String PROFILE_URL = "/profile";
 

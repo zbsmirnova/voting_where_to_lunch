@@ -1,7 +1,6 @@
 package zbsmirnova.restaurantvoting.web.vote;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,15 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import zbsmirnova.restaurantvoting.service.VoteService;
 import zbsmirnova.restaurantvoting.to.VoteTo;
 
-
 import java.util.List;
 
 import static zbsmirnova.restaurantvoting.util.VoteUtil.asTo;
 
 @RestController
 @RequestMapping(AdminVoteController.URL)
+@Slf4j
 public class AdminVoteController {
-    private static final Logger log = LoggerFactory.getLogger(AdminVoteController.class);
 
     static final String URL = "/admin/votes";
 

@@ -1,7 +1,6 @@
 package zbsmirnova.restaurantvoting.web.dish;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,10 +19,8 @@ import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(AdminDishController.URL)
+@Slf4j
 public class AdminDishController {
-
-    private final Logger log = LoggerFactory.getLogger(AdminDishController.class);
-
 
     static final String URL = "/admin/restaurants/{restaurantId}/dishes";
 
@@ -65,6 +62,7 @@ public class AdminDishController {
     public ResponseEntity<Dish> create(@PathVariable("restaurantId") int restaurantId,
                                        @Valid @RequestBody Dish dish) {
         checkNew(dish);
+
         Dish created = service.create(dish, restaurantId);
 
         log.info("Creating dish {} for restaurant {}", dish, restaurantId);
@@ -80,7 +78,9 @@ public class AdminDishController {
     public void update(@PathVariable("restaurantId") int restaurantId,
                        @PathVariable("dishId") int dishId, @Valid @RequestBody Dish dish) {
         assureIdConsistent(dish, dishId);
+
         log.info("Updating dish {} for restaurant {}", dish, restaurantId);
+
         service.update(dish, restaurantId);
     }
 }

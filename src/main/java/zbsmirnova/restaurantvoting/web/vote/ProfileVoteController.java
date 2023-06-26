@@ -1,18 +1,19 @@
 package zbsmirnova.restaurantvoting.web.vote;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.restaurantvoting.AuthorizedUser;
 import zbsmirnova.restaurantvoting.model.Vote;
 import zbsmirnova.restaurantvoting.service.VoteService;
 import zbsmirnova.restaurantvoting.to.VoteTo;
-
 
 import java.net.URI;
 import java.time.Clock;
@@ -20,12 +21,12 @@ import java.time.LocalTime;
 
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkVotingTime;
-import static zbsmirnova.restaurantvoting.util.VoteUtil.*;
+import static zbsmirnova.restaurantvoting.util.VoteUtil.asTo;
+import static zbsmirnova.restaurantvoting.util.VoteUtil.createNew;
 
 @RestController
+@Slf4j
 public class ProfileVoteController {
-    private static final Logger log = LoggerFactory.getLogger(ProfileVoteController.class);
-
     static final String POST_URL = "/profile/restaurants/{restaurantId}/votes";
 
     static final String GET_URL = "/profile/votes";
