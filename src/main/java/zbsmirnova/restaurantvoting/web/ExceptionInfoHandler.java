@@ -16,12 +16,10 @@ import zbsmirnova.restaurantvoting.util.exception.ErrorInfo;
 import zbsmirnova.restaurantvoting.util.exception.InvalidVoteTimeException;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
-    private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+    private static Logger LOG = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
@@ -69,9 +67,9 @@ public class ExceptionInfoHandler {
     private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
         if (logException) {
-            log.error("Exception at request " + req.getRequestURL(), e);
+            LOG.error("Exception at request " + req.getRequestURL(), e);
         } else {
-            log.warn("Exception at request  {}: {}", req.getRequestURL(), rootCause.toString());
+            LOG.warn("Exception at request  {}: {}", req.getRequestURL(), rootCause.toString());
         }
         return new ErrorInfo(req.getRequestURL(), e);
     }
