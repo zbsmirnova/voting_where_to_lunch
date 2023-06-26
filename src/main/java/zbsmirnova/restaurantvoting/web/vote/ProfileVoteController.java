@@ -32,17 +32,17 @@ public class ProfileVoteController {
 
     private Clock clock;
 
-    @Autowired
-    private VoteService service;
+    private final VoteService service;
 
     @Autowired
-    public ProfileVoteController(Clock clock) {
+    public ProfileVoteController(Clock clock, VoteService service) {
         this.clock = clock;
+        this.service = service;
     }
 
     @GetMapping(value = GET_URL, produces = MediaType.APPLICATION_JSON_VALUE)
     public VoteTo get(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
-        log.info("get today vote by user {}", authorizedUser.getId());
+        log.info("Getting today vote by user {}", authorizedUser.getId());
         return checkNotFoundWithId(asTo(service.getTodayByUserId(authorizedUser.getId())), authorizedUser.getId());
     }
 
@@ -52,7 +52,7 @@ public class ProfileVoteController {
         Vote vote = service.getTodayByUserId(authorizedUser.getId());
         //create
         if (vote == null) {
-            log.info("create vote for restaurant {} by user {}", restaurantId, authorizedUser.getId());
+            log.info("Creating vote for restaurant {} by user {}", restaurantId, authorizedUser.getId());
             vote = createNew();
             Vote created = service.save(vote, authorizedUser.getId(), restaurantId);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -61,9 +61,8 @@ public class ProfileVoteController {
 
             return ResponseEntity.created(uriOfNewResource).body(created);
         }
-        //update
         else {
-            log.info("update vote {} for restaurant {} by user {}", vote.getId(), restaurantId, authorizedUser.getId());
+            log.info("Updating vote {} for restaurant {} by user {}", vote.getId(), restaurantId, authorizedUser.getId());
             LocalTime voteTime = LocalTime.now(clock);
             checkVotingTime(voteTime);
             service.save(vote, authorizedUser.getId(), restaurantId);

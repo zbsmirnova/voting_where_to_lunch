@@ -21,33 +21,33 @@ public abstract class AbstractRestaurantController {
     private RestaurantService service;
 
     public RestaurantTo get(int restaurantId) {
-        log.info("get restaurant {} ", restaurantId);
+        log.info("Getting restaurant {} ", restaurantId);
         return asTo(service.getWithTodayMenu(restaurantId));
     }
 
     public List<Restaurant> getAll() {
-        log.info("get all restaurants");
+        log.info("Getting all restaurants");
         return service.getAll();
     }
 
     public List<RestaurantTo> getAllWithTodayMenu() {
-        log.info("get all restaurants with today menu");
+        log.info("Getting all restaurants with today menu");
         return service.getAllWithTodayMenu();
     }
 
     public void delete(int id) {
-        log.info("delete restaurant {}", id);
+        log.info("Deleting restaurant {}", id);
         service.delete(id);
     }
 
     public Restaurant create(RestaurantTo restaurantTo) {
-        log.info("create restaurant {}", restaurantTo);
+        log.info("Creating restaurant {}", restaurantTo);
         checkNew(restaurantTo);
         return service.create(createNewFromTo(restaurantTo));
     }
 
     public void update(RestaurantTo restaurantTo, int id) {
-        log.info("update restaurant {}", restaurantTo);
+        log.info("Updating restaurant {}", restaurantTo);
         assureIdConsistent(restaurantTo, id);
         service.update(restaurantTo);
     }

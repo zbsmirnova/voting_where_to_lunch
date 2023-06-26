@@ -30,26 +30,26 @@ public class AdminVoteController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public VoteTo get(@PathVariable("id") int id) {
-        log.info("get vote id={}", id);
+        log.info("Getting vote id={}", id);
         return asTo(service.get(id));
     }
 
     @GetMapping
     public List<VoteTo> getAll() {
-        log.info("get all votes");
+        log.info("Getting all votes");
         return asTo(service.getAll());
     }
 
     @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VoteTo> getTodayVotes() {
-        log.info("get today votes");
+        log.info("Getting today votes");
         return asTo(service.getTodayVotes());
     }
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id) {
-        log.info("delete vote {}", id);
+        log.info("Deleting vote {}", id);
         service.delete(id);
     }
 }

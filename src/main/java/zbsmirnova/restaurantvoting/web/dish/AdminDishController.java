@@ -37,19 +37,19 @@ public class AdminDishController {
     @GetMapping(value = "/{dishId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Dish get(@PathVariable("restaurantId") int restaurantId,
                     @PathVariable("dishId") int dishId) {
-        log.info("get dish {} for restaurant {} ", dishId, restaurantId);
+        log.info("Getting dish {} for restaurant {} ", dishId, restaurantId);
         return service.get(dishId, restaurantId);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getAll(@PathVariable("restaurantId") int restaurantId) {
-        log.info("get all dishes {} for restaurant {} ", restaurantId);
+        log.info("Getting all dishes for restaurant {} ", restaurantId);
         return service.getAll(restaurantId);
     }
 
     @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getTodayMenu(@PathVariable("restaurantId") int restaurantId) {
-        log.info("get all dishes {} for restaurant {} for today", restaurantId);
+        log.info("Getting all dishes for restaurant {} for today", restaurantId);
         return service.getTodayMenu(restaurantId);
     }
 
@@ -57,7 +57,7 @@ public class AdminDishController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("restaurantId") int restaurantId,
                        @PathVariable("dishId") int dishId) {
-        log.info("delete dish{} for menu {} for restaurant {}", dishId, restaurantId);
+        log.info("Deleting dish {} for restaurant {}", dishId, restaurantId);
         service.delete(dishId, restaurantId);
     }
 
@@ -67,7 +67,7 @@ public class AdminDishController {
         checkNew(dish);
         Dish created = service.create(dish, restaurantId);
 
-        log.info("create dish {} for restaurant {}", dish, restaurantId);
+        log.info("Creating dish {} for restaurant {}", dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{dishId}")
@@ -80,7 +80,7 @@ public class AdminDishController {
     public void update(@PathVariable("restaurantId") int restaurantId,
                        @PathVariable("dishId") int dishId, @Valid @RequestBody Dish dish) {
         assureIdConsistent(dish, dishId);
-        log.info("update dish {} for restaurant {}", dish, restaurantId);
+        log.info("Updating dish {} for restaurant {}", dish, restaurantId);
         service.update(dish, restaurantId);
     }
 }

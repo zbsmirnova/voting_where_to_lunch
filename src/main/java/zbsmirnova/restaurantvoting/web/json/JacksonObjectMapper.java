@@ -12,9 +12,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
  * <p>
  * Handling Hibernate lazy-loading
  *
- * @link https://github.com/FasterXML/jackson
- * @link https://github.com/FasterXML/jackson-datatype-hibernate
- * @link http://wiki.fasterxml.com/JacksonHowToCustomSerializers
+ * @link <a href="https://github.com/FasterXML/jackson"></a>
+ * @link <a href="https://github.com/FasterXML/jackson-datatype-hibernate"></a>
+ * @link <a href="http://wiki.fasterxml.com/JacksonHowToCustomSerializers"></a>
  */
 public class JacksonObjectMapper extends ObjectMapper {
 
