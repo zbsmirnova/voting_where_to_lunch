@@ -13,11 +13,6 @@ public class VoteUtil {
         return new Vote(LocalDate.now());
     }
 
-    public static Vote updateFromTo(Vote vote, VoteTo voteTo) {
-        vote.setDate(voteTo.getVoteDate());
-        return vote;
-    }
-
     public static VoteTo asTo(Vote vote) {
         return new VoteTo(vote.getId(), vote.getDate(), vote.getUser().getId(), vote.getRestaurant().getId());
     }

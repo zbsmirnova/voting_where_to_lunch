@@ -8,7 +8,7 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 import java.time.LocalTime;
 
 public class ValidationUtil {
-    private static final LocalTime STOP_VOTING_TIME = LocalTime.of(11, 00, 00, 00);
+    private static final LocalTime STOP_VOTING_TIME = LocalTime.of(11, 0, 0, 0);
 
     private ValidationUtil() {
     }
