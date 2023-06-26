@@ -7,10 +7,10 @@ import java.time.LocalDate;
 public class VoteTo extends BaseTo implements Serializable {
 
     @NotNull
-    private LocalDate voteDate;
+    private final LocalDate voteDate;
 
     @NotNull
-    private int userId;
+    private final int userId;
 
     @NotNull
     private int restaurantId;

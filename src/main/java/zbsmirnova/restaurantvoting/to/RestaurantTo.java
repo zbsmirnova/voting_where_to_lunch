@@ -51,14 +51,6 @@ public class RestaurantTo extends BaseTo implements Serializable {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public List<Dish> getMenu() {
-        return menu;
-    }
-
     public void setMenu(List<Dish> menu) {
         this.menu = menu;
     }
