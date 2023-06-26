@@ -1,5 +1,6 @@
 package zbsmirnova.restaurantvoting.repository;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
-    Optional<User> findById(Integer id);
+    @NotNull
+    Optional<User> findById(@NotNull Integer id);
 
     User getByEmail(String email);
 
@@ -26,8 +28,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
-
-    @Override
-    @Transactional
-    User save(User user);
 }
