@@ -1,6 +1,5 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -11,20 +10,22 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFound;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class VoteServiceImpl implements VoteService {
 
-    @Autowired
-    private VoteRepository voteRepository;
+    private final VoteRepository voteRepository;
 
-    @Autowired
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public VoteServiceImpl(VoteRepository voteRepository, RestaurantService restaurantService, UserService userService) {
+        this.voteRepository = voteRepository;
+        this.restaurantService = restaurantService;
+        this.userService = userService;
+    }
 
     @Override
     public Vote get(int id) throws NotFoundException {

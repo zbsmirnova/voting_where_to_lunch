@@ -11,15 +11,12 @@ import zbsmirnova.restaurantvoting.model.Restaurant;
 import zbsmirnova.restaurantvoting.repository.DishRepository;
 import zbsmirnova.restaurantvoting.repository.RestaurantRepository;
 import zbsmirnova.restaurantvoting.to.RestaurantTo;
-import zbsmirnova.restaurantvoting.util.RestaurantUtil;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.asTo;
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.updateFromTo;
@@ -47,7 +44,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant getWithTodayMenu(int restaurantId) {
         Restaurant restaurant = checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElse(null), restaurantId);
         List<Dish> todayMenu = dishRepository.getTodayMenu(restaurantId, LocalDate.now());
-        restaurant.setDishes(todayMenu);
+        Objects.requireNonNull(restaurant).setDishes(todayMenu);
         return restaurant;
     }
 
@@ -71,7 +68,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 dishes1.add(dish);
                 restaurant.setDishes(dishes1);
             } else {
-                todayDishes = Arrays.asList(dish);
+                todayDishes = List.of(dish);
                 restaurant.setDishes(todayDishes);
                 restaurantsWithTodayDishes.add(restaurant);
             }
