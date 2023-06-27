@@ -3,6 +3,7 @@ package zbsmirnova.restaurantvoting.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -38,6 +39,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant " + restaurantId + " not found")), restaurantId);
     }
 
+    @Cacheable("restaurantWithTodayMenu")
     @Transactional
     @Override
     public Restaurant getWithTodayMenu(int restaurantId) {
@@ -47,24 +49,34 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurant;
     }
 
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getAll() {
         return restaurantRepository.getAll();
     }
 
-    @Cacheable("restaurantsWithTodayMenu")
+    @Cacheable("allRestaurantsWithTodayMenu")
     @Override
     public List<RestaurantTo> getAllWithTodayMenu() {
         return asTo(restaurantRepository.getAllWithMenu());
     }
 
-    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "restaurantWithTodayMenu", key = "#id"),
+            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
+            @CacheEvict(value = "restaurants", allEntries = true)
+    })
     @Override
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(restaurantRepository.delete(id) != 0, id);
     }
 
-
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurant.id"),
+            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
+            @CacheEvict(value = "restaurants", allEntries = true)
+    })
     @Override
     public Restaurant create(Restaurant restaurant) {
         checkNew(restaurant);
@@ -73,7 +85,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Transactional
-    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantTo.id"),
+            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
+            @CacheEvict(value = "restaurants", allEntries = true)
+    })
     @Override
     public void update(RestaurantTo restaurantTo, int id) {
         assureIdConsistent(restaurantTo, id);

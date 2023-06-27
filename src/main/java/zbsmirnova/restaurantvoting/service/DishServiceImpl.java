@@ -2,6 +2,7 @@ package zbsmirnova.restaurantvoting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -46,14 +47,22 @@ public class DishServiceImpl implements DishService {
         return repository.getTodayMenu(restaurantId, LocalDate.now());
     }
 
-    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
+            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
+            @CacheEvict(value = "restaurants", allEntries = true)
+    })
     @Override
     public void delete(int dishId, int restaurantId) throws NotFoundException {
         checkNotFoundWithId(repository.delete(dishId, restaurantId) != 0, dishId);
     }
 
     @Transactional
-    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
+            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
+            @CacheEvict(value = "restaurants", allEntries = true)
+    })
     @Override
     public Dish create(Dish dish, int restaurantId) {
         checkNew(dish);
@@ -63,7 +72,11 @@ public class DishServiceImpl implements DishService {
     }
 
     @Transactional
-    @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
+            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
+            @CacheEvict(value = "restaurants", allEntries = true)
+    })
     @Override
     public void update(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
