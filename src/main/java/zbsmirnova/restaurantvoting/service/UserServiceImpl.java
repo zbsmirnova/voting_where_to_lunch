@@ -1,6 +1,7 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,12 +23,12 @@ import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFound;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 
 @Service("userService")
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository repository;
 
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
@@ -42,7 +43,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User getByEmail(String email) throws NotFoundException {
         Assert.notNull(email, "email must not be null");
-        return checkNotFound(repository.getByEmail(email), "email=" + email);
+        return checkNotFound(repository.getByEmailIgnoreCase(email).orElseThrow(
+                () -> new UsernameNotFoundException("User with email" + email + " is not found")), "email=" + email);
     }
 
     @Override
@@ -69,12 +71,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         repository.save(UserUtil.updateFromTo(user, userTo));
     }
 
+    //TODO: check, should not be userName instead of email
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = repository.getByEmail(s.toLowerCase());
-        if (user == null) {
-            throw new UsernameNotFoundException("User " + s + " is not found");
-        }
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = repository.getByEmailIgnoreCase(email).orElseThrow(
+                () -> new UsernameNotFoundException("User " + email + " is not found"));
         return new AuthorizedUser(user);
     }
 }

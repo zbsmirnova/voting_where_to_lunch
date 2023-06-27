@@ -3,7 +3,7 @@ package zbsmirnova.restaurantvoting.model;
 import lombok.*;
 import zbsmirnova.restaurantvoting.HasId;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter

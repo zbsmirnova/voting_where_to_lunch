@@ -18,6 +18,7 @@ import zbsmirnova.restaurantvoting.to.VoteTo;
 import java.net.URI;
 import java.time.Clock;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkVotingTime;
@@ -31,13 +32,14 @@ public class ProfileVoteController {
 
     static final String GET_URL = "/profile/votes";
 
-    private Clock clock;
+    //TODO: move to service
+    private Clock clock = Clock.system(ZoneId.systemDefault());
 
     private final VoteService service;
 
     @Autowired
-    public ProfileVoteController(Clock clock, VoteService service) {
-        this.clock = clock;
+    public ProfileVoteController(VoteService service) {
+        //this.clock = clock;
         this.service = service;
     }
 

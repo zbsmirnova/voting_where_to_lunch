@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.restaurantvoting.model.Dish;
 import zbsmirnova.restaurantvoting.service.DishService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 

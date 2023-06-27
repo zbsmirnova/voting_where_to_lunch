@@ -10,22 +10,22 @@ import zbsmirnova.restaurantvoting.AuthorizedUser;
 import zbsmirnova.restaurantvoting.service.UserService;
 import zbsmirnova.restaurantvoting.to.UserTo;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import static zbsmirnova.restaurantvoting.util.UserUtil.asTo;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent;
 
 @RestController
-@RequestMapping(ProfileController.PROFILE_URL)
+@RequestMapping(ProfileRestController.PROFILE_URL)
 @Slf4j
-public class ProfileController {
+public class ProfileRestController {
 
     static final String PROFILE_URL = "/profile";
 
     private final UserService service;
 
     @Autowired
-    public ProfileController(UserService service) {
+    public ProfileRestController(UserService service) {
         this.service = service;
     }
 

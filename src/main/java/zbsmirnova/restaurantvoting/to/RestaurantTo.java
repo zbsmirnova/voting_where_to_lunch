@@ -3,8 +3,8 @@ package zbsmirnova.restaurantvoting.to;
 import zbsmirnova.restaurantvoting.model.Dish;
 import zbsmirnova.restaurantvoting.model.Restaurant;
 
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
 

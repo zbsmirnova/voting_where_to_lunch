@@ -1,5 +1,6 @@
 package zbsmirnova.restaurantvoting.web;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -9,14 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import zbsmirnova.restaurantvoting.util.ValidationUtil;
 import zbsmirnova.restaurantvoting.util.exception.ErrorInfo;
 import zbsmirnova.restaurantvoting.util.exception.InvalidVoteTimeException;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)

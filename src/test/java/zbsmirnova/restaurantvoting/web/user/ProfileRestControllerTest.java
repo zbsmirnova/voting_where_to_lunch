@@ -23,9 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static zbsmirnova.restaurantvoting.TestUtil.userHttpBasic;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.*;
 import static zbsmirnova.restaurantvoting.util.UserUtil.asTo;
-import static zbsmirnova.restaurantvoting.web.user.ProfileController.PROFILE_URL;
+import static zbsmirnova.restaurantvoting.web.user.ProfileRestController.PROFILE_URL;
 
-public class ProfileControllerTest extends AbstractControllerTest {
+public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGet() throws Exception{
