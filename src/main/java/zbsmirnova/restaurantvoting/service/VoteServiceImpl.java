@@ -7,10 +7,13 @@ import zbsmirnova.restaurantvoting.model.Vote;
 import zbsmirnova.restaurantvoting.repository.VoteRepository;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import java.time.Clock;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
+import static zbsmirnova.restaurantvoting.util.ValidationUtil.*;
 
 @Service
 public class VoteServiceImpl implements VoteService {
@@ -21,10 +24,16 @@ public class VoteServiceImpl implements VoteService {
 
     private final UserService userService;
 
+    private Clock clock = Clock.system(ZoneId.systemDefault());
+
     public VoteServiceImpl(VoteRepository voteRepository, RestaurantService restaurantService, UserService userService) {
         this.voteRepository = voteRepository;
         this.restaurantService = restaurantService;
         this.userService = userService;
+    }
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
     }
 
     @Override
@@ -35,7 +44,8 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Vote getTodayByUserId(int userId) throws NotFoundException {
-        return voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElse(null);
+        return voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElseThrow(() ->
+                new NotFoundException("Not found today vote for userId = " + userId));
     }
 
     @Override
@@ -61,11 +71,28 @@ public class VoteServiceImpl implements VoteService {
 
     @Transactional
     @Override
-    public Vote save(Vote vote, int userId, int restaurantId) {
-        Assert.notNull(vote, "vote must not be null");
+    public Vote create(int userId, int restaurantId) {
+        checkVotingTime(clock);
+        Vote vote = new Vote(LocalDate.now());
         if (!vote.isNew() && get(vote.getId()) == null) return null;
         vote.setRestaurant(restaurantService.get(restaurantId));
         vote.setUser(userService.get(userId));
+        Assert.notNull(vote, "Vote must not be null");
         return voteRepository.save(vote);
+    }
+
+    @Transactional
+    @Override
+    public void update(int voteId, int restaurantId) {
+        checkVotingTime(clock);
+        Vote vote = voteRepository.findById(voteId).orElseThrow(() -> new NotFoundException("Vote " + voteId + " not found"));
+        Assert.notNull(vote, "Vote must not be null");
+        assureIdConsistent(vote, voteId);
+
+        Assert.isTrue(vote.getDate().equals(LocalDate.now()), "Not possible to update voteId " + voteId +
+                " as it was created " + vote.getDate().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+        vote.setRestaurant(restaurantService.get(restaurantId));
+        checkNotFoundWithId(voteRepository.save(vote), voteId);
     }
 }

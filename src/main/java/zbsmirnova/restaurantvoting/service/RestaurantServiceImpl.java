@@ -36,13 +36,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant get(int restaurantId) {
-        return checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElse(null), restaurantId);
+        return checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant " + restaurantId + " not found")), restaurantId);
     }
 
     @Transactional
     @Override
     public Restaurant getWithTodayMenu(int restaurantId) {
-        Restaurant restaurant = checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElse(null), restaurantId);
+        Restaurant restaurant = checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant " + restaurantId + " not found")), restaurantId);
         List<Dish> todayMenu = dishRepository.getTodayMenu(restaurantId, LocalDate.now());
         Objects.requireNonNull(restaurant).setDishes(todayMenu);
         return restaurant;

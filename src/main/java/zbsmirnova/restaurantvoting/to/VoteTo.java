@@ -9,21 +9,15 @@ public class VoteTo extends BaseTo implements Serializable {
     @NotNull
     private final LocalDate voteDate;
 
-    @NotNull
     private final int userId;
 
-    @NotNull
     private int restaurantId;
 
-    public VoteTo(Integer id, LocalDate voteDate, int userId, int restaurantId) {
+    public VoteTo(Integer id, @NotNull LocalDate voteDate, int userId, int restaurantId) {
         super(id);
         this.voteDate = voteDate;
         this.userId = userId;
         this.restaurantId = restaurantId;
-    }
-
-    public LocalDate getVoteDate() {
-        return voteDate;
     }
 
     public int getRestaurantId() {

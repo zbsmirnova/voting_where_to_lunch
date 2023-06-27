@@ -5,7 +5,9 @@ import zbsmirnova.restaurantvoting.HasId;
 import zbsmirnova.restaurantvoting.util.exception.InvalidVoteTimeException;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import java.time.Clock;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ValidationUtil {
     private static final LocalTime STOP_VOTING_TIME = LocalTime.of(11, 0, 0, 0);
@@ -58,9 +60,11 @@ public class ValidationUtil {
         return result;
     }
 
-    public static void checkVotingTime(LocalTime voteTime) {
+    public static void checkVotingTime(Clock clock) {
+        LocalTime voteTime = LocalTime.now(clock);
         if (voteTime.isAfter(STOP_VOTING_TIME)) {
-            throw new InvalidVoteTimeException("it`s too late to vote, " + voteTime + ", try tomorrow before 11:00 a.m.");
+            throw new InvalidVoteTimeException("it`s too late to vote, " +
+                    voteTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")) + ", try tomorrow before 11:00 a.m.");
         }
     }
 }
