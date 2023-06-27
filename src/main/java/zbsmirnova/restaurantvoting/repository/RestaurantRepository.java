@@ -20,6 +20,9 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @Query("SELECT r FROM Restaurant r  ORDER BY r.name")
     List<Restaurant> getAll();
 
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes")
+    List<Restaurant> getAllWithMenu();
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")

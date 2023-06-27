@@ -14,7 +14,6 @@ import zbsmirnova.restaurantvoting.to.RestaurantTo;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,24 +55,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Cacheable("restaurantsWithTodayMenu")
     @Override
     public List<RestaurantTo> getAllWithTodayMenu() {
-        //taking all today dishes with restaurant from db (about 5-6 dishes for each restaurant), in cycle
-        //for each dish taking restaurant, adding dish to the restaurant menu and put into restaurant list
-        List<Dish> dishes = dishRepository.getTodayWithRest();
-        List<Restaurant> restaurantsWithTodayDishes = new ArrayList<>();
-        for (Dish dish : dishes) {
-            Restaurant restaurant = dish.getRestaurant();
-            List<Dish> todayDishes;
-            if (restaurantsWithTodayDishes.contains(restaurant)) {
-                List<Dish> dishes1 = new ArrayList<>(restaurant.getDishes());
-                dishes1.add(dish);
-                restaurant.setDishes(dishes1);
-            } else {
-                todayDishes = List.of(dish);
-                restaurant.setDishes(todayDishes);
-                restaurantsWithTodayDishes.add(restaurant);
-            }
-        }
-        return asTo(restaurantsWithTodayDishes);
+        return asTo(restaurantRepository.getAllWithMenu());
     }
 
     @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
