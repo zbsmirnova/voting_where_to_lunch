@@ -1,7 +1,5 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,8 +19,7 @@ import java.util.List;
 import static zbsmirnova.restaurantvoting.util.UserUtil.prepareToSave;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.*;
 
-@Service("userService")
-@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository repository;
 
