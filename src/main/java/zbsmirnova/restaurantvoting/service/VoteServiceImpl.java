@@ -73,6 +73,8 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote create(int userId, int restaurantId) {
         checkVotingTime(clock);
+        Vote userVotes = voteRepository.findByUserIdAndDate(userId, LocalDate.now()).orElse(null);
+        Assert.isNull(userVotes, "User with id " + userId + "already voted today. Only one vote counted per user");
         Vote vote = new Vote(LocalDate.now());
         if (!vote.isNew() && get(vote.getId()) == null) return null;
         vote.setRestaurant(restaurantService.get(restaurantId));
