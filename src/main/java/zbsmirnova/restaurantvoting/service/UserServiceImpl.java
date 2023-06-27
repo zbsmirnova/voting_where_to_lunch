@@ -19,8 +19,7 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 import java.util.List;
 
 import static zbsmirnova.restaurantvoting.util.UserUtil.prepareToSave;
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFound;
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
+import static zbsmirnova.restaurantvoting.util.ValidationUtil.*;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -66,16 +65,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void update(UserTo userTo, int id) {
+        assureIdConsistent(userTo, id);
         Assert.notNull(userTo, "user must not be null");
         User user = get(id);
         repository.save(UserUtil.updateFromTo(user, userTo));
     }
 
-    //TODO: check, should not be userName instead of email
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repository.getByEmailIgnoreCase(email).orElseThrow(
-                () -> new UsernameNotFoundException("User " + email + " is not found"));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.getUserByName(username).orElseThrow(
+                () -> new UsernameNotFoundException("User " + username + " is not found"));
         return new AuthorizedUser(user);
     }
 }

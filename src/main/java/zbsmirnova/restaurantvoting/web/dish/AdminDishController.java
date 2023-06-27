@@ -1,5 +1,6 @@
 package zbsmirnova.restaurantvoting.web.dish;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,12 +11,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.restaurantvoting.model.Dish;
 import zbsmirnova.restaurantvoting.service.DishService;
 
-import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent;
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(AdminDishController.URL)
@@ -61,7 +60,6 @@ public class AdminDishController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@PathVariable("restaurantId") int restaurantId,
                                        @Valid @RequestBody Dish dish) {
-        checkNew(dish);
 
         Dish created = service.create(dish, restaurantId);
 

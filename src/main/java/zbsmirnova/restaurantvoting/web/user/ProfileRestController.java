@@ -1,5 +1,6 @@
 package zbsmirnova.restaurantvoting.web.user;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,10 +11,7 @@ import zbsmirnova.restaurantvoting.AuthorizedUser;
 import zbsmirnova.restaurantvoting.service.UserService;
 import zbsmirnova.restaurantvoting.to.UserTo;
 
-import jakarta.validation.Valid;
-
 import static zbsmirnova.restaurantvoting.util.UserUtil.asTo;
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(ProfileRestController.PROFILE_URL)
@@ -48,7 +46,6 @@ public class ProfileRestController {
     public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authorizedUser) {
         int id = authorizedUser.getId();
         log.info("update {} with id={}", userTo, id);
-        assureIdConsistent(userTo, id);
         service.update(userTo, id);
     }
 }

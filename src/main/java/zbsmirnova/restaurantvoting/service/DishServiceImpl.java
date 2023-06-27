@@ -12,6 +12,7 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
+import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNew;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -55,6 +56,7 @@ public class DishServiceImpl implements DishService {
     @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
     @Override
     public Dish create(Dish dish, int restaurantId) {
+        checkNew(dish);
         Assert.notNull(dish, "dish must not be null");
         dish.setRestaurant(restaurantService.get(restaurantId));
         return repository.save(dish);

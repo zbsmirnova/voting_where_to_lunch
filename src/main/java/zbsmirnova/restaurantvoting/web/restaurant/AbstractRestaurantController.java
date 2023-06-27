@@ -10,8 +10,6 @@ import java.util.List;
 
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.asTo;
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.createNewFromTo;
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent;
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNew;
 
 @Slf4j
 public abstract class AbstractRestaurantController {
@@ -41,13 +39,11 @@ public abstract class AbstractRestaurantController {
 
     public Restaurant create(RestaurantTo restaurantTo) {
         log.info("Creating restaurant {}", restaurantTo);
-        checkNew(restaurantTo);
         return service.create(createNewFromTo(restaurantTo));
     }
 
     public void update(RestaurantTo restaurantTo, int id) {
         log.info("Updating restaurant {}", restaurantTo);
-        assureIdConsistent(restaurantTo, id);
-        service.update(restaurantTo);
+        service.update(restaurantTo, id);
     }
 }

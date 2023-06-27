@@ -20,5 +20,5 @@ public interface RestaurantService {
 
     Restaurant create(Restaurant restaurant);
 
-    void update(RestaurantTo restaurantTo);
+    void update(RestaurantTo restaurantTo, int id);
 }

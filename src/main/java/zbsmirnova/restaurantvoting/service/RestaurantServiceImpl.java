@@ -20,7 +20,7 @@ import java.util.Objects;
 
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.asTo;
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.updateFromTo;
-import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
+import static zbsmirnova.restaurantvoting.util.ValidationUtil.*;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -85,6 +85,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant create(Restaurant restaurant) {
+        checkNew(restaurant);
         Assert.notNull(restaurant, "restaurant must not be null");
         return restaurantRepository.save(restaurant);
     }
@@ -92,7 +93,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Transactional
     @CacheEvict(value = "restaurantsWithTodayMenu", allEntries = true)
     @Override
-    public void update(RestaurantTo restaurantTo) {
+    public void update(RestaurantTo restaurantTo, int id) {
+        assureIdConsistent(restaurantTo, id);
         Restaurant restaurant = get(restaurantTo.getId());
         restaurantRepository.save(updateFromTo(restaurant, restaurantTo));
     }
