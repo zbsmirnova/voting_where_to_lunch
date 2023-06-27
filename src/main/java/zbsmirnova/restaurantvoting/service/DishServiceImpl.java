@@ -2,6 +2,7 @@ package zbsmirnova.restaurantvoting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,7 @@ public class DishServiceImpl implements DishService {
                 "for restaurant id = " + restaurantId)), dishId);
     }
 
+    @Cacheable(value = "allDishesForRestaurant")
     @Override
     public List<Dish> getAll(int restaurantId) {
         return repository.findAllByRestaurantId(restaurantId);
@@ -50,7 +52,8 @@ public class DishServiceImpl implements DishService {
     @Caching(evict = {
             @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
             @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true)
+            @CacheEvict(value = "restaurants", allEntries = true),
+            @CacheEvict(value = "allDishesForRestaurant", key = "#restaurantId")
     })
     @Override
     public void delete(int dishId, int restaurantId) throws NotFoundException {
@@ -61,7 +64,7 @@ public class DishServiceImpl implements DishService {
     @Caching(evict = {
             @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
             @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true)
+            @CacheEvict(value = "allDishesForRestaurant", key = "#restaurantId")
     })
     @Override
     public Dish create(Dish dish, int restaurantId) {
@@ -75,7 +78,8 @@ public class DishServiceImpl implements DishService {
     @Caching(evict = {
             @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
             @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true)
+            @CacheEvict(value = "restaurants", allEntries = true),
+            @CacheEvict(value = "allDishesForRestaurant", key = "#restaurantId")
     })
     @Override
     public void update(Dish dish, int restaurantId) {
