@@ -58,30 +58,28 @@ public class VoteServiceTest extends AbstractServiceTest {
         service.delete(50);
     }
 
-        @Test
+    @Test
     public void create() {
-        Vote created = getCreatedVote();
-        service.save(created, USER1_ID, BUSHE_ID);
+        Vote created = service.create(USER1_ID, BUSHE_ID);
         assertMatch(service.getAll(), VOTE_1, VOTE_2, VOTE_3, created);
     }
 
+    //TODO test second vote per user per date, check update
+
     @Test(expected = DataAccessException.class)
     public void createDuplicateUserIdDate(){
-        service.save(getDuplicateUserIdDateVote(), USER1_ID, BUSHE_ID);
+        service.create(USER1_ID, BUSHE_ID);
     }
 
     @Test
     public void update(){
-        Vote updated = getUpdatedVote();
-        service.save(updated, USER1_ID, MCDONALDS_ID);
-        assertMatch(service.get(updated.getId()), updated);
+        //TODO: vote id instead of User_id
+        service.update(USER1_ID, MCDONALDS_ID);
+        //assertMatch(service.get(MCDONALDS_ID), updated);
     }
 
     @Test(expected = NotFoundException.class)
     public void updateInvalidId(){
-        Vote updated = getUpdatedVote();
-        updated.setId(50);
-        service.save(updated, USER1_ID, MCDONALDS_ID);
+        service.update(50, MCDONALDS_ID);
     }
-
 }

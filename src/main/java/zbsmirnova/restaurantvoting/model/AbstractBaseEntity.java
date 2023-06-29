@@ -1,14 +1,13 @@
 package zbsmirnova.restaurantvoting.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 import zbsmirnova.restaurantvoting.HasId;
 
-import jakarta.persistence.*;
-
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @MappedSuperclass
 @Access(AccessType.FIELD)

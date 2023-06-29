@@ -1,18 +1,13 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.junit.AfterClass;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.bridge.SLF4JBridgeHandler;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.slf4j.LoggerFactory.getLogger;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static zbsmirnova.restaurantvoting.util.ValidationUtil.getRootCause;
 
 @ContextConfiguration(
         "classpath:spring/spring.xml"

@@ -25,7 +25,6 @@ public class BeforeStopTimeUpdateTest extends ProfileVoteControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .with(userHttpBasic(USER2))
                     .param("restaurantId", String.valueOf(MCDONALDS_ID)))
-                    //.content(JsonUtil.writeValue(createdTo)))
                     .andExpect(status().isOk());
 
             Vote updated = new Vote(VOTE_3);

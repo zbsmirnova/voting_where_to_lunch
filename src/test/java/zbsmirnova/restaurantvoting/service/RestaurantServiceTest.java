@@ -1,9 +1,9 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.junit.Before;
+import lombok.RequiredArgsConstructor;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.restaurantvoting.model.Restaurant;
@@ -14,19 +14,20 @@ import static zbsmirnova.restaurantvoting.testData.DishTestData.KETCHUPBURGER_SP
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.asTo;
 
-
+@DisplayName("Restaurant service tests")
+@RequiredArgsConstructor
 public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Autowired
     RestaurantService service;
 
-    @Autowired
-    private CacheManager cacheManager;
+//    @Autowired
+//    private CacheManager cacheManager;
 
-    @Before
-    public void setUp() throws Exception {
-        cacheManager.getCache("restaurantsWithTodayMenu").clear();
-    }
+//    @Before
+//    public void setUp() throws Exception {
+//        Objects.requireNonNull(cacheManager.getCache("restaurantsWithTodayMenu")).clear();
+//    }
 
     @Test
     public void get() {
@@ -64,7 +65,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Test
     public void update() {
         Restaurant updated = getUpdatedRestaurant();
-        service.update(asTo(updated));
+        service.update(asTo(updated), updated.getId());
         assertMatch(service.get(updated.getId()), updated);
     }
 
@@ -72,7 +73,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     public void updateInvalidId() {
         Restaurant updated = getUpdatedRestaurant();
         updated.setId(50);
-        service.update(asTo(updated));
+        service.update(asTo(updated), updated.getId());
     }
 
     @Test

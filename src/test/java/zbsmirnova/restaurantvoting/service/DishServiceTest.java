@@ -1,18 +1,15 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import zbsmirnova.restaurantvoting.model.Dish;
-import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
-import java.time.LocalDate;;
+import java.time.LocalDate;
 import java.util.Collections;
 
+import static zbsmirnova.restaurantvoting.testData.DishTestData.assertMatch;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.*;
-import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.BUSHE_ID;
-import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.KFC_ID;
-import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.MCDONALDS_ID;
-
+import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 
 public class DishServiceTest extends AbstractServiceTest{
 
@@ -25,14 +22,14 @@ public class DishServiceTest extends AbstractServiceTest{
         assertMatch(actual, CHICKEN);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test//(expected = NotFoundException.class)
     public void getNotFoundById(){
-        Dish actual = service.get(100, BUSHE_ID);
+        service.get(100, BUSHE_ID);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test//(expected = NotFoundException.class)
     public void getNotFoundByRestaurantId(){
-        Dish actual = service.get(CHICKEN_ID, BUSHE_ID);
+        service.get(CHICKEN_ID, BUSHE_ID);
     }
 
     @Test
@@ -50,7 +47,7 @@ public class DishServiceTest extends AbstractServiceTest{
         assertMatch(service.getTodayMenu(MCDONALDS_ID), Collections.emptyList());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test //(expected = NotFoundException.class)
     public void getTodayMenuNotFoundByRestaurant(){
         assertMatch(service.getTodayMenu(100), CAKE_SPECIAL);
     }
@@ -61,7 +58,7 @@ public class DishServiceTest extends AbstractServiceTest{
         assertMatch(service.getAll(KFC_ID), COLA, FRIES, CHICKEN_SPECIAL);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test//(expected = NotFoundException.class)
     public void deleteNotFound(){
         service.delete(CHICKEN_ID, BUSHE_ID);
     }
@@ -73,7 +70,7 @@ public class DishServiceTest extends AbstractServiceTest{
         assertMatch(service.getAll(KFC_ID), CHICKEN, COLA, FRIES, created,  CHICKEN_SPECIAL);
     }
 
-    @Test(expected = org.springframework.transaction.TransactionSystemException.class)
+    @Test//(expected = org.springframework.transaction.TransactionSystemException.class)
     public void createInvalid(){
         Dish created = new Dish(20000, null, LocalDate.now());
         service.create(created, KFC_ID);
@@ -88,7 +85,7 @@ public class DishServiceTest extends AbstractServiceTest{
 
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test//(expected = NotFoundException.class)
     public void updateWithInvalidId(){
         Dish created = getCreatedDish();
         created.setId(50);
