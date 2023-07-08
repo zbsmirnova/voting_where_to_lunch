@@ -14,6 +14,7 @@ import zbsmirnova.restaurantvoting.to.UserTo;
 import zbsmirnova.restaurantvoting.util.UserUtil;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static zbsmirnova.restaurantvoting.util.UserUtil.prepareToSave;
@@ -54,8 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User save(User user) {
-        Assert.notNull(user, "user must not be null");
+    public User save(@NotNull User user) {
         return repository.save(prepareToSave(user, passwordEncoder));
     }
 
