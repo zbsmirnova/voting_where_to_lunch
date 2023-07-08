@@ -33,6 +33,7 @@ public class UserTestData {
         return new User(USER1_ID, "updated user", "user1@yandex.ru", "password", Role.USER);
     }
 
+    @SuppressWarnings("deprecation")
     public static void assertMatch(User actual, User expected) {
         assertThat(actual).isEqualTo(expected).isEqualToIgnoringGivenFields(expected, "password", "votes");
     }
@@ -41,6 +42,7 @@ public class UserTestData {
         assertMatch(actual, Arrays.asList(expected));
     }
 
+    @SuppressWarnings({"deprecation", "ResultOfMethodCallIgnored"})
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
         assertThat(actual).isEqualTo(expected).usingElementComparatorIgnoringFields("password", "votes");
     }

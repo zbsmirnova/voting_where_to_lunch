@@ -49,6 +49,7 @@ public class DishTestData {
         return new Dish(CHICKEN_ID, 20000, "updated chicken", KFC, LocalDate.parse("2018-07-29"));
     }
 
+    @SuppressWarnings("deprecation")
     public static void assertMatch(Dish actual, Dish expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "restaurant");
     }
@@ -57,6 +58,7 @@ public class DishTestData {
         assertMatch(actual, Arrays.asList(expected));
     }
 
+    @SuppressWarnings("deprecation")
     public static void assertMatch(Iterable<Dish> actual, Iterable<Dish> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("restaurant").isEqualTo(expected);
     }

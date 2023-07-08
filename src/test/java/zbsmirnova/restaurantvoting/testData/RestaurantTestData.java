@@ -21,37 +21,39 @@ public class RestaurantTestData {
     public static final int BUSHE_ID = START_SEQ_TEST + 3;
 
 
-    public static final Restaurant KFC = new Restaurant(KFC_ID,"kfc", "addressKfc");
-    public static final Restaurant MCDONALDS = new Restaurant(MCDONALDS_ID,"mcDonalds", "addressMcDonalds");
-    public static final Restaurant KETCHUP = new Restaurant(KETCHUP_ID,"ketchup", "addressKetchup");
-    public static final Restaurant BUSHE = new Restaurant(BUSHE_ID,"bushe", "addressBushe");
+    public static final Restaurant KFC = new Restaurant(KFC_ID, "kfc", "addressKfc");
+    public static final Restaurant MCDONALDS = new Restaurant(MCDONALDS_ID, "mcDonalds", "addressMcDonalds");
+    public static final Restaurant KETCHUP = new Restaurant(KETCHUP_ID, "ketchup", "addressKetchup");
+    public static final Restaurant BUSHE = new Restaurant(BUSHE_ID, "bushe", "addressBushe");
 
     public static List<Restaurant> ALL_RESTAURANTS = Arrays.asList(BUSHE, KETCHUP, KFC, MCDONALDS);
 
-    public static List<RestaurantTo> getAllRestaurantToWithTodayMenu(){
+    public static List<RestaurantTo> getAllRestaurantToWithTodayMenu() {
         RestaurantTo BusheToWithMenu = new RestaurantTo(BUSHE);
-        BusheToWithMenu.setMenu(Arrays.asList(CAKE_SPECIAL));
+        BusheToWithMenu.setMenu(List.of(CAKE_SPECIAL));
         RestaurantTo KetchupToWithMenu = new RestaurantTo(KETCHUP);
-        KetchupToWithMenu.setMenu(Arrays.asList(KETCHUPBURGER_SPECIAL));
-        RestaurantTo KfcToWithMenu  = new RestaurantTo(KFC);
-        KfcToWithMenu.setMenu(Arrays.asList(CHICKEN_SPECIAL));
+        KetchupToWithMenu.setMenu(List.of(KETCHUPBURGER_SPECIAL));
+        RestaurantTo KfcToWithMenu = new RestaurantTo(KFC);
+        KfcToWithMenu.setMenu(List.of(CHICKEN_SPECIAL));
 
         return Arrays.asList(KfcToWithMenu, KetchupToWithMenu, BusheToWithMenu);
 
     }
 
-    public static Restaurant getCreatedRestaurant(){
+    public static Restaurant getCreatedRestaurant() {
         return new Restaurant("british bakeries", "address british bakeries");
     }
 
-    public static Restaurant getUpdatedRestaurant(){
-        return new Restaurant(BUSHE_ID,"bushe updated", "addressBushe updated");
+    public static Restaurant getUpdatedRestaurant() {
+        return new Restaurant(BUSHE_ID, "bushe updated", "addressBushe updated");
     }
 
+    @SuppressWarnings("deprecation")
     public static void assertMatch(Restaurant actual, Restaurant expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "dishes", "votes");
     }
 
+    @SuppressWarnings("deprecation")
     public static void assertMatch(RestaurantTo actual, RestaurantTo expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "dishes", "votes");
     }
@@ -60,6 +62,7 @@ public class RestaurantTestData {
         assertMatch(actual, Arrays.asList(expected));
     }
 
+    @SuppressWarnings("deprecation")
     public static void assertMatch(Iterable<Restaurant> actual, Iterable<Restaurant> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("dishes", "votes").isEqualTo(expected);
     }

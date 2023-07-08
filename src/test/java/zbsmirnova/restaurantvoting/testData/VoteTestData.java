@@ -28,18 +28,7 @@ public class VoteTestData {
 
     public static final List<Vote> ALL_VOTES = Arrays.asList(VOTE_1, VOTE_2, VOTE_3);
 
-    public static Vote getCreatedVote(){return new Vote(LocalDate.now());}
-
-    public static Vote getUpdatedVote(){
-        return new Vote(VOTE_1_ID, LocalDate.parse("2018-07-25"), USER1, MCDONALDS);
-    }
-
-    public static Vote getDuplicateUserIdDateVote(){
-        return new Vote(LocalDate.parse("2018-07-25"));
-    }
-
     public static void assertMatch(Vote actual, Vote expected) {
-        //IgnoringGivenFields , "restaurant", "user"
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -48,7 +37,6 @@ public class VoteTestData {
     }
 
     public static void assertMatch(Iterable<Vote> actual, Iterable<Vote> expected) {
-        //.usingElementComparatorIgnoringFields("restaurant", "user")
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -56,7 +44,7 @@ public class VoteTestData {
         return content().json(writeValue(expected));
     }
 
-    public static ResultMatcher contentJson(VoteTo ... expected) {
+    public static ResultMatcher contentJson(VoteTo... expected) {
         return content().json(writeValue(Arrays.asList(expected)));
     }
 
