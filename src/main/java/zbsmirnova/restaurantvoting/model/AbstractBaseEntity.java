@@ -1,8 +1,9 @@
 package zbsmirnova.restaurantvoting.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 import zbsmirnova.restaurantvoting.HasId;
+
+import javax.persistence.*;
 
 @Getter
 @Setter

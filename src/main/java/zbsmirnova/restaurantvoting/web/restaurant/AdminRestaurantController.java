@@ -8,7 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.restaurantvoting.model.Restaurant;
 import zbsmirnova.restaurantvoting.to.RestaurantTo;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 

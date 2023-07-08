@@ -12,7 +12,7 @@ import zbsmirnova.restaurantvoting.service.UserService;
 import zbsmirnova.restaurantvoting.to.UserTo;
 import zbsmirnova.restaurantvoting.util.UserUtil;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
