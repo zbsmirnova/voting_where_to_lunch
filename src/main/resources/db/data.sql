@@ -29,7 +29,7 @@ INSERT INTO dishes (id, name, price, restaurant_id, date) VALUES
   (10019, 'cake_special', 18080, 10003, CURRENT_DATE);
 
 INSERT INTO users (id, email, name, password, role) VALUES
-  (10020, 'user1@yandex.ru', 'Name1', '{noop}password', 'USER'),
+  (10020, 'user1@yandex.ru', 'User1', '{noop}password', 'USER'),
   (10021, 'user2@mail.ru', 'User2', '{noop}password', 'USER'),
   (10022, 'admin@gmail.com', 'Admin', '{noop}admin', 'ADMIN');
 
