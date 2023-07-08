@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.assertMatch;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.*;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
@@ -91,7 +92,7 @@ public class DishServiceTest extends AbstractServiceTest {
     @Test
     public void updateWithInvalidId() {
         Dish created = getCreatedDish();
-        created.setId(50);
+        created.setId(NOT_EXISTING_ENTITY_ID);
         assertThrows(NotFoundException.class, () -> service.update(created, BUSHE_ID));
     }
 }

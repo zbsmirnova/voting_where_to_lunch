@@ -11,6 +11,7 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.*;
 
 public class UserServiceTest extends AbstractServiceTest {
@@ -24,7 +25,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Test
     public void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(50));
+        assertThrows(NotFoundException.class, () -> service.get(NOT_EXISTING_ENTITY_ID));
     }
 
     @Test
@@ -45,7 +46,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Test
     public void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(50));
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_EXISTING_ENTITY_ID));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     public void updateInvalidId() {
         User updated = getUpdatedUser();
-        updated.setId(50);
+        updated.setId(NOT_EXISTING_ENTITY_ID);
         service.save(updated);
         assertThrows(DataIntegrityViolationException.class, () -> service.getAll());
     }

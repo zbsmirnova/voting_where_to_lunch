@@ -18,6 +18,7 @@ import static zbsmirnova.restaurantvoting.web.json.JsonUtil.writeValue;
 
 public class TestUtil {
     public static final int START_SEQ_TEST = 10000;
+    public static final int NOT_EXISTING_ENTITY_ID = 1;
 
     public static String getContent(ResultActions action) throws UnsupportedEncodingException {
         return action.andReturn().getResponse().getContentAsString();

@@ -10,6 +10,7 @@ import zbsmirnova.restaurantvoting.model.Restaurant;
 import zbsmirnova.restaurantvoting.testData.DishTestData;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.KETCHUPBURGER_SPECIAL;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.asTo;
@@ -36,7 +37,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void getNotFound(){
-        service.get(50);
+        service.get(NOT_EXISTING_ENTITY_ID);
     }
 
     @Test
@@ -59,7 +60,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() {
-        service.delete(50);
+        service.delete(NOT_EXISTING_ENTITY_ID);
     }
 
     @Test
@@ -72,7 +73,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Test(expected = NotFoundException.class)
     public void updateInvalidId() {
         Restaurant updated = getUpdatedRestaurant();
-        updated.setId(50);
+        updated.setId(NOT_EXISTING_ENTITY_ID);
         service.update(asTo(updated), updated.getId());
     }
 

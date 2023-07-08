@@ -8,6 +8,7 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 
+import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.USER1_ID;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.USER2_ID;
@@ -24,7 +25,7 @@ public class VoteServiceTest extends AbstractServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() {
-        service.get(50);
+        service.get(NOT_EXISTING_ENTITY_ID);
     }
 
     @Test
@@ -55,7 +56,7 @@ public class VoteServiceTest extends AbstractServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() {
-        service.delete(50);
+        service.delete(NOT_EXISTING_ENTITY_ID);
     }
 
     @Test
@@ -80,6 +81,6 @@ public class VoteServiceTest extends AbstractServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void updateInvalidId(){
-        service.update(50, MCDONALDS_ID);
+        service.update(NOT_EXISTING_ENTITY_ID, MCDONALDS_ID);
     }
 }
