@@ -1,40 +1,56 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import zbsmirnova.restaurantvoting.model.Vote;
+import zbsmirnova.restaurantvoting.util.exception.InvalidVoteTimeException;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import java.time.Clock;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
-import static zbsmirnova.restaurantvoting.testData.UserTestData.USER1_ID;
-import static zbsmirnova.restaurantvoting.testData.UserTestData.USER2_ID;
+import static zbsmirnova.restaurantvoting.testData.UserTestData.*;
+import static zbsmirnova.restaurantvoting.testData.VoteTestData.assertMatch;
 import static zbsmirnova.restaurantvoting.testData.VoteTestData.*;
 
 public class VoteServiceTest extends AbstractServiceTest {
+    private final LocalDateTime allowedTime = LocalDateTime.of(2023, 8, 23, 10, 30);
+    private final LocalDateTime prohibitedTime = allowedTime.withHour(11);
+    private final ZoneId zoneId = ZoneId.systemDefault();
+    private final Clock allowedTimeClock = Clock.fixed(allowedTime.atZone(zoneId).toInstant(), zoneId);
+    private final Clock prohibitedTimeClock = Clock.fixed(prohibitedTime.atZone(zoneId).toInstant(), zoneId);
+
     @Autowired
     VoteService service;
+
+    @BeforeEach
+    void setUp() {
+        service.setClock(allowedTimeClock);
+    }
 
     @Test
     public void get() {
         assertMatch(service.get(VOTE_1_ID), VOTE_1);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void getNotFound() {
-        service.get(NOT_EXISTING_ENTITY_ID);
+        assertThrows(NotFoundException.class, () -> service.get(NOT_EXISTING_ENTITY_ID));
     }
 
     @Test
-    public void getTodayByUserId(){
+    public void getTodayByUserId() {
         assertMatch(service.getTodayByUserId(USER2_ID), VOTE_3);
     }
 
     @Test
-    public void getAll(){
+    public void getAll() {
         assertMatch(service.getAll(), ALL_VOTES);
     }
 
@@ -44,7 +60,7 @@ public class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void getAllToday(){
+    public void getAllToday() {
         assertMatch(service.getTodayVotes(), VOTE_3);
     }
 
@@ -54,9 +70,9 @@ public class VoteServiceTest extends AbstractServiceTest {
         assertMatch(service.getAll(), VOTE_2, VOTE_3);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() {
-        service.delete(NOT_EXISTING_ENTITY_ID);
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_EXISTING_ENTITY_ID));
     }
 
     @Test
@@ -65,22 +81,34 @@ public class VoteServiceTest extends AbstractServiceTest {
         assertMatch(service.getAll(), VOTE_1, VOTE_2, VOTE_3, created);
     }
 
-    //TODO test second vote per user per date, check update
-
-    @Test(expected = DataAccessException.class)
-    public void createDuplicateUserIdDate(){
-        service.create(USER1_ID, BUSHE_ID);
+    @Test
+    void createInProhibitedTime() {
+        service.setClock(prohibitedTimeClock);
+        assertThrows(InvalidVoteTimeException.class, () -> service.create(USER1_ID, BUSHE_ID));
     }
 
     @Test
-    public void update(){
-        //TODO: vote id instead of User_id
-        service.update(USER1_ID, MCDONALDS_ID);
-        //assertMatch(service.get(MCDONALDS_ID), updated);
+    public void createSecondVotePerUserPerDate() {
+        service.create(USER1_ID, BUSHE_ID);
+        assertThrows(IllegalArgumentException.class, () -> service.create(USER1_ID, MCDONALDS_ID));
     }
 
-    @Test(expected = NotFoundException.class)
-    public void updateInvalidId(){
-        service.update(NOT_EXISTING_ENTITY_ID, MCDONALDS_ID);
+    @Test
+    public void update() {
+        service.update(VOTE_2_ID, MCDONALDS_ID);
+        Vote updated = new Vote(VOTE_2_ID, LocalDate.now(), USER2, MCDONALDS);
+        assertMatch(service.get(VOTE_2_ID), updated);
+    }
+
+    @Test
+    void updateInProhibitedTime() {
+        service.setClock(prohibitedTimeClock);
+        assertThrows(InvalidVoteTimeException.class, () -> service.update(VOTE_1_ID, BUSHE_ID));
+    }
+
+
+    @Test
+    public void updateInvalidId() {
+        assertThrows(NotFoundException.class, () -> service.update(NOT_EXISTING_ENTITY_ID, MCDONALDS_ID));
     }
 }

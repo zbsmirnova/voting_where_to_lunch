@@ -3,10 +3,13 @@ package zbsmirnova.restaurantvoting.service;
 import zbsmirnova.restaurantvoting.model.Vote;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface VoteService {
+    public void setClock(Clock clock);
+
     Vote get(int id) throws NotFoundException;
 
     Vote getTodayByUserId(int userId) throws NotFoundException;

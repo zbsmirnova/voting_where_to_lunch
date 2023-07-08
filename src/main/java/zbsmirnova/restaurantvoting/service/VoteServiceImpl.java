@@ -10,7 +10,6 @@ import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.*;
@@ -90,9 +89,6 @@ public class VoteServiceImpl implements VoteService {
         Vote vote = voteRepository.findById(voteId).orElseThrow(() -> new NotFoundException("Vote " + voteId + " not found"));
         Assert.notNull(vote, "Vote must not be null");
         assureIdConsistent(vote, voteId);
-
-        Assert.isTrue(vote.getDate().equals(LocalDate.now()), "Not possible to update voteId " + voteId +
-                " as it was created " + vote.getDate().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
         vote.setRestaurant(restaurantService.get(restaurantId));
         checkNotFoundWithId(voteRepository.save(vote), voteId);
