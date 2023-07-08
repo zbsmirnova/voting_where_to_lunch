@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 public class UserUtil {
 
     public static User createNewFromTo(UserTo newUser) {
-        return new User(null, newUser.getName(), newUser.getEmail().toLowerCase(), newUser.getPassword(), Role.ROLE_USER);
+        return new User(null, newUser.getName(), newUser.getEmail().toLowerCase(), newUser.getPassword(), Role.USER);
     }
 
     public static UserTo asTo(User user) {

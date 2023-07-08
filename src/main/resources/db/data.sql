@@ -4,49 +4,39 @@ DELETE FROM users;
 DELETE FROM restaurants;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
-INSERT INTO RESTAURANTS (name, address) VALUES
-  ('kfc', 'addressKfc'),
-  ('mcDonalds', 'addressMcDonalds'),
-  ('ketchup', 'addressKetchup'),
-  ('bushe', 'addressBushe');
---   kfc  100000
--- mcDonalds 100001
--- ketchup 100002
--- bushe 100003
+INSERT INTO RESTAURANTS (id, name, address) VALUES
+  (10000, 'kfc', 'addressKfc'),
+  (10001, 'mcDonalds', 'addressMcDonalds'),
+  (10002, 'ketchup', 'addressKetchup'),
+  (10003, 'bushe', 'addressBushe');
 
+INSERT INTO dishes (id, name, price, restaurant_id, date) VALUES
+  (10004, 'chicken',12000 ,10000, '2018-07-25'),
+  (10005, 'fries', 12500, 10000, '2018-07-25'),
+  (10006, 'cola', 8000, 10000, '2018-07-25'),
+  (10007, 'cheesburger',15020, 10001, '2018-07-26'),
+  (10008, 'hamburger', 12500, 10001, '2018-07-26'),
+  (10009, 'fishburger', 9000, 10001, '2018-07-26'),
+  (10010, 'ketchup_burger', 25000, 10002, '2018-07-27'),
+  (10011, 'salad', 20000, 10002, '2018-07-27'),
+  (10012, 'water', 7000, 10002, '2018-07-27'),
+  (10013, 'cake', 18080, 10003, '2018-07-27'),
+  (10014, 'bread', 9080, 10003, '2018-07-27'),
+  (10015, 'coffee', 10080, 10003, '2018-07-27'),
+  (10016, 'chicken_special',12000 ,10000, CURRENT_DATE),
+  (10017, 'cheesburger_special',15020, 10001, '2018-07-26'),
+  (10018, 'ketchup_burger_special', 25000, 10002, CURRENT_DATE),
+  (10019, 'cake_special', 18080, 10003, CURRENT_DATE);
 
-INSERT INTO dishes (name, price, restaurant_id, date) VALUES
-  ('chicken',12000 ,100000, '2018-07-25'),
-  ('fries', 12500, 100000, '2018-07-25'),
-  ('cola', 8000, 100000, '2018-07-25'),
-  ('cheesburger',15020, 100001, '2018-07-26'),
-  ('hamburger', 12500, 100001, '2018-07-26'),
-  ('fishburger', 9000, 100001, '2018-07-26'),
-  ('ketchup_burger', 25000, 100002, '2018-07-27'),
-  ('salad', 20000, 100002, '2018-07-27'),
-  ('water', 7000, 100002, '2018-07-27'),
-  ('cake', 18080, 100003, '2018-07-27'),
-  ('bread', 9080, 100003, '2018-07-27'),
-  ('coffee', 10080, 100003, '2018-07-27'),
-  ('chicken_special',12000 ,100000, CURRENT_DATE),
-  ('cheesburger_special',15020, 100001, '2018-07-26'),
-  ('ketchup_burger_special', 25000, 100002, CURRENT_DATE),
-  ('cake_special', 18080, 100003, CURRENT_DATE);
+INSERT INTO users (id, email, name, password, role) VALUES
+  (10020, 'user1@yandex.ru', 'Name1', '{noop}password', 'USER'),
+  (10021, 'user2@mail.ru', 'User2', '{noop}password', 'USER'),
+  (10022, 'admin@gmail.com', 'Admin', '{noop}admin', 'ADMIN');
 
-
-INSERT INTO users (name, email, password, role) VALUES
-  ('User1', 'user1@yandex.ru', '{noop}password', 'ROLE_USER'),
-  ('User2', 'user2@mail.ru', '{noop}password', 'ROLE_USER'),
-  ('Admin', 'admin@gmail.com', '{noop}admin', 'ROLE_ADMIN');
--- User1 100020
--- User2 100021
--- Admin 100022
-
-INSERT INTO votes (date, USER_ID, RESTAURANT_ID) VALUES
-  ('2018-07-25', 100020, 100000),
-  ('2018-07-25', 100021, 100003),
-  (CURRENT_DATE, 100021, 100002);
-
+INSERT INTO votes (id, date, USER_ID, RESTAURANT_ID) VALUES
+    (10023, '2018-07-25', 10020, 10000),
+    (10024, '2018-07-25', 10021, 10003),
+    (10025, CURRENT_DATE, 10021, 10002);
 
 
 

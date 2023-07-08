@@ -88,7 +88,7 @@ public class AdminControllerTest extends AbstractControllerTest {
     public void testCreateUser() throws Exception {
         //не работает для создания админа
         //User expected = new User(null, "New", "new@gmail.com", "newPass",   Role.ROLE_ADMIN);
-        User expected = new User(null, "New", "new@gmail.com", "newPass",   Role.ROLE_USER);
+        User expected = new User(null, "New", "new@gmail.com", "newPass",   Role.USER);
         ResultActions action = mockMvc.perform(post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
@@ -104,7 +104,7 @@ public class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreateInvalid() throws Exception {
-        User invalid = new User(null, "", "", "",   Role.ROLE_USER);
+        User invalid = new User(null, "", "", "",   Role.USER);
 
                 mockMvc.perform(post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
