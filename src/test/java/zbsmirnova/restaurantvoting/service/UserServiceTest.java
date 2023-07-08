@@ -1,14 +1,16 @@
 package zbsmirnova.restaurantvoting.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.restaurantvoting.model.Role;
 import zbsmirnova.restaurantvoting.model.User;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import javax.validation.ConstraintViolationException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.*;
 
 public class UserServiceTest extends AbstractServiceTest {
@@ -20,13 +22,13 @@ public class UserServiceTest extends AbstractServiceTest {
         assertMatch(service.get(USER1_ID), USER1);
     }
 
-    @Test(expected = NotFoundException.class)
-    public void getNotFound() throws Exception {
-        service.get(50);
+    @Test
+    public void getNotFound() {
+        assertThrows(NotFoundException.class, () -> service.get(50));
     }
 
     @Test
-    public void getByEmail(){
+    public void getByEmail() {
         assertMatch(service.getByEmail("user1@yandex.ru"), USER1);
     }
 
@@ -41,9 +43,9 @@ public class UserServiceTest extends AbstractServiceTest {
         assertMatch(service.getAll(), ADMIN, USER2);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() {
-        service.delete(50);
+        assertThrows(NotFoundException.class, () -> service.delete(50));
     }
 
     @Test
@@ -53,15 +55,16 @@ public class UserServiceTest extends AbstractServiceTest {
         assertMatch(service.getAll(), ADMIN, USER1, USER2, created);
     }
 
-    @Test(expected = DataAccessException.class)
-    public void createDuplicateEmail() throws Exception {
-        service.save(getDuplicatedEmailUser());
+    @Test
+    public void createDuplicateEmail() {
+        service.save(new User("UserDuplicated", USER1.getEmail(), "password", Role.USER));
+        assertThrows(DataAccessException.class, () -> service.getAll());
     }
 
-    @Test(expected = TransactionSystemException.class)
+    @Test
     public void createInvalid() {
-        User created = new User(null, "email@test.ru", "123", Role.ROLE_USER);
-        service.save(created);
+        service.save(new User(null, "email@test.ru", "123", Role.USER));
+        assertThrows(ConstraintViolationException.class, () -> service.getAll());
     }
 
     @Test
@@ -71,10 +74,11 @@ public class UserServiceTest extends AbstractServiceTest {
         assertMatch(service.get(updated.getId()), updated);
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test
     public void updateInvalidId() {
         User updated = getUpdatedUser();
         updated.setId(50);
         service.save(updated);
+        assertThrows(DataIntegrityViolationException.class, () -> service.getAll());
     }
 }

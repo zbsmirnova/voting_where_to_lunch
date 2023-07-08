@@ -25,16 +25,16 @@ public class UserTestData {
 
     public static List<User> ALL_USERS = Arrays.asList(ADMIN, USER1, USER2);
 
-    public static User getCreatedUser(){return new User("new user", "newuser@mail.ru", "password", Role.USER);}
+    public static User getCreatedUser() {
+        return new User("new user", "newuser@mail.ru", "password", Role.USER);
+    }
 
-    public static User getUpdatedUser(){
+    public static User getUpdatedUser() {
         return new User(USER1_ID, "updated user", "user1@yandex.ru", "password", Role.USER);
     }
 
-    public static User getDuplicatedEmailUser(){return new User("UserDuplicated", "user1@yandex.ru", "password", Role.USER);}
-
     public static void assertMatch(User actual, User expected) {
-        assertThat(actual).isEqualTo(expected).isEqualToIgnoringGivenFields(expected,"password", "votes");
+        assertThat(actual).isEqualTo(expected).isEqualToIgnoringGivenFields(expected, "password", "votes");
     }
 
     public static void assertMatch(Iterable<User> actual, User... expected) {
