@@ -10,29 +10,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static zbsmirnova.restaurantvoting.model.AbstractBaseEntity.START_SEQ;
+import static zbsmirnova.restaurantvoting.TestUtil.START_SEQ_TEST;
 import static zbsmirnova.restaurantvoting.web.json.JsonUtil.writeIgnoreProps;
 
 public class UserTestData {
-    public static final int USER1_ID = START_SEQ + 20;
-    public static final int USER2_ID = START_SEQ + 21;
-    public static final int ADMIN_ID = START_SEQ + 22;
+    public static final int USER1_ID = START_SEQ_TEST + 20;
+    public static final int USER2_ID = START_SEQ_TEST + 21;
+    public static final int ADMIN_ID = START_SEQ_TEST + 22;
 
-    public static final User USER1 = new User(USER1_ID, "User1", "user1@yandex.ru", "password", Role.ROLE_USER);
-    public static final User USER2 = new User(USER2_ID, "User2", "user2@mail.ru", "password", Role.ROLE_USER);
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
+    public static final User USER1 = new User(USER1_ID, "User1", "user1@yandex.ru", "password", Role.USER);
+    public static final User USER2 = new User(USER2_ID, "User2", "user2@mail.ru", "password", Role.USER);
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
 
     public static List<User> ALL_USERS = Arrays.asList(ADMIN, USER1, USER2);
 
-    public static User getCreatedUser(){return new User("new user", "newuser@mail.ru", "password", Role.ROLE_USER);}
+    public static User getCreatedUser(){return new User("new user", "newuser@mail.ru", "password", Role.USER);}
 
     public static User getUpdatedUser(){
-        return new User(USER1_ID, "updated user", "user1@yandex.ru", "password", Role.ROLE_USER);
+        return new User(USER1_ID, "updated user", "user1@yandex.ru", "password", Role.USER);
     }
 
-    public static User getDuplicatedEmailUser(){return new User("UserDuplicated", "user1@yandex.ru", "password", Role.ROLE_USER);}
+    public static User getDuplicatedEmailUser(){return new User("UserDuplicated", "user1@yandex.ru", "password", Role.USER);}
 
     public static void assertMatch(User actual, User expected) {
         assertThat(actual).isEqualTo(expected).isEqualToIgnoringGivenFields(expected,"password", "votes");

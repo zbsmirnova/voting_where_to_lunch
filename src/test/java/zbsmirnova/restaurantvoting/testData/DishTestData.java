@@ -9,29 +9,29 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static zbsmirnova.restaurantvoting.model.AbstractBaseEntity.START_SEQ;
+import static zbsmirnova.restaurantvoting.TestUtil.START_SEQ_TEST;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.web.json.JsonUtil.writeIgnoreProps;
 import static zbsmirnova.restaurantvoting.web.json.JsonUtil.writeValue;
 
 public class DishTestData {
-    public static final int CHICKEN_ID = START_SEQ + 4;
-    public static final int FRIES_ID = START_SEQ + 5;
-    public static final int COLA_ID = START_SEQ + 6;
-    public static final int CHEESBURGER_ID = START_SEQ + 7;
-    public static final int HAMBURGER_ID = START_SEQ + 8;
-    public static final int FISHBURGER_ID = START_SEQ + 9;
-    public static final int KETCHUPBURGER_ID = START_SEQ + 10;
-    public static final int SALAD_ID = START_SEQ + 11;
-    public static final int WATER_ID = START_SEQ + 12;
-    public static final int CAKE_ID = START_SEQ + 13;
-    public static final int BREAD_ID = START_SEQ + 14;
-    public static final int COFFEE_ID = START_SEQ + 15;
+    public static final int CHICKEN_ID = START_SEQ_TEST + 4;
+    public static final int FRIES_ID = START_SEQ_TEST + 5;
+    public static final int COLA_ID = START_SEQ_TEST + 6;
+    public static final int CHEESBURGER_ID = START_SEQ_TEST + 7;
+    public static final int HAMBURGER_ID = START_SEQ_TEST + 8;
+    public static final int FISHBURGER_ID = START_SEQ_TEST + 9;
+    public static final int KETCHUPBURGER_ID = START_SEQ_TEST + 10;
+    public static final int SALAD_ID = START_SEQ_TEST + 11;
+    public static final int WATER_ID = START_SEQ_TEST + 12;
+    public static final int CAKE_ID = START_SEQ_TEST + 13;
+    public static final int BREAD_ID = START_SEQ_TEST + 14;
+    public static final int COFFEE_ID = START_SEQ_TEST + 15;
 
-    public static final int CHICKEN_SPECIAL_ID = START_SEQ + 16;
-    public static final int CHEESBURGER_SPECIAL_ID = START_SEQ + 17;
-    public static final int KETCHUPBURGER_SPECIAL_ID = START_SEQ + 18;
-    public static final int CAKE_SPECIAL_ID = START_SEQ + 19;
+    public static final int CHICKEN_SPECIAL_ID = START_SEQ_TEST + 16;
+    public static final int CHEESBURGER_SPECIAL_ID = START_SEQ_TEST + 17;
+    public static final int KETCHUPBURGER_SPECIAL_ID = START_SEQ_TEST + 18;
+    public static final int CAKE_SPECIAL_ID = START_SEQ_TEST + 19;
 
     public static final Dish CHICKEN = new Dish(CHICKEN_ID, 12000, "chicken", KFC, LocalDate.parse("2018-07-25"));
     public static final Dish FRIES = new Dish(FRIES_ID, 12500, "fries", KFC, LocalDate.parse("2018-07-25"));

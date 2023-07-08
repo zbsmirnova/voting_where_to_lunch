@@ -10,16 +10,16 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static zbsmirnova.restaurantvoting.TestUtil.START_SEQ_TEST;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.USER1;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.USER2;
-import static zbsmirnova.restaurantvoting.model.AbstractBaseEntity.START_SEQ;
 import static zbsmirnova.restaurantvoting.web.json.JsonUtil.writeValue;
 
 public class VoteTestData {
-    public static final int VOTE_1_ID = START_SEQ + 23;
-    public static final int VOTE_2_ID = START_SEQ + 24;
-    public static final int VOTE_3_ID = START_SEQ + 25;
+    public static final int VOTE_1_ID = START_SEQ_TEST + 23;
+    public static final int VOTE_2_ID = START_SEQ_TEST + 24;
+    public static final int VOTE_3_ID = START_SEQ_TEST + 25;
 
 
     public static final Vote VOTE_1 = new Vote(VOTE_1_ID, LocalDate.parse("2018-07-25"), USER1, KFC);
