@@ -1,47 +1,39 @@
 package zbsmirnova.restaurantvoting.service;
 
 import lombok.RequiredArgsConstructor;
-import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.transaction.TransactionSystemException;
 import zbsmirnova.restaurantvoting.model.Restaurant;
 import zbsmirnova.restaurantvoting.testData.DishTestData;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
+import javax.validation.ConstraintViolationException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.KETCHUPBURGER_SPECIAL;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.util.RestaurantUtil.asTo;
 
-@DisplayName("Restaurant service tests")
 @RequiredArgsConstructor
 public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Autowired
     RestaurantService service;
 
-//    @Autowired
-//    private CacheManager cacheManager;
-
-//    @Before
-//    public void setUp() throws Exception {
-//        Objects.requireNonNull(cacheManager.getCache("restaurantsWithTodayMenu")).clear();
-//    }
-
     @Test
     public void get() {
         assertMatch(service.get(BUSHE_ID), BUSHE);
     }
 
-    @Test(expected = NotFoundException.class)
-    public void getNotFound(){
-        service.get(NOT_EXISTING_ENTITY_ID);
+    @Test
+    public void getNotFound() {
+        assertThrows(NotFoundException.class, () -> service.get(NOT_EXISTING_ENTITY_ID));
     }
 
     @Test
-    public void getWithTodayMenu(){
+    public void getWithTodayMenu() {
         Restaurant ketchupWithTodayMenu = service.getWithTodayMenu(KETCHUP_ID);
         assertMatch(ketchupWithTodayMenu, KETCHUP);
         DishTestData.assertMatch(ketchupWithTodayMenu.getDishes(), KETCHUPBURGER_SPECIAL);
@@ -58,9 +50,9 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         assertMatch(service.getAll(), BUSHE, KETCHUP, MCDONALDS);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() {
-        service.delete(NOT_EXISTING_ENTITY_ID);
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_EXISTING_ENTITY_ID));
     }
 
     @Test
@@ -70,11 +62,11 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         assertMatch(service.get(updated.getId()), updated);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void updateInvalidId() {
         Restaurant updated = getUpdatedRestaurant();
         updated.setId(NOT_EXISTING_ENTITY_ID);
-        service.update(asTo(updated), updated.getId());
+        assertThrows(NotFoundException.class, () -> service.update(asTo(updated), updated.getId()));
     }
 
     @Test
@@ -84,14 +76,16 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         assertMatch(service.getAll(), created, BUSHE, KETCHUP, KFC, MCDONALDS);
     }
 
-    @Test(expected = TransactionSystemException.class)
+    @Test
     public void createInvalid() {
         Restaurant created = new Restaurant(null, "");
         service.create(created);
+        assertThrows(ConstraintViolationException.class, () -> service.getAll());
     }
 
-    @Test(expected = DataAccessException.class)
-    public void createDuplicateName(){
+    @Test
+    public void createDuplicateName() {
         service.create(new Restaurant("bushe", "addressBushe"));
+        assertThrows(DataAccessException.class, () -> service.getAll());
     }
 }
