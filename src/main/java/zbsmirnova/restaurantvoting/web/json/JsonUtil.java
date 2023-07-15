@@ -18,7 +18,7 @@ public class JsonUtil {
     private static ObjectMapper objectMapper;
 
     public static void setMapper(ObjectMapper mapper) {
-        objectMapper = mapper;
+        JsonUtil.objectMapper = mapper;
     }
 
     public static <T> T readValue(String json, Class<T> clazz) {

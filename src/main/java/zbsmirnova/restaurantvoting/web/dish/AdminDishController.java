@@ -1,6 +1,6 @@
 package zbsmirnova.restaurantvoting.web.dish;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import static zbsmirnova.restaurantvoting.util.ValidationUtil.assureIdConsistent
 @Slf4j
 public class AdminDishController {
 
-    static final String URL = "/admin/restaurants/{restaurantId}/dishes";
+    static final String URL = "/api/admin/restaurants/{restaurantId}/dishes";
 
     private final DishService service;
 

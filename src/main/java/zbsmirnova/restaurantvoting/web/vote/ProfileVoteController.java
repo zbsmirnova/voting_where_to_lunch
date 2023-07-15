@@ -21,9 +21,9 @@ import static zbsmirnova.restaurantvoting.util.VoteUtil.asTo;
 @RestController
 @Slf4j
 public class ProfileVoteController {
-    static final String POST_URL = "/profile/restaurants/{restaurantId}/votes";
+    static final String POST_URL = "/api/profile/restaurants/{restaurantId}/votes";
 
-    static final String GET_URL = "/profile/votes";
+    static final String GET_URL = "/api/profile/votes";
 
     private final VoteService service;
 

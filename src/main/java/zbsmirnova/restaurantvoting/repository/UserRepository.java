@@ -1,6 +1,5 @@
 package zbsmirnova.restaurantvoting.repository;
 
-import javax.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,8 +15,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
-    @NotNull
-    Optional<User> findById(@NotNull Integer id);
+    Optional<User> findById(Integer id);
 
     @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
     Optional<User> getByEmailIgnoreCase(String email);

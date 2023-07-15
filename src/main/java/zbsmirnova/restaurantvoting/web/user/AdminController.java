@@ -1,5 +1,6 @@
 package zbsmirnova.restaurantvoting.web.user;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import zbsmirnova.restaurantvoting.service.UserService;
 import zbsmirnova.restaurantvoting.to.UserTo;
 import zbsmirnova.restaurantvoting.util.UserUtil;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -25,7 +25,7 @@ import static zbsmirnova.restaurantvoting.util.ValidationUtil.checkNew;
 @Slf4j
 public class AdminController {
 
-    static final String URL = "/admin/users";
+    static final String URL = "/api/admin/users";
 
     private final UserService service;
 

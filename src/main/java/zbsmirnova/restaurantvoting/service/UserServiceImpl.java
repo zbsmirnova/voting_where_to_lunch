@@ -1,5 +1,6 @@
 package zbsmirnova.restaurantvoting.service;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +15,6 @@ import zbsmirnova.restaurantvoting.to.UserTo;
 import zbsmirnova.restaurantvoting.util.UserUtil;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static zbsmirnova.restaurantvoting.util.UserUtil.prepareToSave;

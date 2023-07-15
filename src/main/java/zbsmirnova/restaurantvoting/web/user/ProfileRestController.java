@@ -1,6 +1,6 @@
 package zbsmirnova.restaurantvoting.web.user;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import static zbsmirnova.restaurantvoting.util.UserUtil.asTo;
 @Slf4j
 public class ProfileRestController {
 
-    static final String PROFILE_URL = "/profile";
+    static final String PROFILE_URL = "/api/profile";
 
     private final UserService service;
 

@@ -1,5 +1,6 @@
 package zbsmirnova.restaurantvoting.web.restaurant;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import zbsmirnova.restaurantvoting.model.Restaurant;
 import zbsmirnova.restaurantvoting.to.RestaurantTo;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(AdminRestaurantController.URL)
 public class AdminRestaurantController extends AbstractRestaurantController {
 
-    static final String URL = "/admin/restaurants";
+    static final String URL = "/api/admin/restaurants";
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestaurantTo get(@PathVariable("id") int id) {

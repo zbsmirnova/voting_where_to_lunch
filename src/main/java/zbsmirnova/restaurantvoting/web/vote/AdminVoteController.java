@@ -17,7 +17,7 @@ import static zbsmirnova.restaurantvoting.util.VoteUtil.asTo;
 @Slf4j
 public class AdminVoteController {
 
-    static final String URL = "/admin/votes";
+    static final String URL = "/api/admin/votes";
 
     private final VoteService service;
 

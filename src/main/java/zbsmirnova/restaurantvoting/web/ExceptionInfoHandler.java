@@ -1,6 +1,5 @@
 package zbsmirnova.restaurantvoting.web;
 
-import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -15,6 +14,7 @@ import zbsmirnova.restaurantvoting.util.ValidationUtil;
 import zbsmirnova.restaurantvoting.util.exception.ErrorInfo;
 import zbsmirnova.restaurantvoting.util.exception.InvalidVoteTimeException;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
