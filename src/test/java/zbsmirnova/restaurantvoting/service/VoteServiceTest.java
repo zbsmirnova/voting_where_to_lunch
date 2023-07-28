@@ -7,31 +7,22 @@ import zbsmirnova.restaurantvoting.model.Vote;
 import zbsmirnova.restaurantvoting.util.exception.InvalidVoteTimeException;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
-import java.time.Clock;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;
+import static zbsmirnova.restaurantvoting.TestUtil.*;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.*;
 import static zbsmirnova.restaurantvoting.testData.VoteTestData.assertMatch;
 import static zbsmirnova.restaurantvoting.testData.VoteTestData.*;
 
 public class VoteServiceTest extends AbstractServiceTest {
-    private final LocalDateTime allowedTime = LocalDateTime.of(2023, 8, 23, 10, 30);
-    private final LocalDateTime prohibitedTime = allowedTime.withHour(11);
-    private final ZoneId zoneId = ZoneId.systemDefault();
-    private final Clock allowedTimeClock = Clock.fixed(allowedTime.atZone(zoneId).toInstant(), zoneId);
-    private final Clock prohibitedTimeClock = Clock.fixed(prohibitedTime.atZone(zoneId).toInstant(), zoneId);
-
     @Autowired
     VoteService service;
 
     @BeforeEach
     void setUp() {
-        service.setClock(allowedTimeClock);
+        service.setClock(ALLOWED_TIME_CLOCK);
     }
 
     @Test
@@ -83,7 +74,7 @@ public class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void createInProhibitedTime() {
-        service.setClock(prohibitedTimeClock);
+        service.setClock(PROHIBITED_TIME_CLOCK);
         assertThrows(InvalidVoteTimeException.class, () -> service.create(USER1_ID, BUSHE_ID));
     }
 
@@ -102,7 +93,7 @@ public class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void updateInProhibitedTime() {
-        service.setClock(prohibitedTimeClock);
+        service.setClock(PROHIBITED_TIME_CLOCK);
         assertThrows(InvalidVoteTimeException.class, () -> service.update(VOTE_1_ID, BUSHE_ID));
     }
 

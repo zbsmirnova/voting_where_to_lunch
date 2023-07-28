@@ -28,9 +28,9 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         return super.getAll();
     }
 
-    @GetMapping(value = "/getAllWithTodayMenu")
-    public List<RestaurantTo> getAllWithTodayMenu() {
-        return super.getAllWithTodayMenu();
+    @GetMapping(value = "/getAllWithMenu")
+    public List<RestaurantTo> getAllWithMenu() {
+        return super.getAllWithMenu();
     }
 
     @DeleteMapping(value = "/{id}")

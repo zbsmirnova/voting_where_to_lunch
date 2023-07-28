@@ -7,8 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import zbsmirnova.restaurantvoting.model.Role;
 import zbsmirnova.restaurantvoting.model.User;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
-
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static zbsmirnova.restaurantvoting.TestUtil.NOT_EXISTING_ENTITY_ID;

@@ -23,6 +23,8 @@ import static zbsmirnova.restaurantvoting.util.VoteUtil.asTo;
 public class ProfileVoteController {
     static final String POST_URL = "/api/profile/restaurants/{restaurantId}/votes";
 
+    static final String PUT_URL = "/api/profile/{voteId}/{restaurantId}/votes";
+
     static final String GET_URL = "/api/profile/votes";
 
     private final VoteService service;
@@ -38,7 +40,7 @@ public class ProfileVoteController {
         return checkNotFoundWithId(asTo(service.getTodayByUserId(authorizedUser.getId())), authorizedUser.getId());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = POST_URL, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoteTo> create(@PathVariable("restaurantId") int restaurantId, @AuthenticationPrincipal AuthorizedUser authorizedUser) {
         log.info("Creating vote from user {} for restaurant {}", authorizedUser.getId(), restaurantId);
         VoteTo created = VoteUtil.asTo(service.create(authorizedUser.getId(), restaurantId));
@@ -48,9 +50,9 @@ public class ProfileVoteController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{voteId}/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = PUT_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int voteId, @PathVariable("restaurantId") int restaurantId) {
+    public void update(@PathVariable("voteId") int voteId, @PathVariable("restaurantId") int restaurantId) {
         log.info("Updating vote {} for restaurant {}", voteId, restaurantId);
         service.update(voteId, restaurantId);
     }

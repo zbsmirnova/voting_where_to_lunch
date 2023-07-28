@@ -1,11 +1,11 @@
 package zbsmirnova.restaurantvoting.service;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import zbsmirnova.restaurantvoting.model.Dish;
 import zbsmirnova.restaurantvoting.util.exception.NotFoundException;
 
-import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.Collections;
 

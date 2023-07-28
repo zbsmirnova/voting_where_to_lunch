@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ProblemDetail;
 import zbsmirnova.restaurantvoting.web.json.JsonUtil;
 
 import java.sql.SQLException;
@@ -40,6 +41,7 @@ public class AppConfig {
     @Autowired
     void configureAndStoreObjectMapper(ObjectMapper objectMapper) {
         objectMapper.registerModule(new Hibernate5JakartaModule());
+        objectMapper.addMixIn(ProblemDetail.class, MixIn.class);
         JsonUtil.setMapper(objectMapper);
     }
 }

@@ -27,9 +27,9 @@ public abstract class AbstractRestaurantController {
         return service.getAll();
     }
 
-    public List<RestaurantTo> getAllWithTodayMenu() {
-        log.info("Getting all restaurants with today menu");
-        return service.getAllWithTodayMenu();
+    public List<RestaurantTo> getAllWithMenu() {
+        log.info("Getting all restaurants with menu");
+        return service.getAllWithMenu();
     }
 
     public void delete(int id) {

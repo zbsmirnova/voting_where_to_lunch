@@ -20,7 +20,7 @@ public class ProfileRestaurantController extends AbstractRestaurantController {
     }
 
     @GetMapping
-    public List<RestaurantTo> getAllWithTodayMenu() {
-        return super.getAllWithTodayMenu();
+    public List<RestaurantTo> getAllWithMenu() {
+        return super.getAllWithMenu();
     }
 }

@@ -1,9 +1,10 @@
 package zbsmirnova.restaurantvoting.web.dish;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import zbsmirnova.restaurantvoting.TestUtil;
@@ -12,27 +13,27 @@ import zbsmirnova.restaurantvoting.service.DishService;
 import zbsmirnova.restaurantvoting.web.AbstractControllerTest;
 import zbsmirnova.restaurantvoting.web.json.JsonUtil;
 
-
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static zbsmirnova.restaurantvoting.TestUtil.userHttpBasic;
+import static zbsmirnova.restaurantvoting.testData.DishTestData.assertMatch;
+import static zbsmirnova.restaurantvoting.testData.DishTestData.contentJson;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.*;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.ADMIN;
 
 public class AdminDishControllerTest extends AbstractControllerTest {
-    private static final String URL = AdminDishController.URL + '/';
+    private static final String URL_TEMPLATE = AdminDishController.URL;
 
     @Autowired
     DishService service;
 
     @Test
-    public void testGet() throws Exception{
-        ResultActions action = mockMvc.perform(get(URL + COFFEE_ID, BUSHE_ID)
+    public void testGet() throws Exception {
+        perform(MockMvcRequestBuilders.get(URL_TEMPLATE + '/' + COFFEE_ID, BUSHE_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -42,13 +43,13 @@ public class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetUnauth() throws Exception {
-        mockMvc.perform(get(URL + CHICKEN_ID, KFC_ID))
+        perform(MockMvcRequestBuilders.get(URL_TEMPLATE + '/' + CHICKEN_ID, KFC_ID))
                 .andExpect(status().isUnauthorized());
     }
 
         @Test
     public void testGetNotFound() throws Exception {
-        mockMvc.perform(get(URL + 1, KFC_ID)
+            perform(MockMvcRequestBuilders.get(URL_TEMPLATE + '/' + 1, KFC_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
@@ -56,7 +57,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetAll() throws Exception{
-        TestUtil.print(mockMvc.perform(get(URL, KETCHUP_ID)
+        TestUtil.print(perform(MockMvcRequestBuilders.get(URL_TEMPLATE, KETCHUP_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -65,16 +66,16 @@ public class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(URL + CHICKEN_ID, KFC_ID)
+        perform(MockMvcRequestBuilders.delete(URL_TEMPLATE + '/' + CHICKEN_ID, KFC_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(service.getAll(KFC_ID), COLA, FRIES, CHICKEN_SPECIAL);
+        assertMatch(service.getAll(KFC_ID), FRIES, COLA, CHICKEN_SPECIAL);
     }
 
     @Test
     public void testDeleteNotFound() throws Exception {
-        mockMvc.perform(delete(URL + 1, KFC_ID)
+        perform(MockMvcRequestBuilders.delete(URL_TEMPLATE + '/' + 1, KFC_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
@@ -84,9 +85,9 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     public void testCreate() throws Exception {
         Dish created = new Dish(12000, "newDish", LocalDate.now());
 
-        ResultActions action = mockMvc.perform(post(URL, BUSHE_ID)
-                .contentType(MediaType.APPLICATION_JSON)
+        ResultActions action = perform(MockMvcRequestBuilders.post("/api/admin/restaurants/{restaurantId}/dishes", BUSHE_ID)//(URL_TEMPLATE, BUSHE_ID)
                 .with(userHttpBasic(ADMIN))
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(created)))
                 .andExpect(status().isCreated());
 
@@ -101,7 +102,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     public void testCreateInvalid() throws Exception {
         Dish invalid = new Dish(0, "", LocalDate.now());
 
-        mockMvc.perform(post(URL, BUSHE_ID)
+        perform(MockMvcRequestBuilders.post(URL_TEMPLATE, BUSHE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(invalid)))
@@ -115,7 +116,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
         Dish duplicate = new Dish(CHICKEN);
         duplicate.setId(null);
         duplicate.setRestaurant(KFC);
-        mockMvc.perform(post(URL, KFC_ID)
+        perform(MockMvcRequestBuilders.post(URL_TEMPLATE, KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(duplicate))
                 .with(userHttpBasic(ADMIN)))
@@ -129,7 +130,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
         created.setPrice(3333);
         created.setName("updatedCake");
 
-        mockMvc.perform(put(URL + CAKE_ID, BUSHE_ID)
+        perform(MockMvcRequestBuilders.put(URL_TEMPLATE + '/' + CAKE_ID, BUSHE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(created)))
@@ -144,7 +145,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
         Dish invalid = new Dish(CHICKEN);
         invalid.setName("");
         invalid.setId(KFC_ID);
-        mockMvc.perform(put(URL + CHICKEN_ID, KFC_ID)
+        perform(MockMvcRequestBuilders.put(URL_TEMPLATE + '/' + CHICKEN_ID, KFC_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(invalid)))

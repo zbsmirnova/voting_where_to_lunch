@@ -57,7 +57,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Cacheable("allRestaurantsWithTodayMenu")
     @Override
-    public List<RestaurantTo> getAllWithTodayMenu() {
+    public List<RestaurantTo> getAllWithMenu() {
         return asTo(restaurantRepository.getAllWithMenu());
     }
 

@@ -1,6 +1,7 @@
 package zbsmirnova.restaurantvoting.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,12 +25,12 @@ public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("date DESC")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Dish> dishes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("voteDate DESC")
-    @JsonManagedReference
+    @JsonBackReference(value = "rest to votes list")
     protected List<Vote> votes;
 
     public Restaurant(String name, String address) {

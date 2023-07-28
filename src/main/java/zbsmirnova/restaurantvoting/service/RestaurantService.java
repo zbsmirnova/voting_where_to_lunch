@@ -14,7 +14,7 @@ public interface RestaurantService {
 
     List<Restaurant> getAll();
 
-    List<RestaurantTo> getAllWithTodayMenu();
+    List<RestaurantTo> getAllWithMenu();
 
     void delete(int id) throws NotFoundException;
 

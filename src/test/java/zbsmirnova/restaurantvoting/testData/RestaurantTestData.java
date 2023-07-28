@@ -10,7 +10,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static zbsmirnova.restaurantvoting.TestUtil.START_SEQ_TEST;
-import static zbsmirnova.restaurantvoting.testData.DishTestData.*;
 import static zbsmirnova.restaurantvoting.web.json.JsonUtil.writeIgnoreProps;
 import static zbsmirnova.restaurantvoting.web.json.JsonUtil.writeValue;
 
@@ -27,18 +26,6 @@ public class RestaurantTestData {
     public static final Restaurant BUSHE = new Restaurant(BUSHE_ID, "bushe", "addressBushe");
 
     public static List<Restaurant> ALL_RESTAURANTS = Arrays.asList(BUSHE, KETCHUP, KFC, MCDONALDS);
-
-    public static List<RestaurantTo> getAllRestaurantToWithTodayMenu() {
-        RestaurantTo BusheToWithMenu = new RestaurantTo(BUSHE);
-        BusheToWithMenu.setMenu(List.of(CAKE_SPECIAL));
-        RestaurantTo KetchupToWithMenu = new RestaurantTo(KETCHUP);
-        KetchupToWithMenu.setMenu(List.of(KETCHUPBURGER_SPECIAL));
-        RestaurantTo KfcToWithMenu = new RestaurantTo(KFC);
-        KfcToWithMenu.setMenu(List.of(CHICKEN_SPECIAL));
-
-        return Arrays.asList(KfcToWithMenu, KetchupToWithMenu, BusheToWithMenu);
-
-    }
 
     public static Restaurant getCreatedRestaurant() {
         return new Restaurant("british bakeries", "address british bakeries");
@@ -71,19 +58,19 @@ public class RestaurantTestData {
         assertThat(actual).isEqualTo(expected);
     }
 
-    public static ResultMatcher contentJson(Restaurant... expected) {
-        return content().json(writeIgnoreProps(Arrays.asList(expected), "dishes", "votes"));
-    }
-
-    public static ResultMatcher contentJson(List<RestaurantTo> expected) {
-        return content().json(writeValue(expected));
-    }
-
-    public static ResultMatcher contentJson(Restaurant expected) {
+    public static ResultMatcher contentJsonRestaurants(List<Restaurant> expected) {
         return content().json(writeIgnoreProps(expected, "dishes", "votes"));
     }
 
-    public static ResultMatcher contentJson(RestaurantTo expected) {
+    public static ResultMatcher contentJsonRestaurantTos(List<RestaurantTo> expected) {
+        return content().json(writeValue(expected));
+    }
+
+    public static ResultMatcher contentJsonRestaurantTos(Restaurant expected) {
+        return content().json(writeIgnoreProps(expected, "dishes", "votes"));
+    }
+
+    public static ResultMatcher contentJsonRestaurantTos(RestaurantTo expected) {
         return content().json(writeIgnoreProps(expected, "dishes", "votes"));
     }
 }
