@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Sql(scripts = "classpath:db/data.sql", config = @SqlConfig(encoding = "UTF-8"))
+@Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"))
 public abstract class AbstractControllerTest {
 
     @Autowired

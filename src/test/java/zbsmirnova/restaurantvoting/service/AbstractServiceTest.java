@@ -9,11 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static zbsmirnova.restaurantvoting.util.ValidationUtil.getRootCause;
 
-@ContextConfiguration(
-        "classpath:spring/spring.xml"
-)
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@SpringBootTest
+@ActiveProfiles("test")
+@Transactional
+@Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"))
 public abstract class AbstractServiceTest {
     protected static final Logger log = getLogger("result");
 

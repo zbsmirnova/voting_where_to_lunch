@@ -1,8 +1,0 @@
-version: '3.9'
-services:
-  db:
-    container_name: lunch_voting
-    image: postgres:14.1-alpine
-    build: .
-    ports:
-      - '8080:8080'
