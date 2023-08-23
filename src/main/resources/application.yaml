@@ -33,4 +33,7 @@ server.servlet:
     enabled: true # Enable http encoding support
     force: true
 
-springdoc.swagger-ui.path: /
+springdoc:
+  api-docs:
+    enabled: true
+    path: "/api/docs"
