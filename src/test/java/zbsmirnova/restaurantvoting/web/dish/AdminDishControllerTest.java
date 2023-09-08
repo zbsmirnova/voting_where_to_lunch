@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static zbsmirnova.restaurantvoting.TestUtil.userHttpBasic;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.assertMatch;
-import static zbsmirnova.restaurantvoting.testData.DishTestData.contentJson;
 import static zbsmirnova.restaurantvoting.testData.DishTestData.*;
 import static zbsmirnova.restaurantvoting.testData.RestaurantTestData.*;
 import static zbsmirnova.restaurantvoting.testData.UserTestData.ADMIN;
