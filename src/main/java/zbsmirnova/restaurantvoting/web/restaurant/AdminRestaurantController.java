@@ -55,6 +55,4 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable("id") int id) {
         super.update(restaurantTo, id);
     }
-
-
 }
