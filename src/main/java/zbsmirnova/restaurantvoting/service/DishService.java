@@ -1,9 +1,6 @@
 package zbsmirnova.restaurantvoting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -36,7 +33,6 @@ public class DishService {
                 "for restaurant id = " + restaurantId)), dishId);
     }
 
-    @Cacheable(value = "allDishesForRestaurant")
     public List<Dish> getAll(int restaurantId) {
         return repository.findAllByRestaurantId(restaurantId);
     }
@@ -46,22 +42,11 @@ public class DishService {
         return repository.getTodayMenu(restaurantId, LocalDate.now());
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
-            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true),
-            @CacheEvict(value = "allDishesForRestaurant", key = "#restaurantId")
-    })
     public void delete(int dishId, int restaurantId) throws NotFoundException {
         checkNotFoundWithId(repository.delete(dishId, restaurantId) != 0, dishId);
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
-            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "allDishesForRestaurant", key = "#restaurantId")
-    })
     public Dish create(Dish dish, int restaurantId) {
         checkNew(dish);
         Assert.notNull(dish, "dish must not be null");
@@ -70,12 +55,6 @@ public class DishService {
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantId"),
-            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true),
-            @CacheEvict(value = "allDishesForRestaurant", key = "#restaurantId")
-    })
     public void update(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
         if (get(dish.getId(), restaurantId) == null) return;

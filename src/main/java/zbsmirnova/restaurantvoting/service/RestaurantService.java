@@ -1,9 +1,6 @@
 package zbsmirnova.restaurantvoting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -38,7 +35,6 @@ public class RestaurantService {
         return checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant " + restaurantId + " not found")), restaurantId);
     }
 
-    @Cacheable("restaurantWithTodayMenu")
     @Transactional
     public Restaurant getWithTodayMenu(int restaurantId) {
         Restaurant restaurant = checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant " + restaurantId + " not found")), restaurantId);
@@ -47,31 +43,20 @@ public class RestaurantService {
         return restaurant;
     }
 
-    @Cacheable("restaurants")
     public List<Restaurant> getAll() {
         return restaurantRepository.getAll();
     }
 
-    @Cacheable("allRestaurantsWithTodayMenu")
     public List<RestaurantTo> getAllWithMenu() {
         return asTo(restaurantRepository.getAllWithMenu());
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "restaurantWithTodayMenu", key = "#id"),
-            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true)
-    })
+
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(restaurantRepository.delete(id) != 0, id);
     }
 
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurant.id"),
-            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true)
-    })
+
     public Restaurant create(Restaurant restaurant) {
         checkNew(restaurant);
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -79,11 +64,6 @@ public class RestaurantService {
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "restaurantWithTodayMenu", key = "#restaurantTo.id"),
-            @CacheEvict(value = "allRestaurantsWithTodayMenu", allEntries = true),
-            @CacheEvict(value = "restaurants", allEntries = true)
-    })
     public void update(RestaurantTo restaurantTo, int id) {
         assureIdConsistent(restaurantTo, id);
         Restaurant restaurant = get(restaurantTo.getId());
