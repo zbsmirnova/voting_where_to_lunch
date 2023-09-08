@@ -30,7 +30,6 @@ public class Vote extends AbstractBaseEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    //@JsonManagedReference(value = "vote to rest")
     @NotNull
     private Restaurant restaurant;
 
